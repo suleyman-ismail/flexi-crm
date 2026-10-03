@@ -190,7 +190,7 @@ function taskBy(row){ return D.tasks.filter(function(t){ return t.row === row; }
 
 function render(d){
   D = d; busy(false);
-  el('dt').textContent = 'Днес, ' + fmt(d.today);
+  el('dt').textContent = 'Днес, ' + fmt(d.today) + ' · v' + APP_VER;
   el('meB').textContent = '👤 ' + (d.me || 'Кой си?');
   el('seg').style.display = d.me ? 'flex' : 'none';
   draw();
@@ -644,6 +644,20 @@ function upC(inp){
 }
 
 document.addEventListener('visibilitychange', function(){ if (!document.hidden && D && TOKEN && el('sheet').style.display !== 'block') load(); });
-if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(function(){});
+// Нова версия → проверява се при всяко отваряне/връщане в приложението и се зарежда сама
+var APP_VER = '3.4.1';
+if ('serviceWorker' in navigator) {
+  var swHad = !!navigator.serviceWorker.controller, swDone = false;
+  navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).then(function(r){
+    document.addEventListener('visibilitychange', function(){ if (!document.hidden) r.update().catch(function(){}); });
+    setInterval(function(){ r.update().catch(function(){}); }, 1800000);
+  }).catch(function(){});
+  navigator.serviceWorker.addEventListener('controllerchange', function(){
+    if (!swHad) { swHad = true; return; }
+    if (swDone) return; swDone = true;
+    if (el('sheet').style.display === 'block') { toast('🔄 Има нова версия – зарежда се при следващото отваряне', 5000); return; }
+    toast('🔄 Нова версия…', 3000); setTimeout(function(){ location.reload(); }, 400);
+  });
+}
 boot();
 </script></body></html>
