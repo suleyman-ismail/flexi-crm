@@ -221,6 +221,33 @@ function draw(){
 }
 
 // ---------- 📋 Задачи ----------
+// ⏳ Оферти без отговор: „Изпратена оферта“ и без контакт повече от 3 дни
+var OFFER = 'Изпратена оферта', STALE = 3;
+function daysSince(d){ return d ? Math.round((Date.parse(D.today) - Date.parse(d)) / 86400000) : 0; }
+function stale(){
+  return D.clients.filter(function(c){ return c.s === OFFER && ('l' in c) && mine(c.r) && daysSince(c.l || c.i) > STALE; })
+    .sort(function(a, b){ return daysSince(b.l || b.i) - daysSince(a.l || a.i); });
+}
+function staleSec(){
+  var a = stale(); if (!a.length) return '';
+  return sec('⏳ Оферти без отговор', a.length, '<div class="lst">' + a.map(function(c){
+    return '<div class="ti today"><div class="tr" data-n="' + esc(c.n) + '" onclick="openC(this.dataset.n)"><span class="dt"></span><span class="tx"><b>' + esc(c.n) + '</b>' +
+      '<small>📄 ' + daysSince(c.l || c.i) + ' дни без контакт' + (c.nx && c.nx !== '-' ? ' · 📅 ' + fmt(c.nx) : '') + (SEG === 'a' && c.r ? ' · 👤 ' + esc(c.r) : '') + '</small></span><span class="ar">›</span></div></div>';
+  }).join('') + '</div>', '');
+}
+function staleLine(c){
+  var dc = D.clients.filter(function(x){ return x.n === c.name; })[0];
+  if (!dc || c.stage !== OFFER || !('l' in dc)) return '';
+  var n = daysSince(dc.l || dc.i); if (n <= STALE) return '';
+  return '<div class="nxt no">⏳ ' + n + ' дни без контакт след офертата</div><div class="acts"><button onclick="markC()">☎️ Свързах се днес</button></div>';
+}
+function markC(){
+  cardBusy(true);
+  google.script.run.withSuccessHandler(function(c){
+    var dc = D.clients.filter(function(x){ return x.n === c.name; })[0]; if (dc) dc.l = D.today;
+    CUR = c; cardBusy(false); drawCard(); render(D); toast('☎️ Записано: контакт днес'); load();
+  }).withFailureHandler(cardErr).markContact(CUR.name);
+}
 // 📋 Задачите – компактен списък; докосване → детайли и бутони
 var OPENT = null;
 function togT(row){ OPENT = OPENT === row ? null : row; drawTasks(); }
@@ -242,9 +269,9 @@ function freeCard(c){
 function noTask(){ return D.clients.filter(function(c){ return !c.nx && D.closed.indexOf(c.s) < 0 && mine(c.r); }); }
 function drawTasks(){
   var ts = D.tasks.filter(function(x){ return mine(x.rep); });
-  var now = ts.filter(function(x){ return x.date <= D.today; }), next = ts.filter(function(x){ return x.date > D.today; }), free = noTask();
+  var now = ts.filter(function(x){ return x.date <= D.today; }), next = ts.filter(function(x){ return x.date > D.today; }), free = noTask(), st = stale(); free = free.filter(function(c){ return st.indexOf(c) < 0; });
   el('main').innerHTML = srchBox() + '<div id="qres"></div><div id="tbody"><div class="big"><button onclick="openForm()">➕ Нова задача / клиент</button></div>' +
-    sec('🔔 Днес', now.length, '<div class="lst">' + now.map(taskCard).join('') + '</div>', 'Няма задачи за днес 🎉') +
+    sec('🔔 Днес', now.length, '<div class="lst">' + now.map(taskCard).join('') + '</div>', 'Няма задачи за днес 🎉') + staleSec() +
     sec('📅 Следващите 7 дни', next.length, '<div class="lst">' + next.map(taskCard).join('') + '</div>', 'Няма планирани задачи') +
     sec('⚠️ Клиенти без задача', free.length, rows(free), 'Всички активни клиенти имат задача ✅') + '</div>';
   onQ();
@@ -474,7 +501,7 @@ function drawCard(){
   h += '<div class="box hero"><div class="t">' + esc(c.name) + ' ' + pill(c.stage) + '</div>' +
     '<div class="s">' + [esc(c.city), c.budget ? eur(c.budget) : '', c.rep ? '👤 ' + esc(c.rep) : ''].filter(Boolean).join(' · ') + '</div>' +
     (nx ? '<div class="nxt">📅 ' + fmt(nx.date) + (nx.time ? ' · ' + esc(nx.time) : '') + ' – ' + esc(nx.type) + (nx.remind ? ': ' + esc(nx.remind) : '') + '</div>'
-        : '<div class="nxt no">⚠️ Няма планирана задача</div>') +
+        : '<div class="nxt no">⚠️ Няма планирана задача</div>') + staleLine(c) +
     '<div class="acts">' + tel(c.phone) + mapB(c.maps) + '</div>' +
     '<div class="acts"><button class="ok" data-n="' + esc(c.name) + '" onclick="openForm(this.dataset.n)">➕ Задача</button>' +
     '<label>📸 Снимка<input type="file" accept="image/*" multiple style="display:none" onchange="upC(this)"></label>' +
@@ -665,7 +692,7 @@ function upC(inp){
 
 document.addEventListener('visibilitychange', function(){ if (!document.hidden && D && TOKEN && el('sheet').style.display !== 'block') load(); });
 // Нова версия → проверява се при всяко отваряне/връщане в приложението и се зарежда сама
-var APP_VER = '3.5';
+var APP_VER = '3.6';
 if ('serviceWorker' in navigator) {
   var swHad = !!navigator.serviceWorker.controller, swDone = false;
   navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).then(function(r){
