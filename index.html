@@ -110,6 +110,20 @@ input,textarea,.notes{-webkit-user-select:text;user-select:text}
 .lr .dt{width:10px;height:10px;border-radius:50%;flex:none}
 .lr .nm{flex:1;min-width:0;font-size:16px;font-weight:600;color:#0f172a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .lr .ar{color:#94a3b8;font-size:22px;line-height:1;flex:none}
+.ti{border-top:1px solid #f1f5f9}.lst>.ti:first-child{border-top:0}
+.ti.op{background:#f8fafc}
+.tr{display:flex;align-items:center;gap:10px;padding:12px 14px;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.tr:active{background:#f1f5f9}
+.tr .dt{width:10px;height:10px;border-radius:50%;flex:none;background:#2563eb}
+.ti.over .dt{background:#dc2626}.ti.today .dt{background:#ea580c}
+.tr .tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.tr .tx b{font-size:16px;font-weight:600;color:#0f172a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tr .tx small{font-size:13px;color:#64748b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ti.over .tx small{color:#dc2626;font-weight:600}
+.tr .ar{color:#94a3b8;font-size:22px;line-height:1;flex:none;transition:transform .15s}
+.ti.op .ar{transform:rotate(90deg)}
+.tb{padding:0 14px 12px 34px}
+.tb .acts{margin-top:6px}
 #toast{position:fixed;left:16px;right:16px;bottom:calc(20px + env(safe-area-inset-bottom));background:#0f172a;color:#fff;padding:14px;border-radius:12px;text-align:center;display:none;z-index:20;font-size:15px}
 .load{text-align:center;color:#64748b;padding:30px}
 </style></head><body>
@@ -207,13 +221,19 @@ function draw(){
 }
 
 // ---------- 📋 Задачи ----------
+// 📋 Задачите – компактен списък; докосване → детайли и бутони
+var OPENT = null;
+function togT(row){ OPENT = OPENT === row ? null : row; drawTasks(); }
 function taskCard(x){
+  var r = rel(x.date), op = OPENT === x.row;
+  var h = '<div class="ti ' + r + (op ? ' op' : '') + '"><div class="tr" onclick="togT(' + x.row + ')"><span class="dt"></span><span class="tx"><b>' + esc(x.client) + '</b>' +
+    '<small>' + esc(whenTxt(x.date, x.time)) + ' · ' + esc(x.type) + (SEG === 'a' && x.rep ? ' · 👤 ' + esc(x.rep) : '') + '</small></span><span class="ar">›</span></div>';
+  if (!op) return h + '</div>';
   var sub = [x.desc, x.city].filter(Boolean).join(' · ');
   var rem = x.remind ? '<div class="s" style="color:#92400e;font-weight:700">🔔 ' + esc(x.remind) + '</div>' : '<div class="s" style="color:#b91c1c;font-weight:700">🔔 няма текст за календара</div>';
-  return '<div class="card ' + rel(x.date) + '"><div class="when">' + esc(whenTxt(x.date, x.time)) + (SEG === 'a' && x.rep ? ' · 👤 ' + esc(x.rep) : '') + '</div>' +
-    '<div class="t">' + esc(x.type) + ' – ' + nm(x.client) + '</div>' + rem + (sub ? '<div class="s">' + esc(sub) + '</div>' : '') +
-    '<div class="acts">' + tel(x.phone) + mapB(x.maps) + '</div>' +
-    '<div class="acts"><button class="ok" onclick="doneForm(' + x.row + ')">✅ Готово</button><button onclick="snooze(' + x.row + ',1)">+1 ден</button><button onclick="snooze(' + x.row + ',3)">+3</button><button onclick="snooze(' + x.row + ',7)">+7</button></div></div>';
+  return h + '<div class="tb">' + rem + (sub ? '<div class="s">' + esc(sub) + '</div>' : '') +
+    '<div class="acts">' + tel(x.phone) + mapB(x.maps) + '<button data-n="' + esc(x.client) + '" onclick="openC(this.dataset.n)">👤 Клиент</button></div>' +
+    '<div class="acts"><button class="ok" onclick="doneForm(' + x.row + ')">✅ Готово</button><button onclick="snooze(' + x.row + ',1)">+1 ден</button><button onclick="snooze(' + x.row + ',3)">+3</button><button onclick="snooze(' + x.row + ',7)">+7</button></div></div></div>';
 }
 function freeCard(c){
   return '<div class="card free"><div class="when">' + esc(c.s || 'Без етап') + (SEG === 'a' && c.r ? ' · 👤 ' + esc(c.r) : '') + '</div><div class="t">' + nm(c.n) + '</div>' +
@@ -224,8 +244,8 @@ function drawTasks(){
   var ts = D.tasks.filter(function(x){ return mine(x.rep); });
   var now = ts.filter(function(x){ return x.date <= D.today; }), next = ts.filter(function(x){ return x.date > D.today; }), free = noTask();
   el('main').innerHTML = srchBox() + '<div id="qres"></div><div id="tbody"><div class="big"><button onclick="openForm()">➕ Нова задача / клиент</button></div>' +
-    sec('🔔 Днес', now.length, now.map(taskCard).join(''), 'Няма задачи за днес 🎉') +
-    sec('📅 Следващите 7 дни', next.length, next.map(taskCard).join(''), 'Няма планирани задачи') +
+    sec('🔔 Днес', now.length, '<div class="lst">' + now.map(taskCard).join('') + '</div>', 'Няма задачи за днес 🎉') +
+    sec('📅 Следващите 7 дни', next.length, '<div class="lst">' + next.map(taskCard).join('') + '</div>', 'Няма планирани задачи') +
     sec('⚠️ Клиенти без задача', free.length, rows(free), 'Всички активни клиенти имат задача ✅') + '</div>';
   onQ();
 }
@@ -645,7 +665,7 @@ function upC(inp){
 
 document.addEventListener('visibilitychange', function(){ if (!document.hidden && D && TOKEN && el('sheet').style.display !== 'block') load(); });
 // Нова версия → проверява се при всяко отваряне/връщане в приложението и се зарежда сама
-var APP_VER = '3.4.1';
+var APP_VER = '3.5';
 if ('serviceWorker' in navigator) {
   var swHad = !!navigator.serviceWorker.controller, swDone = false;
   navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).then(function(r){
