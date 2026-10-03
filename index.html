@@ -1,6 +1,6 @@
 <!DOCTYPE html><html lang="bg"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
-<title>Flexi CRM</title>
+<title>CRM Flexi Home</title>
 <link rel="manifest" href="manifest.webmanifest">
 <meta name="theme-color" content="#1e3a5f">
 <meta name="mobile-web-app-capable" content="yes">
@@ -13,7 +13,7 @@
 *{box-sizing:border-box}body{margin:0;font-family:-apple-system,Roboto,Arial,sans-serif;background:#f1f5f9;color:#0f172a;padding-bottom:40px}
 .hd{position:sticky;top:0;z-index:5;background:#1e3a5f;color:#fff;padding-top:env(safe-area-inset-top)}
 header{padding:12px 16px 8px;display:flex;justify-content:space-between;align-items:center}
-header h1{margin:0;font-size:20px}header .d{font-size:13px;opacity:.85}
+header h1{margin:0;font-size:20px;display:flex;align-items:center;gap:8px;white-space:nowrap}header h1 img{width:30px;height:30px;border-radius:8px;background:#fff;flex:none}header .d{font-size:13px;opacity:.85}
 .hr{display:flex;gap:8px;align-items:center}.hr button{background:none;border:0;color:#fff;font-size:22px}
 .hr .me{font-size:13px;background:rgba(255,255,255,.15);border-radius:14px;padding:5px 10px}
 .tabs{display:flex}.tabs button{flex:1;background:none;border:0;color:#cbd5e1;font-size:15px;font-weight:700;padding:10px 4px 11px;border-bottom:3px solid transparent}
@@ -84,7 +84,7 @@ input,textarea,.notes{-webkit-user-select:text;user-select:text}
 @keyframes sy{from{opacity:.25}to{opacity:1}}
 #off{display:none;background:#fef3c7;color:#92400e;font-size:13px;text-align:center;padding:6px}
 #login{position:fixed;inset:0;z-index:30;background:#1e3a5f;color:#fff;display:none;flex-direction:column;align-items:center;justify-content:center;padding:24px}
-#login .logo{font-size:52px}#login h1{margin:6px 0 2px;font-size:24px}#login p{opacity:.8;margin:0 0 18px}
+#login .logo img{width:96px;height:96px;border-radius:22px;display:block;box-shadow:0 6px 18px rgba(0,0,0,.3)}#login h1{margin:6px 0 2px;font-size:24px}#login p{opacity:.8;margin:0 0 18px}
 .dots{display:flex;gap:12px;margin:8px 0 22px}.dots span{width:16px;height:16px;border-radius:50%;border:2px solid #fff}.dots span.f{background:#5eead4;border-color:#5eead4}
 .pad{display:grid;grid-template-columns:repeat(3,76px);gap:14px}
 .pad button{height:76px;border-radius:50%;border:0;background:rgba(255,255,255,.12);color:#fff;font-size:28px;font-weight:600}
@@ -97,14 +97,14 @@ input,textarea,.notes{-webkit-user-select:text;user-select:text}
 #toast{position:fixed;left:16px;right:16px;bottom:calc(20px + env(safe-area-inset-bottom));background:#0f172a;color:#fff;padding:14px;border-radius:12px;text-align:center;display:none;z-index:20;font-size:15px}
 .load{text-align:center;color:#64748b;padding:30px}
 </style></head><body>
-<div class="hd"><header><div><h1>🏗️ CRM</h1><div class="d" id="dt"></div></div><div class="hr"><button class="me" id="meB" onclick="meMenu()">👤</button><button onclick="load(true)" title="Обнови">⟳</button></div></header>
+<div class="hd"><header><div><h1><img src="icon-192.png" alt="">CRM Flexi Home</h1><div class="d" id="dt"></div></div><div class="hr"><button class="me" id="meB" onclick="meMenu()">👤</button><button onclick="load(true)" title="Обнови">⟳</button></div></header>
 <div id="sync"></div><nav class="tabs"><button id="tb_t" onclick="tab('t')">📋 Задачи</button><button id="tb_c" onclick="tab('c')">👥 Клиенти</button><button id="tb_r" onclick="tab('r')">📊 Отчет</button></nav></div>
 <div class="seg" id="seg"><button id="sg_m" onclick="seg('m')">👤 Мои</button><button id="sg_a" onclick="seg('a')">👥 Всички</button></div>
 <div id="off">📴 Няма интернет – показани са последните данни</div><div id="main"><div class="load">Зареждане…</div></div>
 <div id="card" class="sheet"><div class="top"><button onclick="closeCard()">←</button><b id="cdT"></b></div><div id="cdB"></div></div>
 <div id="sheet" class="sheet"><div class="top"><b id="shT"></b><button onclick="closeSheet()">✕</button></div><div id="shB"></div></div>
 <div id="pv"><button class="c" onclick="closePv()">✕</button><div class="l" id="pvL">Зареждане…</div><img id="pvI" alt=""></div>
-<div id="login"><div class="logo">🏗️</div><h1>Flexi Home CRM</h1><p>Въведи своя PIN</p>
+<div id="login"><div class="logo"><img src="icon-192.png" alt=""></div><h1>CRM Flexi Home</h1><p>Въведи своя PIN</p>
 <div class="dots" id="dots"><span></span><span></span><span></span><span></span><span></span><span></span></div>
 <div class="pad"><button onclick="pinK(1)">1</button><button onclick="pinK(2)">2</button><button onclick="pinK(3)">3</button><button onclick="pinK(4)">4</button><button onclick="pinK(5)">5</button><button onclick="pinK(6)">6</button><button onclick="pinK(7)">7</button><button onclick="pinK(8)">8</button><button onclick="pinK(9)">9</button><span></span><button onclick="pinK(0)">0</button><button class="x" onclick="pinB()">⌫</button></div><div id="lerr"></div></div>
 <div id="toast"></div>
