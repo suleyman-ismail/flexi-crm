@@ -103,6 +103,13 @@ input,textarea,.notes{-webkit-user-select:text;user-select:text}
 .fl button{flex:none;border:1px solid #e2e8f0;background:#f8fafc;border-radius:9px;padding:7px 9px;font-size:15px}
 .srch input{-webkit-appearance:none;appearance:none;background:#fff}
 .qnew{margin:0 16px 8px}.qnew button{width:100%;border:1px dashed #94a3b8;background:#fff;border-radius:12px;padding:13px;font-size:15px;color:#0f172a}
+.lst{background:#fff;margin:0 16px 8px;border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,.08);overflow:hidden}
+.lr{display:flex;align-items:center;gap:10px;padding:13px 14px;border-top:1px solid #f1f5f9;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.lr:first-child{border-top:0}
+.lr:active{background:#f1f5f9}
+.lr .dt{width:10px;height:10px;border-radius:50%;flex:none}
+.lr .nm{flex:1;min-width:0;font-size:16px;font-weight:600;color:#0f172a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lr .ar{color:#94a3b8;font-size:22px;line-height:1;flex:none}
 #toast{position:fixed;left:16px;right:16px;bottom:calc(20px + env(safe-area-inset-bottom));background:#0f172a;color:#fff;padding:14px;border-radius:12px;text-align:center;display:none;z-index:20;font-size:15px}
 .load{text-align:center;color:#64748b;padding:30px}
 </style></head><body>
@@ -219,7 +226,7 @@ function drawTasks(){
   el('main').innerHTML = srchBox() + '<div id="qres"></div><div id="tbody"><div class="big"><button onclick="openForm()">➕ Нова задача / клиент</button></div>' +
     sec('🔔 Днес', now.length, now.map(taskCard).join(''), 'Няма задачи за днес 🎉') +
     sec('📅 Следващите 7 дни', next.length, next.map(taskCard).join(''), 'Няма планирани задачи') +
-    sec('⚠️ Клиенти без задача', free.length, free.map(freeCard).join(''), 'Всички активни клиенти имат задача ✅') + '</div>';
+    sec('⚠️ Клиенти без задача', free.length, rows(free), 'Всички активни клиенти имат задача ✅') + '</div>';
   onQ();
 }
 function snooze(row, days){
@@ -270,15 +277,15 @@ function findC(q){
   out.sort(function(a, b){ return b.sc - a.sc || cmpC(a.c, b.c); });
   return out.map(function(x){ return x.c; });
 }
-function clientRow(c, showRep){
-  var closed = D.closed.indexOf(c.s) > -1;
-  var nx = c.nx ? (c.nx === '-' ? '📅 има задача' : '📅 ' + fmt(c.nx)) : (closed ? '' : '<b style="color:#b45309">⚠️ без задача</b>');
-  return '<div class="card cl" data-n="' + esc(c.n) + '" onclick="openC(this.dataset.n)"><div class="t">' + esc(c.n) + ' ' + pill(c.s) + '</div>' +
-    '<div class="s">' + [esc(c.c), nx, c.b ? eur(c.b) : '', showRep && c.r ? '👤 ' + esc(c.r) : ''].filter(Boolean).join(' · ') + '</div></div>';
+function clientRow(c){
+  var col = (STC[c.s] || ['#e2e8f0', '#94a3b8'])[1];
+  return '<div class="lr" data-n="' + esc(c.n) + '" onclick="openC(this.dataset.n)" title="' + esc(c.s || '') + '"><span class="dt" style="background:' + col + '"></span>' +
+    '<span class="nm">' + esc(c.n) + '</span><span class="ar">›</span></div>';
 }
+function rows(a){ return '<div class="lst">' + a.map(clientRow).join('') + '</div>'; }
 function results(q){
   var a = findC(q), MAXR = 50;
-  return '<h2>🔎 Резултати<span>' + a.length + '</span></h2>' + (a.length ? a.slice(0, MAXR).map(function(c){ return clientRow(c, true); }).join('') +
+  return '<h2>🔎 Резултати<span>' + a.length + '</span></h2>' + (a.length ? rows(a.slice(0, MAXR)) +
     (a.length > MAXR ? '<div class="empty">… още ' + (a.length - MAXR) + ' – уточни търсенето</div>' : '')
     : '<div class="empty">Няма клиент с „' + esc(q) + '“.</div><div class="qnew"><button data-n="' + esc(q) + '" onclick="openForm(this.dataset.n)">➕ Нов клиент „' + esc(q) + '“</button></div>');
 }
@@ -299,7 +306,7 @@ function listC(){
   var q = Q.trim();
   if (q) { el('cl').innerHTML = results(q); return; }
   var a = D.clients.filter(function(c){ return mine(c.r); }).sort(cmpC);
-  el('cl').innerHTML = '<h2>Клиенти<span>' + a.length + '</span></h2>' + (a.length ? a.map(function(c){ return clientRow(c, SEG === 'a'); }).join('') : '<div class="empty">Няма клиенти</div>');
+  el('cl').innerHTML = '<h2>Клиенти<span>' + a.length + '</span></h2>' + (a.length ? rows(a) : '<div class="empty">Няма клиенти</div>');
 }
 
 // ---------- 📊 Отчет ----------
