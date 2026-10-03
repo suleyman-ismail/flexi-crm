@@ -110,6 +110,8 @@ input,textarea,.notes{-webkit-user-select:text;user-select:text}
 .lr .dt{width:10px;height:10px;border-radius:50%;flex:none}
 .lr .nm{flex:1;min-width:0;font-size:16px;font-weight:600;color:#0f172a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .lr .ar{color:#94a3b8;font-size:22px;line-height:1;flex:none}
+.nw{margin:12px 14px 0;padding:12px 14px;background:#f8fafc;border-radius:12px;border-left:4px solid #0f766e}
+.nw b{display:block;font-size:13px;color:#0f766e;margin-bottom:4px}.nw div{font-size:15px;line-height:1.45;color:#0f172a}
 .ti{border-top:1px solid #f1f5f9}.lst>.ti:first-child{border-top:0}
 .ti.op{background:#f8fafc}
 .tr{display:flex;align-items:center;gap:10px;padding:12px 14px;cursor:pointer;-webkit-tap-highlight-color:transparent}
@@ -208,6 +210,7 @@ function render(d){
   el('meB').textContent = '👤 ' + (d.me || 'Кой си?');
   el('seg').style.display = d.me ? 'flex' : 'none';
   draw();
+  if (!NEWS_DONE && d.news && el('sheet').style.display !== 'block' && el('login').style.display !== 'flex') { NEWS_DONE = true; setTimeout(function(){ showNews(false); }, 600); }
 }
 function tab(t){ TAB = t; try { localStorage.setItem('crm_tab', t); } catch (e) {} draw(); window.scrollTo(0, 0); }
 function seg(s){ SEG = s; try { localStorage.setItem('crm_seg', s); } catch (e) {} draw(); }
@@ -376,9 +379,21 @@ function drawReport(){
 }
 
 // ---------- 👤 Профил / вход ----------
+// 🆕 Какво ново – след всяка нова версия (веднъж) и от 👤 менюто
+var NEWS_DONE = false;
+function verCmp(a, b){ var x = String(a).split('.'), y = String(b).split('.'); for (var i = 0; i < 3; i++) { var d = (+x[i] || 0) - (+y[i] || 0); if (d) return d; } return 0; }
+function showNews(all){
+  if (!D || !D.news || !D.ver) return;
+  var seen = ls('crm_seen') || '3.2';
+  var a = all ? D.news.slice(0, 5) : D.news.filter(function(n){ return verCmp(n[0], seen) > 0; });
+  if (!a.length) return;
+  openSheet('🆕 Какво ново', a.map(function(n){ return '<div class="nw"><b>v' + esc(n[0]) + ' · ' + fmt(n[1]) + '</b><div>' + esc(n[2]) + '</div></div>'; }).join('') +
+    '<button class="save" onclick="newsOk()">👍 Разбрах</button>');
+}
+function newsOk(){ ls('crm_seen', D.ver); closeSheet(); }
 function meMenu(){
   openSheet('👤 ' + (D && D.me ? D.me : 'Профил'), '<div class="who"><p style="font-size:15px;color:#334155">Влязъл си като <b>' + esc(D && D.me || '') + '</b>.</p>' +
-    '<button onclick="load(true);closeSheet()">⟳ Обнови данните</button><button onclick="logout()">🚪 Изход</button></div>');
+    '<button onclick="showNews(true)">🆕 Какво ново</button><button onclick="load(true);closeSheet()">⟳ Обнови данните</button><button onclick="logout()">🚪 Изход</button></div>');
 }
 var PIN = '';
 function showLogin(){ PIN = ''; dots(); el('lerr').textContent = ''; el('login').style.display = 'flex'; }
@@ -692,7 +707,7 @@ function upC(inp){
 
 document.addEventListener('visibilitychange', function(){ if (!document.hidden && D && TOKEN && el('sheet').style.display !== 'block') load(); });
 // Нова версия → проверява се при всяко отваряне/връщане в приложението и се зарежда сама
-var APP_VER = '3.6';
+var APP_VER = '3.7';
 if ('serviceWorker' in navigator) {
   var swHad = !!navigator.serviceWorker.controller, swDone = false;
   navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).then(function(r){
