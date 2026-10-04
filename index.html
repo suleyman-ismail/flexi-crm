@@ -518,7 +518,7 @@ function onClient(){
   var cur = el('fStage').value;
   el('fStage').innerHTML = nw ? opts(D.stages, 'Ново запитване') : '<option value="">— без промяна —</option>' + opts(D.stages, cur);
 }
-// 👥 Кой ще го направи – един или повече (всеки получава задачата в своя календар)
+// 👥 Отговорник – един или повече (всеки получава задачата в своя календар)
 function repChips(sel){
   var s = reps(sel), all = D.reps.slice(); s.forEach(function(x){ if (all.indexOf(x) < 0) all.push(x); });
   return '<input type="hidden" name="rep" id="fRep" value="' + esc(s.join(', ')) + '"><div class="rch">' + all.map(function(r){
@@ -528,7 +528,7 @@ function repT(b){ b.classList.toggle('on'); var a = []; Array.prototype.forEach.
 var REPX = null;
 function repForm(row){
   var x = taskBy(row); if (!x) return; REPX = x;
-  openSheet('👤 Кой ще го направи', '<form id="frm" onsubmit="return sendRep(event)"><div class="s" style="margin:4px 0 10px">' + esc(x.client) + ' · ' + esc(whenTxt(x.date, x.time)) + ' · ' + esc(x.type) + '</div>' +
+  openSheet('👤 Отговорник', '<form id="frm" onsubmit="return sendRep(event)"><div class="s" style="margin:4px 0 10px">' + esc(x.client) + ' · ' + esc(whenTxt(x.date, x.time)) + ' · ' + esc(x.type) + '</div>' +
     repChips(x.rep) + '<div class="s" style="margin-top:12px">Може и двама. Всеки избран получава задачата в своя Google Календар с известие.</div><button class="save" id="sv">💾 Запази</button></form>');
 }
 function sendRep(e){
@@ -549,7 +549,7 @@ function openForm(pre){
     half(fld('Модел', '<select name="model">' + opts(blank(D.models)) + '</select>'), fld('Бюджет (€)', '<input name="budget" inputmode="numeric">')) +
     fld('Източник (откъде дойде)', '<select name="src">' + opts(blank(D.sources)) + '</select>') + '</div>';
   h += fld('Какво', '<select name="type">' + opts(D.types) + '</select>');
-  h += fld('👤 Кой ще го направи <span style="font-weight:400;color:#64748b">(може и двама)</span>', repChips(D.me));
+  h += fld('👤 Отговорник <span style="font-weight:400;color:#64748b">(може и двама)</span>', repChips(D.me));
   h += half(fld('Дата *', '<input type="date" name="date" required value="' + D.today + '">'), fld('Час', '<input type="time" name="time" value="10:00">'));
   h += fld('🔔 Текст за календара * <span class="badge" style="background:#fef3c7;color:#92400e">ще пише в известието</span>', '<input name="remind" class="remind" required maxlength="80" placeholder="напр. Обади се за офертата">');
   h += fld('Бележка / адрес', '<textarea name="desc" rows="2" placeholder="Подробности (по желание)"></textarea>');
@@ -898,7 +898,7 @@ function upC(inp){
 
 document.addEventListener('visibilitychange', function(){ if (!document.hidden && D && TOKEN && el('sheet').style.display !== 'block') load(); });
 // Нова версия → проверява се при всяко отваряне/връщане в приложението и се зарежда сама
-var APP_VER = '3.10';
+var APP_VER = '3.10.1';
 if ('serviceWorker' in navigator) {
   var swHad = !!navigator.serviceWorker.controller, swDone = false;
   navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).then(function(r){
