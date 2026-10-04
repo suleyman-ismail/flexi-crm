@@ -16,7 +16,7 @@ header{padding:12px 16px 8px;display:flex;justify-content:space-between;align-it
 header h1{margin:0;font-size:20px;display:flex;align-items:center;gap:8px;white-space:nowrap}header h1 img{width:30px;height:30px;border-radius:8px;background:#fff;flex:none}header .d{font-size:13px;opacity:.85}
 .hr{display:flex;gap:8px;align-items:center}.hr button{background:none;border:0;color:#fff;font-size:22px}
 .hr .me{font-size:13px;background:rgba(255,255,255,.15);border-radius:14px;padding:5px 10px}
-.tabs{display:flex}.tabs button{flex:1;background:none;border:0;color:#cbd5e1;font-size:15px;font-weight:700;padding:10px 4px 11px;border-bottom:3px solid transparent}
+.tabs{display:flex}.tabs button{flex:1;background:none;border:0;color:#cbd5e1;font-size:13.5px;font-weight:700;padding:10px 2px 11px;border-bottom:3px solid transparent;white-space:nowrap}
 .tabs button.on{color:#fff;border-bottom-color:#5eead4}
 .seg{display:flex;margin:12px 16px 0;background:#e2e8f0;border-radius:10px;padding:3px}
 .seg button{flex:1;border:0;background:none;padding:8px;border-radius:8px;font-size:14px;font-weight:700;color:#475569}
@@ -90,6 +90,10 @@ input,textarea,.notes{-webkit-user-select:text;user-select:text}
 .pad button{height:76px;border-radius:50%;border:0;background:rgba(255,255,255,.12);color:#fff;font-size:28px;font-weight:600}
 .pad button:active{background:rgba(255,255,255,.3)}.pad .x{background:none;font-size:22px}
 #lerr{min-height:22px;color:#fecaca;font-weight:700;margin-top:14px}
+#lhint{display:none;max-width:320px;text-align:center;font-size:13px;opacity:.9;margin-top:6px;line-height:1.45;background:rgba(255,255,255,.1);border-radius:12px;padding:10px 12px}
+.rch{display:flex;flex-wrap:wrap;gap:8px;margin-top:2px}.rch button{border:1.5px solid #cbd5e1;background:#fff;color:#334155;border-radius:20px;padding:9px 15px;font-size:15px;font-weight:700}
+.rch button.on{background:#1e3a5f;border-color:#1e3a5f;color:#fff}.rch button.on:before{content:'✓ '}
+.wh{font-weight:700;color:#1e3a5f}.wh u{font-weight:600;color:#0f766e;margin-left:6px}
 #pv{position:fixed;inset:0;z-index:25;background:#000;display:none;align-items:center;justify-content:center}
 #pv img{max-width:100%;max-height:100%}#pv .c{position:absolute;top:calc(12px + env(safe-area-inset-top));right:14px;background:rgba(0,0,0,.5);color:#fff;border:0;font-size:26px;border-radius:50%;width:44px;height:44px}
 #pv .l{color:#fff;font-size:15px}
@@ -110,8 +114,33 @@ input,textarea,.notes{-webkit-user-select:text;user-select:text}
 .lr .dt{width:10px;height:10px;border-radius:50%;flex:none}
 .lr .nm{flex:1;min-width:0;font-size:16px;font-weight:600;color:#0f172a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .lr .ar{color:#94a3b8;font-size:22px;line-height:1;flex:none}
-.nw{margin:12px 14px 0;padding:12px 14px;background:#f8fafc;border-radius:12px;border-left:4px solid #0f766e}
+.nw{margin:12px 0 0;padding:12px 14px;background:#f8fafc;border-radius:12px;border-left:4px solid #0f766e}
 .nw b{display:block;font-size:13px;color:#0f766e;margin-bottom:4px}.nw div{font-size:15px;line-height:1.45;color:#0f172a}
+.cg{display:flex;gap:8px;margin-bottom:4px}
+.cg>div{flex:1;background:#f8fafc;border-radius:10px;padding:8px 10px;min-width:0}
+.cg small{display:block;font-size:11px;color:#64748b;font-weight:700;text-transform:uppercase;letter-spacing:.03em}
+.cg b{font-size:16px;color:#0f172a;white-space:nowrap}
+.cg .ow b{color:#b45309}
+.ch{font-size:13px;font-weight:800;color:#334155;margin:14px 0 6px}
+.wk{border:1px solid #e2e8f0;border-radius:10px;margin-bottom:6px;overflow:hidden}
+.wk.op{background:#f8fafc}
+.wh{display:flex;align-items:center;gap:8px;padding:10px 12px;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.wh .tx{flex:1;min-width:0;display:flex;flex-direction:column}
+.wh .tx b{font-size:15px;color:#0f172a}
+.wh .tx small{font-size:12px;color:#64748b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wh .due{font-size:12px;font-weight:700;color:#b45309;background:#fffbeb;border-radius:8px;padding:3px 7px;white-space:nowrap}
+.wh .pd{font-size:12px;font-weight:700;color:#15803d;white-space:nowrap}
+.wh .ar{color:#94a3b8;font-size:20px;line-height:1;transition:transform .15s}
+.wk.op .wh .ar{transform:rotate(90deg)}
+.wb{padding:0 12px 10px}
+.xr{display:flex;align-items:center;gap:8px;padding:7px 0;border-top:1px solid #f1f5f9}
+.xl .xr:first-child{border-top:0}
+.xr .xd{flex:1;min-width:0;display:flex;flex-direction:column}
+.xr .xd b{font-size:14px;font-weight:600;color:#0f172a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.xr .xd small{font-size:12px;color:#64748b}
+.xa{font-size:15px;font-weight:800;white-space:nowrap;color:#0f172a}
+.xr button{border:0;background:none;font-size:15px;padding:4px;flex:none}
+.tr .due{font-size:12px;font-weight:700;color:#b45309;background:#fffbeb;border-radius:8px;padding:3px 7px;white-space:nowrap;flex:none}
 .ti{border-top:1px solid #f1f5f9}.lst>.ti:first-child{border-top:0}
 .ti.op{background:#f8fafc}
 .tr{display:flex;align-items:center;gap:10px;padding:12px 14px;cursor:pointer;-webkit-tap-highlight-color:transparent}
@@ -130,7 +159,7 @@ input,textarea,.notes{-webkit-user-select:text;user-select:text}
 .load{text-align:center;color:#64748b;padding:30px}
 </style></head><body>
 <div class="hd"><header><div><h1><img src="icon-192.png" alt="">CRM Flexi Home</h1><div class="d" id="dt"></div></div><div class="hr"><button class="me" id="meB" onclick="meMenu()">👤</button><button onclick="load(true)" title="Обнови">⟳</button></div></header>
-<div id="sync"></div><nav class="tabs"><button id="tb_t" onclick="tab('t')">📋 Задачи</button><button id="tb_c" onclick="tab('c')">👥 Клиенти</button><button id="tb_r" onclick="tab('r')">📊 Отчет</button></nav></div>
+<div id="sync"></div><nav class="tabs"><button id="tb_t" onclick="tab('t')">📋 Задачи</button><button id="tb_c" onclick="tab('c')">👥 Клиенти</button><button id="tb_w" onclick="tab('w')">👷 Работници</button><button id="tb_r" onclick="tab('r')">📊 Отчет</button></nav></div>
 <div class="seg" id="seg"><button id="sg_m" onclick="seg('m')">👤 Мои</button><button id="sg_a" onclick="seg('a')">👥 Всички</button></div>
 <div id="off">📴 Няма интернет – показани са последните данни</div><div id="main"><div class="load">Зареждане…</div></div>
 <div id="card" class="sheet"><div class="top"><button onclick="closeCard()">←</button><b id="cdT"></b></div><div id="cdB"></div></div>
@@ -138,7 +167,7 @@ input,textarea,.notes{-webkit-user-select:text;user-select:text}
 <div id="pv"><button class="c" onclick="closePv()">✕</button><div class="l" id="pvL">Зареждане…</div><img id="pvI" alt=""></div>
 <div id="login"><div class="logo"><img src="icon-192.png" alt=""></div><h1>CRM Flexi Home</h1><p>Въведи своя PIN</p>
 <div class="dots" id="dots"><span></span><span></span><span></span><span></span><span></span><span></span></div>
-<div class="pad"><button onclick="pinK(1)">1</button><button onclick="pinK(2)">2</button><button onclick="pinK(3)">3</button><button onclick="pinK(4)">4</button><button onclick="pinK(5)">5</button><button onclick="pinK(6)">6</button><button onclick="pinK(7)">7</button><button onclick="pinK(8)">8</button><button onclick="pinK(9)">9</button><span></span><button onclick="pinK(0)">0</button><button class="x" onclick="pinB()">⌫</button></div><div id="lerr"></div></div>
+<div class="pad"><button onclick="pinK(1)">1</button><button onclick="pinK(2)">2</button><button onclick="pinK(3)">3</button><button onclick="pinK(4)">4</button><button onclick="pinK(5)">5</button><button onclick="pinK(6)">6</button><button onclick="pinK(7)">7</button><button onclick="pinK(8)">8</button><button onclick="pinK(9)">9</button><span></span><button onclick="pinK(0)">0</button><button class="x" onclick="pinB()">⌫</button></div><div id="lerr"></div><div id="lhint">💡 Имаш ли иконата „CRM“ на началния екран? Отвори приложението оттам – там PIN-ът се помни.</div></div>
 <div id="toast"></div>
 <script>
 var API_URL = 'https://script.google.com/macros/s/AKfycbwsUVFw9bRxnsx_NDtJfZDOlU8iE6Br91SEhCP7z4Jn-Y223ytToFbdM00Rb2DXMLn55w/exec';
@@ -190,8 +219,22 @@ function load(manual){
   google.script.run.withSuccessHandler(function(d){ el('off').style.display = 'none'; ls('crm_data', JSON.stringify(d)); render(d); if (manual) toast('Обновено'); })
     .withFailureHandler(function(e){ busy(false); if (/интернет/.test(e.message) && D) el('off').style.display = 'block'; else toast('Грешка: ' + e.message, 4500); }).getAppData();
 }
+function idb(fn){
+  try { var q = indexedDB.open('crm', 1); q.onupgradeneeded = function(){ q.result.createObjectStore('kv'); };
+    q.onsuccess = function(){ var st = null; try { st = q.result.transaction('kv', 'readwrite').objectStore('kv'); } catch (e) {} fn(st); };
+    q.onerror = function(){ fn(null); }; } catch (e) { fn(null); }
+}
+function keepTok(t){
+  idb(function(st){ try { if (st) { if (t) st.put(t, 'token'); else st.delete('token'); } } catch (e) {} });
+  try { if (t && navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(function(){}); } catch (e) {}
+}
+function restoreTok(cb){
+  var done = false, fin = function(t){ if (!done) { done = true; cb(t || ''); } }; setTimeout(fin, 1500);
+  idb(function(st){ if (!st) return fin(''); try { var g = st.get('token'); g.onsuccess = function(){ fin(g.result); }; g.onerror = function(){ fin(''); }; } catch (e) { fin(''); } });
+}
 function boot(){
-  if (!TOKEN) { showLogin(); return; }
+  if (!TOKEN) { restoreTok(function(t){ if (t) { TOKEN = t; ls('crm_token', t); boot(); } else showLogin(); }); return; }
+  keepTok(TOKEN);
   var c = ls('crm_data');
   if (c) { try { var d = JSON.parse(c); d.today = localToday(); render(d); } catch (e) {} }
   load();
@@ -200,7 +243,8 @@ function intl(p){ var d = String(p || '').replace(/[^0-9]/g, ''); if (d.indexOf(
 function tel(p){ if (!p) return ''; var d = intl(p); if (d.length < 6) return ''; return '<a href="tel:+' + d + '">📞 Звънни</a><a href="viber://chat?number=%2B' + d + '">💜 Viber</a><a href="whatsapp://send?phone=' + d + '">🟢 WhatsApp</a>'; }
 function mapB(u){ return u ? '<a href="' + esc(u) + '" target="_blank">📍 Карта</a>' : ''; }
 function nm(n){ return '<span class="lnk" data-n="' + esc(n) + '" onclick="openC(this.dataset.n)">' + esc(n) + '</span>'; }
-function mine(r){ return SEG === 'a' || !D.me || !r || r === D.me; }
+function reps(s){ return String(s || '').split(/\s*(?:[,;\/+&]|\sи\s)\s*/).map(function(x){ return x.trim(); }).filter(function(x, i, a){ return x && a.indexOf(x) === i; }); }
+function mine(r){ return SEG === 'a' || !D.me || !r || reps(r).indexOf(D.me) > -1; }
 function sec(t, n, body, emptyTxt){ return '<h2>' + t + '<span>' + n + '</span></h2>' + (n ? body : '<div class="empty">' + emptyTxt + '</div>'); }
 function taskBy(row){ return D.tasks.filter(function(t){ return t.row === row; })[0]; }
 
@@ -216,11 +260,12 @@ function tab(t){ TAB = t; try { localStorage.setItem('crm_tab', t); } catch (e) 
 function seg(s){ SEG = s; try { localStorage.setItem('crm_seg', s); } catch (e) {} draw(); }
 function draw(){
   if (!D) return;
-  var ae = document.activeElement, fq = !!(ae && ae.id === 'q'), pos = fq ? ae.selectionStart : 0;
-  setTimeout(function(){ var q = el('q'); if (fq && q && document.activeElement !== q) { q.focus(); try { q.setSelectionRange(pos, pos); } catch (e) {} } }, 0);
-  ['t','c','r'].forEach(function(k){ el('tb_' + k).className = TAB === k ? 'on' : ''; });
+  var ae = document.activeElement, fid = ae && (ae.id === 'q' || ae.id === 'wq') ? ae.id : '', pos = fid ? ae.selectionStart : 0;
+  setTimeout(function(){ var q = fid && el(fid); if (q && document.activeElement !== q) { q.focus(); try { q.setSelectionRange(pos, pos); } catch (e) {} } }, 0);
+  ['t','c','w','r'].forEach(function(k){ el('tb_' + k).className = TAB === k ? 'on' : ''; });
+  el('seg').style.display = D.me && TAB !== 'w' ? 'flex' : 'none';
   el('sg_m').className = SEG === 'm' ? 'on' : ''; el('sg_a').className = SEG === 'a' ? 'on' : '';
-  if (TAB === 'c') drawClients(); else if (TAB === 'r') drawReport(); else drawTasks();
+  if (TAB === 'c') drawClients(); else if (TAB === 'w') drawWorkers(); else if (TAB === 'r') drawReport(); else drawTasks();
 }
 
 // ---------- 📋 Задачи ----------
@@ -257,11 +302,12 @@ function togT(row){ OPENT = OPENT === row ? null : row; drawTasks(); }
 function taskCard(x){
   var r = rel(x.date), op = OPENT === x.row;
   var h = '<div class="ti ' + r + (op ? ' op' : '') + '"><div class="tr" onclick="togT(' + x.row + ')"><span class="dt"></span><span class="tx"><b>' + esc(x.client) + '</b>' +
-    '<small>' + esc(whenTxt(x.date, x.time)) + ' · ' + esc(x.type) + (SEG === 'a' && x.rep ? ' · 👤 ' + esc(x.rep) : '') + '</small></span><span class="ar">›</span></div>';
+    '<small>' + esc(whenTxt(x.date, x.time)) + ' · ' + esc(x.type) + (x.rep && (SEG === 'a' || reps(x.rep).length > 1) ? ' · 👤 ' + esc(reps(x.rep).join(', ')) : '') + '</small></span><span class="ar">›</span></div>';
   if (!op) return h + '</div>';
   var sub = [x.desc, x.city].filter(Boolean).join(' · ');
   var rem = x.remind ? '<div class="s" style="color:#92400e;font-weight:700">🔔 ' + esc(x.remind) + '</div>' : '<div class="s" style="color:#b91c1c;font-weight:700">🔔 няма текст за календара</div>';
   return h + '<div class="tb">' + rem + (sub ? '<div class="s">' + esc(sub) + '</div>' : '') +
+    '<div class="s wh" onclick="repForm(' + x.row + ')">👤 ' + esc(reps(x.rep).join(', ') || '—') + ' <u>✏️ промени</u></div>' +
     '<div class="acts">' + tel(x.phone) + mapB(x.maps) + '<button data-n="' + esc(x.client) + '" onclick="openC(this.dataset.n)">👤 Клиент</button></div>' +
     '<div class="acts"><button class="ok" onclick="doneForm(' + x.row + ')">✅ Готово</button><button onclick="snooze(' + x.row + ',1)">+1 ден</button><button onclick="snooze(' + x.row + ',3)">+3</button><button onclick="snooze(' + x.row + ',7)">+7</button></div></div></div>';
 }
@@ -347,6 +393,42 @@ function onQ(){
   b.style.display = 'none'; r.innerHTML = results(q);
 }
 
+// ---------- 👷 Работници ----------
+var WQ = '';
+function wJobs(w){ var a = []; w.jobs.forEach(function(j){ String(j.j || '').split(', ').forEach(function(x){ if (x && a.indexOf(x) < 0) a.push(x); }); }); return a; }
+function findW(q){
+  var toks = lat(q).split(' ').filter(Boolean), qd = q.replace(/[^0-9]/g, ''), digits = /^[0-9\s+()\/-]+$/.test(q.trim());
+  return (D.workers || []).filter(function(w){
+    if (digits) { var pd = String(w.p || '').replace(/[^0-9]/g, ''); return qd.length >= 3 && (pd.indexOf(qd) > -1 || intl(w.p).indexOf(intl(qd)) > -1); }
+    var hay = lat(w.n + ' ' + wJobs(w).join(' ') + ' ' + w.jobs.map(function(j){ return j.c; }).join(' ')), hc = hay.replace(/[aeiou]/g, '');
+    return toks.every(function(t){ var k = t.replace(/[aeiou]/g, ''); return hay.indexOf(t) > -1 || (k.length >= 3 && hc.indexOf(k) > -1); });
+  });
+}
+function drawWorkers(){
+  el('main').innerHTML = '<div class="srch"><input id="wq" type="search" enterkeyhint="search" autocomplete="off" placeholder="🔎 Търси работник: име, работа, телефон…" value="' + esc(WQ) + '" oninput="WQ=this.value;listW()"></div><div id="wl"></div>';
+  listW();
+}
+function listW(){
+  var q = WQ.trim(), a = q ? findW(q) : (D.workers || []);
+  el('wl').innerHTML = '<h2>' + (q ? '🔎 Резултати' : 'Работници') + '<span>' + a.length + '</span></h2>' + (a.length ? '<div class="lst">' + a.map(function(w){
+    var jb = wJobs(w).slice(0, 3).join(', ');
+    return '<div class="ti"><div class="tr" data-w="' + esc(w.n) + '" onclick="openW(this.dataset.w)"><span class="tx"><b>' + esc(w.n) + '</b><small>' + esc(jb || '—') + ' · ' + w.jobs.length + (w.jobs.length === 1 ? ' обект' : ' обекта') + '</small></span>' +
+      (w.ow ? '<span class="due">' + eur(w.ow) + '</span>' : '') + '<span class="ar">›</span></div></div>';
+  }).join('') + '</div>' : '<div class="empty">' + (q ? 'Няма работник с „' + esc(q) + '“.' : 'Още няма работници. Добавят се от картата на клиента → 💶 Разходи и работници → ➕ Работник.') + '</div>');
+}
+function openW(n){
+  var w = (D.workers || []).filter(function(x){ return x.n === n; })[0]; if (!w) return;
+  var h = '<div style="padding:12px 16px 30px">' + (w.p ? '<div class="acts">' + tel(w.p) + '</div>' : '<div class="s">Няма телефон – добави го от картата на клиента (✏️).</div>') +
+    '<div class="cg" style="margin-top:12px"><div><small>Договорено</small><b>' + eur(w.ag) + '</b></div><div><small>Платено</small><b>' + eur(w.pd) + '</b></div>' +
+    '<div class="' + (w.ow ? 'ow' : '') + '"><small>Дължим</small><b>' + eur(w.ow) + '</b></div></div>' +
+    '<div class="ch">🔨 Работи (' + w.jobs.length + ')</div><div class="lst" style="margin:0">' + w.jobs.map(function(j){
+      var r = j.a - j.pd;
+      return '<div class="ti"><div class="tr" data-n="' + esc(j.c) + '" onclick="closeSheet();openC(this.dataset.n)"><span class="tx"><b>' + esc(j.c) + '</b><small>' + esc(j.j || '—') + (j.d ? ' · ' + fmt(j.d) : '') +
+        (r > 0 ? ' · остава ' + eur(r) : (j.pd ? ' · ✔ платено' : '')) + '</small></span><b class="xa">' + eur(j.a) + '</b><span class="ar">›</span></div></div>';
+    }).join('') + '</div></div>';
+  openSheet('👷 ' + w.n, h);
+}
+
 // ---------- 👥 Клиенти ----------
 function drawClients(){
   el('main').innerHTML = srchBox() + '<div id="cl"></div>';
@@ -375,6 +457,12 @@ function drawReport(){
   h += '<h2>📊 Клиенти по етап<span>' + cs.length + '</span></h2>' + rows.map(function(r){
     return '<div class="bar"><div class="r"><span>' + pill(r.s) + '</span><span><b>' + r.n + '</b> · ' + eur(r.b) + '</span></div><div class="b" style="width:' + Math.round(r.n / mx * 100) + '%"></div></div>';
   }).join('');
+  var ow = D.owed || [];
+  if (ow.length) {
+    h += '<h2>💶 Дължим на работници<span>' + eur(ow.reduce(function(t, x){ return t + x.a; }, 0)) + '</span></h2><div class="lst">' + ow.map(function(x){
+      return '<div class="ti"><div class="tr" data-n="' + esc(x.c[0]) + '" onclick="openC(this.dataset.n)"><span class="tx"><b>' + esc(x.w) + '</b><small>' + esc(x.c.join(', ')) + '</small></span><b class="xa">' + eur(x.a) + '</b></div></div>';
+    }).join('') + '</div>';
+  }
   el('main').innerHTML = h;
 }
 
@@ -387,16 +475,20 @@ function showNews(all){
   var seen = ls('crm_seen') || '3.2';
   var a = all ? D.news.slice(0, 5) : D.news.filter(function(n){ return verCmp(n[0], seen) > 0; });
   if (!a.length) return;
-  openSheet('🆕 Какво ново', a.map(function(n){ return '<div class="nw"><b>v' + esc(n[0]) + ' · ' + fmt(n[1]) + '</b><div>' + esc(n[2]) + '</div></div>'; }).join('') +
-    '<button class="save" onclick="newsOk()">👍 Разбрах</button>');
+  openSheet('🆕 Какво ново', '<div style="padding:4px 16px 30px">' + a.map(function(n){ return '<div class="nw"><b>v' + esc(n[0]) + ' · ' + fmt(n[1]) + '</b><div>' + esc(n[2]) + '</div></div>'; }).join('') +
+    '<button class="save" onclick="newsOk()">👍 Разбрах</button></div>');
 }
 function newsOk(){ ls('crm_seen', D.ver); closeSheet(); }
 function meMenu(){
   openSheet('👤 ' + (D && D.me ? D.me : 'Профил'), '<div class="who"><p style="font-size:15px;color:#334155">Влязъл си като <b>' + esc(D && D.me || '') + '</b>.</p>' +
-    '<button onclick="showNews(true)">🆕 Какво ново</button><button onclick="load(true);closeSheet()">⟳ Обнови данните</button><button onclick="logout()">🚪 Изход</button></div>');
+    '<button onclick="showNews(true)">🆕 Какво ново</button><button onclick="load(true);closeSheet()">⟳ Обнови данните</button><button onclick="askOut()">🚪 Изход</button></div>');
 }
 var PIN = '';
-function showLogin(){ PIN = ''; dots(); el('lerr').textContent = ''; el('login').style.display = 'flex'; }
+function showLogin(){
+  PIN = ''; dots(); el('lerr').textContent = ''; el('login').style.display = 'flex';
+  var sa = false; try { sa = matchMedia('(display-mode: standalone)').matches || navigator.standalone === true; } catch (e) {}
+  el('lhint').style.display = sa ? 'none' : 'block';
+}
 function dots(){ var s = el('dots').children; for (var i = 0; i < 6; i++) s[i].className = i < PIN.length ? 'f' : ''; }
 function pinB(){ PIN = PIN.slice(0, -1); dots(); }
 function pinK(n){
@@ -407,7 +499,8 @@ function pinK(n){
     TOKEN = r.token; ls('crm_token', TOKEN); el('login').style.display = 'none'; SEG = 'm'; toast('Здравей, ' + r.rep + '! 👋'); boot();
   }, function(e){ PIN = ''; dots(); el('lerr').textContent = e.message; });
 }
-function logout(){ TOKEN = ''; ls('crm_token', null); ls('crm_data', null); D = null; closeSheet(); closeCard(); el('main').innerHTML = ''; showLogin(); }
+function askOut(){ if (confirm('Сигурен ли си? След изход трябва пак да въведеш PIN.')) logout(); }
+function logout(){ TOKEN = ''; ls('crm_token', null); keepTok(''); ls('crm_data', null); D = null; closeSheet(); closeCard(); el('main').innerHTML = ''; showLogin(); }
 
 // ---------- Формуляри ----------
 function openSheet(t, h){ el('shT').textContent = t; el('shB').innerHTML = h; el('sheet').style.display = 'block'; el('sheet').scrollTop = 0; }
@@ -425,6 +518,27 @@ function onClient(){
   var cur = el('fStage').value;
   el('fStage').innerHTML = nw ? opts(D.stages, 'Ново запитване') : '<option value="">— без промяна —</option>' + opts(D.stages, cur);
 }
+// 👥 Кой ще го направи – един или повече (всеки получава задачата в своя календар)
+function repChips(sel){
+  var s = reps(sel), all = D.reps.slice(); s.forEach(function(x){ if (all.indexOf(x) < 0) all.push(x); });
+  return '<input type="hidden" name="rep" id="fRep" value="' + esc(s.join(', ')) + '"><div class="rch">' + all.map(function(r){
+    return '<button type="button" class="' + (s.indexOf(r) > -1 ? 'on' : '') + '" data-r="' + esc(r) + '" onclick="repT(this)">' + esc(r) + '</button>'; }).join('') + '</div>';
+}
+function repT(b){ b.classList.toggle('on'); var a = []; Array.prototype.forEach.call(b.parentNode.querySelectorAll('button.on'), function(x){ a.push(x.getAttribute('data-r')); }); el('fRep').value = a.join(', '); }
+var REPX = null;
+function repForm(row){
+  var x = taskBy(row); if (!x) return; REPX = x;
+  openSheet('👤 Кой ще го направи', '<form id="frm" onsubmit="return sendRep(event)"><div class="s" style="margin:4px 0 10px">' + esc(x.client) + ' · ' + esc(whenTxt(x.date, x.time)) + ' · ' + esc(x.type) + '</div>' +
+    repChips(x.rep) + '<div class="s" style="margin-top:12px">Може и двама. Всеки избран получава задачата в своя Google Календар с известие.</div><button class="save" id="sv">💾 Запази</button></form>');
+}
+function sendRep(e){
+  e.preventDefault();
+  var x = REPX, v = el('fRep').value;
+  if (!v) { toast('Избери поне един човек'); return false; }
+  closeSheet(); x.rep = v; render(D); toast('👤 ' + v);
+  google.script.run.withSuccessHandler(function(d){ ls('crm_data', JSON.stringify(d)); render(d); }).withFailureHandler(function(er){ err(er); load(); }).setTaskRep(x.row, x.client, v);
+  return false;
+}
 function openForm(pre){
   if (!D) { toast('Изчакайте зареждането…'); return; }
   var h = '<form id="frm" onsubmit="return send(event)">';
@@ -435,14 +549,14 @@ function openForm(pre){
     half(fld('Модел', '<select name="model">' + opts(blank(D.models)) + '</select>'), fld('Бюджет (€)', '<input name="budget" inputmode="numeric">')) +
     fld('Източник (откъде дойде)', '<select name="src">' + opts(blank(D.sources)) + '</select>') + '</div>';
   h += fld('Какво', '<select name="type">' + opts(D.types) + '</select>');
+  h += fld('👤 Кой ще го направи <span style="font-weight:400;color:#64748b">(може и двама)</span>', repChips(D.me));
   h += half(fld('Дата *', '<input type="date" name="date" required value="' + D.today + '">'), fld('Час', '<input type="time" name="time" value="10:00">'));
   h += fld('🔔 Текст за календара * <span class="badge" style="background:#fef3c7;color:#92400e">ще пише в известието</span>', '<input name="remind" class="remind" required maxlength="80" placeholder="напр. Обади се за офертата">');
   h += fld('Бележка / адрес', '<textarea name="desc" rows="2" placeholder="Подробности (по желание)"></textarea>');
   h += fld('Етап на клиента', '<select id="fStage" name="stage"></select>');
   h += '<div id="adv" style="display:none">' +
     half(fld('Продължителност', '<select name="dur"><option value="30">30 мин</option><option value="60" selected>1 час</option><option value="120">2 часа</option><option value="240">4 часа</option><option value="480">8 часа</option></select>'),
-         fld('Напомняне', '<select name="rem"><option value="10">10 мин преди</option><option value="30" selected>30 мин преди</option><option value="60">1 час преди</option><option value="1440">1 ден преди</option></select>')) +
-    fld('Отговорник', '<select name="rep">' + opts(blank(D.reps), D.me) + '</select>') + '</div>';
+         fld('Напомняне', '<select name="rem"><option value="10">10 мин преди</option><option value="30" selected>30 мин преди</option><option value="60">1 час преди</option><option value="1440">1 ден преди</option></select>')) + '</div>';
   h += '<button type="button" class="more" onclick="showAdv(this)">＋ Още полета</button><button class="save" id="sv">💾 Запази</button></form>';
   openSheet('➕ Нова задача', h);
   onClient();
@@ -541,6 +655,9 @@ function drawCard(){
   // 📝 Бележки
   h += fold('notes', '📝 Бележки', esc((c.notes || '').split(NL)[0]),
     '<div class="notes">' + (c.notes ? esc(c.notes) : '<span class="s">Няма бележки</span>') + '</div><div class="acts"><button onclick="editC()">✏️ Редактирай</button></div>');
+  // 💶 Разходи и работници
+  var ck = c.costs;
+  h += fold('costs', '💶 Разходи и работници', ck ? (ck.owed ? 'Дължим ' + eur(ck.owed) : (ck.cost ? eur(ck.cost) : '')) : '', costsHtml(c));
   // 📸 Снимки
   var ph = c.photoErr ? '<div class="s">' + esc(c.photoErr) + '</div>' : c.photos.length ? '<div class="ph">' + c.photos.map(function(p){
     return '<a data-id="' + esc(p.id) + '" onclick="viewPhoto(this.dataset.id)">' + (p.thumb ? '<img src="' + p.thumb + '" alt="">' : '📷') + '</a>'; }).join('') + '</div>' +
@@ -620,6 +737,80 @@ function delF(id, name){
   cardBusy(true);
   google.script.run.withSuccessHandler(function(c){ CUR = c; cardBusy(false); drawCard(); toast('🗑️ Изтрит: ' + name); }).withFailureHandler(cardErr).trashFile(id, CUR.name);
 }
+// ---------- 💶 Разходи и работници ----------
+var EXT = ['Материали', 'Транспорт', 'Друго'], EXI = { 'Материали': '🧱', 'Транспорт': '🚚', 'Друго': '🧾' }, OPENW = null;
+function costsHtml(c){
+  var k = c.costs; if (!k) return '<div class="s">Няма данни – обнови</div>';
+  var prof = c.budget ? c.budget - k.cost : null;
+  var h = '<div class="cg"><div><small>Разходи</small><b>' + eur(k.cost) + '</b></div><div class="' + (k.owed ? 'ow' : '') + '"><small>Дължим</small><b>' + eur(k.owed) + '</b></div>' +
+    (prof !== null ? '<div><small>Печалба ≈</small><b style="color:' + (prof >= 0 ? '#15803d' : '#b91c1c') + '">' + eur(prof) + '</b></div>' : '') + '</div>';
+  h += '<div class="ch">👷 Работници</div>' + (k.workers.length ? k.workers.map(wkHtml).join('') : '<div class="s">Няма добавени работници</div>') +
+    '<div class="acts"><button onclick="wkForm()">➕ Работник</button></div>';
+  h += '<div class="ch">🧾 Други разходи</div>' + (k.exp.length ? '<div class="xl">' + k.exp.map(function(x){
+    return '<div class="xr"><span>' + (EXI[x.type] || '🧾') + '</span><span class="xd"><b>' + esc(x.desc || x.type) + '</b><small>' + fmt(x.date) + ' · ' + esc(x.type) +
+      (x.method ? ' · ' + esc(x.method) : '') + (x.note ? ' · ' + esc(x.note) : '') + '</small></span><b class="xa">' + eur(x.amount) + '</b>' +
+      '<button data-id="' + esc(x.id) + '" onclick="rmCost(this.dataset.id)" title="Изтрий">🗑️</button></div>';
+  }).join('') + '</div>' : '<div class="s">Няма други разходи</div>') + '<div class="acts"><button onclick="exForm()">➕ Разход</button></div>';
+  return h;
+}
+function wkHtml(w){
+  var op = OPENW === w.name;
+  var h = '<div class="wk' + (op ? ' op' : '') + '"><div class="wh" data-w="' + esc(w.name) + '" onclick="togW(this.dataset.w)"><span class="tx"><b>' + esc(w.name) + '</b><small>' + esc(w.job || '—') + '</small></span>' +
+    (w.rem ? '<span class="due">Остава ' + eur(w.rem) + '</span>' : (w.paid ? '<span class="pd">✔ Платено</span>' : '')) + '<span class="ar">›</span></div>';
+  if (!op) return h + '</div>';
+  return h + '<div class="wb"><div class="s">Договорено <b>' + eur(w.agreed) + '</b> · Платено <b>' + eur(w.paid) + '</b> · Остава <b>' + eur(w.rem) + '</b></div>' +
+    (w.note ? '<div class="s notes">' + esc(w.note) + '</div>' : '') +
+    (w.pays.length ? '<div class="xl">' + w.pays.map(function(p){
+      return '<div class="xr"><span>💶</span><span class="xd"><b>' + fmt(p.date) + (p.method ? ' · ' + esc(p.method) : '') + '</b>' + (p.note ? '<small>' + esc(p.note) + '</small>' : '') + '</span>' +
+        '<b class="xa">' + eur(p.amount) + '</b><button data-id="' + esc(p.id) + '" onclick="rmCost(this.dataset.id)" title="Изтрий">🗑️</button></div>';
+    }).join('') + '</div>' : '') +
+    '<div class="acts"><button class="ok" data-w="' + esc(w.name) + '" onclick="payForm(this.dataset.w)">💶 Плащане</button>' + tel(w.phone) +
+    '<button data-w="' + esc(w.name) + '" onclick="wkForm(this.dataset.w)">✏️</button>' +
+    (w.id ? '<button data-id="' + esc(w.id) + '" data-w="' + esc(w.name) + '" onclick="rmWk(this.dataset.id,this.dataset.w)">🗑️</button>' : '') + '</div></div></div>';
+}
+function togW(n){ OPENW = OPENW === n ? null : n; drawCard(); }
+function costSave(fn, args, msg){
+  var sv = el('sv'); if (sv) { sv.disabled = true; sv.textContent = 'Записване…'; }
+  var run = google.script.run.withSuccessHandler(function(c){ CUR = c; closeSheet(); drawCard(); toast(msg); load(); })
+    .withFailureHandler(function(er){ if (sv) { sv.disabled = false; sv.textContent = '💾 Запази'; } err(er); });
+  run[fn].apply(null, args);
+}
+function wkForm(name){
+  var w = name ? CUR.costs.workers.filter(function(x){ return x.name === name; })[0] : null;
+  var h = '<form id="frm" onsubmit="return sendWk(event)"><input type="hidden" name="id" value="' + esc(w && w.id || '') + '"><input type="hidden" name="old" value="' + esc(w ? w.name : '') + '">';
+  h += fld('Работник / бригада', '<input name="name" list="wkl" required autocomplete="off" value="' + esc(w ? w.name : '') + '" oninput="wkFill(this.value)"><datalist id="wkl">' + opts((D.workers || []).map(function(x){ return x.n; })) + '</datalist>');
+  h += fld('Каква работа', '<input name="job" placeholder="напр. Фундамент, Монтаж, Покрив…" value="' + esc(w ? w.job : '') + '">');
+  h += half(fld('Договорено (€)', '<input name="agreed" inputmode="decimal" value="' + (w && w.agreed ? w.agreed : '') + '">'), fld('Телефон', '<input name="phone" id="wkP" type="tel" value="' + esc(w ? w.phone : '') + '">'));
+  h += fld('Бележка', '<textarea name="note" rows="3">' + esc(w ? w.note : '') + '</textarea>');
+  h += '<button class="save" id="sv">💾 Запази</button></form>';
+  openSheet((w ? '✏️ ' : '👷 Нов работник – ') + (w ? w.name : CUR.name), h);
+}
+function wkFill(v){ var p = el('wkP'); if (!p || p.value) return; var k = String(v).trim().toLowerCase(); var w = (D.workers || []).filter(function(x){ return x.n.toLowerCase() === k; })[0]; if (w && w.p) p.value = w.p; }
+function sendWk(e){ e.preventDefault(); var d = formData(); OPENW = d.name; costSave('saveWorker', [CUR.name, d], '✅ Записано'); return false; }
+function payForm(w){
+  var h = '<form id="frm" onsubmit="return sendPay(event)"><input type="hidden" name="worker" value="' + esc(w) + '">';
+  h += half(fld('Сума (€)', '<input name="amount" inputmode="decimal" required>'), fld('Дата', '<input name="date" type="date" value="' + D.today + '">'));
+  h += half(fld('Начин', '<select name="method"><option>Кеш</option><option>Банка</option></select>'), fld('Бележка', '<input name="note" placeholder="напр. аванс">'));
+  h += '<button class="save" id="sv">💶 Запиши плащането</button></form>';
+  openSheet('💶 ' + w, h);
+}
+function sendPay(e){ e.preventDefault(); var d = formData(); OPENW = d.worker; costSave('addPayment', [CUR.name, d.worker, d], '💶 Плащането е записано'); return false; }
+function exForm(){
+  var h = '<form id="frm" onsubmit="return sendEx(event)">';
+  h += fld('За какво', '<input name="desc" placeholder="напр. Бетон, Гориво, Хотел…">');
+  h += half(fld('Сума (€)', '<input name="amount" inputmode="decimal" required>'), fld('Дата', '<input name="date" type="date" value="' + D.today + '">'));
+  h += half(fld('Вид', '<select name="type">' + opts(EXT, 'Материали') + '</select>'), fld('Начин', '<select name="method"><option>Кеш</option><option>Банка</option></select>'));
+  h += fld('Бележка', '<input name="note">');
+  h += '<button class="save" id="sv">💾 Запази разхода</button></form>';
+  openSheet('🧾 Разход – ' + CUR.name, h);
+}
+function sendEx(e){ e.preventDefault(); costSave('addExpense', [CUR.name, formData()], '🧾 Разходът е записан'); return false; }
+function rmCost(id, ask){
+  if (!confirm(ask || 'Да изтрия ли този ред?')) return;
+  cardBusy(true);
+  google.script.run.withSuccessHandler(function(c){ CUR = c; cardBusy(false); drawCard(); toast('🗑️ Изтрито'); load(); }).withFailureHandler(cardErr).delCost(CUR.name, id);
+}
+function rmWk(id, w){ rmCost(id, 'Да изтрия ли ' + w + ' и всичките му плащания по този клиент?'); }
 function cardBusy(on){ el('cdB').style.opacity = on ? .45 : 1; el('cdB').style.pointerEvents = on ? 'none' : 'auto'; }
 function cardErr(e){ cardBusy(false); err(e); }
 function stageC(s){
@@ -707,7 +898,7 @@ function upC(inp){
 
 document.addEventListener('visibilitychange', function(){ if (!document.hidden && D && TOKEN && el('sheet').style.display !== 'block') load(); });
 // Нова версия → проверява се при всяко отваряне/връщане в приложението и се зарежда сама
-var APP_VER = '3.7';
+var APP_VER = '3.10';
 if ('serviceWorker' in navigator) {
   var swHad = !!navigator.serviceWorker.controller, swDone = false;
   navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).then(function(r){
