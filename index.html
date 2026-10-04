@@ -155,6 +155,10 @@ input,textarea,.notes{-webkit-user-select:text;user-select:text}
 .ti.op .ar{transform:rotate(90deg)}
 .tb{padding:0 14px 12px 34px}
 .tb .acts{margin-top:6px}
+.qg{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:10px}
+.qg button{background:#eef2f7;border:1px solid #dbe3ee;border-radius:12px;padding:10px 4px;font-size:13.5px;font-weight:700;color:#1e293b;line-height:1.25;font-family:inherit}
+.qg button small{display:block;font-size:11.5px;font-weight:700;color:#b45309;margin-top:2px}
+#cdB details{scroll-margin-top:70px}
 #toast{position:fixed;left:16px;right:16px;bottom:calc(20px + env(safe-area-inset-bottom));background:#0f172a;color:#fff;padding:14px;border-radius:12px;text-align:center;display:none;z-index:20;font-size:15px}
 .load{text-align:center;color:#64748b;padding:30px}
 </style></head><body>
@@ -308,8 +312,16 @@ function taskCard(x){
   var rem = x.remind ? '<div class="s" style="color:#92400e;font-weight:700">🔔 ' + esc(x.remind) + '</div>' : '<div class="s" style="color:#b91c1c;font-weight:700">🔔 няма текст за календара</div>';
   return h + '<div class="tb">' + rem + (sub ? '<div class="s">' + esc(sub) + '</div>' : '') +
     '<div class="s wh" onclick="repForm(' + x.row + ')">👤 ' + esc(reps(x.rep).join(', ') || '—') + ' <u>✏️ промени</u></div>' +
-    '<div class="acts">' + tel(x.phone) + mapB(x.maps) + '<button data-n="' + esc(x.client) + '" onclick="openC(this.dataset.n)">👤 Клиент</button></div>' +
-    '<div class="acts"><button class="ok" onclick="doneForm(' + x.row + ')">✅ Готово</button><button onclick="snooze(' + x.row + ',1)">+1 ден</button><button onclick="snooze(' + x.row + ',3)">+3</button><button onclick="snooze(' + x.row + ',7)">+7</button></div></div></div>';
+    '<div class="acts">' + tel(x.phone) + mapB(x.maps) + '</div>' +
+    '<div class="acts"><button class="ok" onclick="doneForm(' + x.row + ')">✅ Готово</button><button onclick="snooze(' + x.row + ',1)">+1 ден</button><button onclick="snooze(' + x.row + ',3)">+3</button><button onclick="snooze(' + x.row + ',7)">+7</button></div>' +
+    '<div class="qg">' + qBtn(x.client, '', '👤 Клиент') + qBtn(x.client, 'costs', '👷 Работници', owedC(x.client)) + qBtn(x.client, 'photos', '📸 Снимки') +
+    qBtn(x.client, 'files', '📎 Файлове') + qBtn(x.client, 'notes', '📝 Бележки') + qBtn(x.client, 'stage', '🏷️ Етап') + '</div></div></div>';
+}
+// 📂 От задачата – направо към нужната част от картата на клиента
+function qBtn(n, k, label, sub){ return '<button data-n="' + esc(n) + '" data-k="' + k + '" onclick="openC(this.dataset.n,this.dataset.k)">' + label + (sub ? '<small>' + sub + '</small>' : '') + '</button>'; }
+function owedC(n){
+  var t = 0; (D.workers || []).forEach(function(w){ w.jobs.forEach(function(j){ if (j.c === n) t += Math.max(0, (j.a || 0) - (j.pd || 0)); }); });
+  return t > 0 ? 'дължим ' + eur(t) : '';
 }
 function freeCard(c){
   return '<div class="card free"><div class="when">' + esc(c.s || 'Без етап') + (SEG === 'a' && c.r ? ' · 👤 ' + esc(c.r) : '') + '</div><div class="t">' + nm(c.n) + '</div>' +
@@ -611,9 +623,16 @@ function sendDone(e){
 }
 
 // ---------- 👤 Карта на клиента ----------
-function openC(n){
+var GOTO = '';
+function goSec(){
+  var k = GOTO; GOTO = ''; if (!k) return;
+  var d = document.querySelector('#cdB details[data-k="' + k + '"]'); if (!d) return;
+  d.open = true; setTimeout(function(){ d.scrollIntoView({ block: 'start', behavior: 'smooth' }); }, 40);
+}
+function openC(n, sec){
+  GOTO = sec || '';
   el('cdT').textContent = n; el('cdB').innerHTML = '<div class="load">Зареждане…</div>'; el('card').style.display = 'block'; el('card').scrollTop = 0;
-  google.script.run.withSuccessHandler(function(c){ CUR = c; drawCard(); }).withFailureHandler(function(e){ closeCard(); err(e); }).getClient(n);
+  google.script.run.withSuccessHandler(function(c){ CUR = c; drawCard(); goSec(); }).withFailureHandler(function(e){ closeCard(); err(e); }).getClient(n);
 }
 function closeCard(){ el('card').style.display = 'none'; CUR = null; }
 function secT(d){ OPEN[d.getAttribute('data-k')] = d.open; try { localStorage.setItem('crm_open', JSON.stringify(OPEN)); } catch (e) {} }
@@ -898,7 +917,7 @@ function upC(inp){
 
 document.addEventListener('visibilitychange', function(){ if (!document.hidden && D && TOKEN && el('sheet').style.display !== 'block') load(); });
 // Нова версия → проверява се при всяко отваряне/връщане в приложението и се зарежда сама
-var APP_VER = '3.10.1';
+var APP_VER = '3.11';
 if ('serviceWorker' in navigator) {
   var swHad = !!navigator.serviceWorker.controller, swDone = false;
   navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).then(function(r){
