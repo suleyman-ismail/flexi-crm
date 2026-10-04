@@ -18,6 +18,10 @@ header h1{margin:0;font-size:20px;display:flex;align-items:center;gap:8px;white-
 .hr .me{font-size:13px;background:rgba(255,255,255,.15);border-radius:14px;padding:5px 10px}
 .tabs{display:flex}.tabs button{flex:1;background:none;border:0;color:#cbd5e1;font-size:13.5px;font-weight:700;padding:10px 2px 11px;border-bottom:3px solid transparent;white-space:nowrap}
 .tabs button.on{color:#fff;border-bottom-color:#5eead4}
+.wsb{display:none;gap:6px;padding:0 16px 8px}.wsb button{flex:1;border:0;border-radius:10px;padding:8px 6px;font-size:13.5px;font-weight:700;background:rgba(255,255,255,.13);color:#e2e8f0;white-space:nowrap}
+.wsb button.on{background:#fff;color:#1e3a5f}
+body.r .hd{background:#7c2d12}body.r .wsb button.on{color:#7c2d12}body.r .tabs button.on{border-bottom-color:#fdba74}body.r .sheet .top{background:#7c2d12}
+.who a.lnkb{display:block;text-align:center;margin:10px 0;padding:16px;border-radius:12px;border:1px solid #cbd5e1;background:#fff;font-size:17px;font-weight:700;color:#0f172a;text-decoration:none}
 .seg{display:flex;margin:12px 16px 0;background:#e2e8f0;border-radius:10px;padding:3px}
 .seg button{flex:1;border:0;background:none;padding:8px;border-radius:8px;font-size:14px;font-weight:700;color:#475569}
 .seg button.on{background:#fff;color:#0f172a;box-shadow:0 1px 2px rgba(0,0,0,.12)}
@@ -162,8 +166,8 @@ input,textarea,.notes{-webkit-user-select:text;user-select:text}
 #toast{position:fixed;left:16px;right:16px;bottom:calc(20px + env(safe-area-inset-bottom));background:#0f172a;color:#fff;padding:14px;border-radius:12px;text-align:center;display:none;z-index:20;font-size:15px}
 .load{text-align:center;color:#64748b;padding:30px}
 </style></head><body>
-<div class="hd"><header><div><h1><img src="icon-192.png" alt="">CRM Flexi Home</h1><div class="d" id="dt"></div></div><div class="hr"><button class="me" id="meB" onclick="meMenu()">👤</button><button onclick="load(true)" title="Обнови">⟳</button></div></header>
-<div id="sync"></div><nav class="tabs"><button id="tb_t" onclick="tab('t')">📋 Задачи</button><button id="tb_c" onclick="tab('c')">👥 Клиенти</button><button id="tb_w" onclick="tab('w')">👷 Работници</button><button id="tb_r" onclick="tab('r')">📊 Отчет</button></nav></div>
+<div class="hd"><header><div><h1><img src="icon-192.png" alt=""><span id="ttl">CRM Flexi Home</span></h1><div class="d" id="dt"></div></div><div class="hr"><button class="me" id="meB" onclick="meMenu()">👤</button><button onclick="load(true)" title="Обнови">⟳</button></div></header>
+<div class="wsb" id="wsb"><button id="ws_m" onclick="setWS('')">🏠 Flexi Home</button><button id="ws_r" onclick="setWS('r')">🔨 Ремонти и строителство</button></div><div id="sync"></div><nav class="tabs"><button id="tb_t" onclick="tab('t')">📋 Задачи</button><button id="tb_c" onclick="tab('c')">👥 Клиенти</button><button id="tb_w" onclick="tab('w')">👷 Работници</button><button id="tb_r" onclick="tab('r')">📊 Отчет</button></nav></div>
 <div class="seg" id="seg"><button id="sg_m" onclick="seg('m')">👤 Мои</button><button id="sg_a" onclick="seg('a')">👥 Всички</button></div>
 <div id="off">📴 Няма интернет – показани са последните данни</div><div id="main"><div class="load">Зареждане…</div></div>
 <div id="card" class="sheet"><div class="top"><button onclick="closeCard()">←</button><b id="cdT"></b></div><div id="cdB"></div></div>
@@ -177,8 +181,12 @@ input,textarea,.notes{-webkit-user-select:text;user-select:text}
 var API_URL = 'https://script.google.com/macros/s/AKfycbwsUVFw9bRxnsx_NDtJfZDOlU8iE6Br91SEhCP7z4Jn-Y223ytToFbdM00Rb2DXMLn55w/exec';
 function ls(k, v){ try { if (v === undefined) return localStorage.getItem(k); if (v === null) localStorage.removeItem(k); else localStorage.setItem(k, v); } catch (e) { return null; } }
 var TOKEN = ls('crm_token') || '';
+var WS = ls('crm_ws') || ''; if (WS && ls('crm_wsr') !== '1') WS = '';
+function dk(){ return 'crm_data' + (WS ? '_' + WS : ''); }
+function dkOf(d){ return 'crm_data' + (d && d.ws ? '_' + d.ws : ''); }
 function apiCall(fn, args, extra){
   var body = { fn: fn, args: args || [], token: TOKEN };
+  if (WS && fn !== 'login') body.ws = WS;
   if (extra) for (var k in extra) body[k] = extra[k];
   return fetch(API_URL, { method: 'POST', body: JSON.stringify(body) })
     .catch(function(){ throw new Error('Няма връзка с интернет'); })
@@ -203,7 +211,7 @@ function syncOn(n){ SYNC = Math.max(0, SYNC + n); var e = el('sync'); if (e) e.c
 var D = null, CUR = null, TAB = 't', SEG = 'm', Q = '', ASKED = true, OPEN = {};
 try { OPEN = JSON.parse(localStorage.getItem('crm_open') || '{}') || {}; } catch (e) {}
 var MON = ['яну','фев','мар','апр','май','юни','юли','авг','сеп','окт','ное','дек'];
-var STC = {'Ново запитване':['#dbeafe','#1d4ed8'],'Проведена среща':['#ede9fe','#6d28d9'],'Изпратена оферта':['#fef3c7','#b45309'],'Преговори':['#ffedd5','#c2410c'],'Сключен договор':['#dcfce7','#15803d'],'Загубен':['#f3f4f6','#6b7280']};
+var STC = {'Ново запитване':['#dbeafe','#1d4ed8'],'Проведена среща':['#ede9fe','#6d28d9'],'Изпратена оферта':['#fef3c7','#b45309'],'Преговори':['#ffedd5','#c2410c'],'Сключен договор':['#dcfce7','#15803d'],'Загубен':['#f3f4f6','#6b7280'],'Оглед':['#ede9fe','#6d28d9'],'В процес':['#cffafe','#0e7490'],'Завършено':['#dcfce7','#166534']};
 try { TAB = localStorage.getItem('crm_tab') || 't'; SEG = localStorage.getItem('crm_seg') || 'm'; } catch (e) {}
 function el(id){ return document.getElementById(id); }
 function esc(s){ return String(s == null ? '' : s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
@@ -220,8 +228,9 @@ function err(e){ busy(false); toast('Грешка: ' + (e && e.message ? e.messa
 function localToday(){ var n = new Date(); return n.getFullYear() + '-' + ('0' + (n.getMonth() + 1)).slice(-2) + '-' + ('0' + n.getDate()).slice(-2); }
 function load(manual){
   if (!TOKEN) return;
-  google.script.run.withSuccessHandler(function(d){ el('off').style.display = 'none'; ls('crm_data', JSON.stringify(d)); render(d); if (manual) toast('Обновено'); })
-    .withFailureHandler(function(e){ busy(false); if (/интернет/.test(e.message) && D) el('off').style.display = 'block'; else toast('Грешка: ' + e.message, 4500); }).getAppData();
+  google.script.run.withSuccessHandler(function(d){ el('off').style.display = 'none'; ls(dkOf(d), JSON.stringify(d)); render(d); if (manual) toast('Обновено'); })
+    .withFailureHandler(function(e){ busy(false); if (WS && /Нямаш достъп|не е създаден/.test(e.message)) { ls('crm_wsr', null); setWS(''); toast(e.message, 4000); return; }
+      if (/интернет/.test(e.message) && D) el('off').style.display = 'block'; else toast('Грешка: ' + e.message, 4500); }).getAppData();
 }
 function idb(fn){
   try { var q = indexedDB.open('crm', 1); q.onupgradeneeded = function(){ q.result.createObjectStore('kv'); };
@@ -239,7 +248,7 @@ function restoreTok(cb){
 function boot(){
   if (!TOKEN) { restoreTok(function(t){ if (t) { TOKEN = t; ls('crm_token', t); boot(); } else showLogin(); }); return; }
   keepTok(TOKEN);
-  var c = ls('crm_data');
+  var c = ls(dk());
   if (c) { try { var d = JSON.parse(c); d.today = localToday(); render(d); } catch (e) {} }
   load();
 }
@@ -252,8 +261,25 @@ function mine(r){ return SEG === 'a' || !D.me || !r || reps(r).indexOf(D.me) > -
 function sec(t, n, body, emptyTxt){ return '<h2>' + t + '<span>' + n + '</span></h2>' + (n ? body : '<div class="empty">' + emptyTxt + '</div>'); }
 function taskBy(row){ return D.tasks.filter(function(t){ return t.row === row; })[0]; }
 
+function wsUI(d){
+  var ok = !!(d && d.wsr); if (d) ls('crm_wsr', ok ? '1' : null);
+  el('wsb').style.display = ok ? 'flex' : 'none';
+  el('ws_m').className = WS ? '' : 'on'; el('ws_r').className = WS === 'r' ? 'on' : '';
+  document.body.classList.toggle('r', WS === 'r');
+  el('ttl').textContent = WS === 'r' ? '🔨 Ремонти' : 'CRM Flexi Home';
+}
+function setWS(w){
+  w = w || ''; if (w === WS) return;
+  WS = w; ls('crm_ws', w || null); D = null; Q = ''; WQ = ''; OPENT = null; closeCard(); closeSheet();
+  wsUI({ wsr: ls('crm_wsr') === '1' });
+  var c = ls(dk()); if (c) { try { var d = JSON.parse(c); d.today = localToday(); render(d); } catch (e) {} }
+  if (!D) el('main').innerHTML = '<div class="load">Зареждане…</div>';
+  window.scrollTo(0, 0); toast(WS ? '🔨 Ремонти и строителство' : '🏠 Flexi Home'); load();
+}
+function mLbl(){ return WS === 'r' ? 'Вид работа' : 'Модел'; }
 function render(d){
-  D = d; busy(false);
+  if (d && d.ws !== undefined && (d.ws || '') !== WS) return;
+  D = d; busy(false); wsUI(d);
   el('dt').textContent = 'Днес, ' + fmt(d.today) + ' · v' + APP_VER;
   el('meB').textContent = '👤 ' + (d.me || 'Кой си?');
   el('seg').style.display = d.me ? 'flex' : 'none';
@@ -456,7 +482,7 @@ function listC(){
 // ---------- 📊 Отчет ----------
 function drawReport(){
   var cs = D.clients.filter(function(c){ return mine(c.r); }), ts = D.tasks.filter(function(x){ return mine(x.rep); });
-  var open = cs.filter(function(c){ return c.s && D.closed.indexOf(c.s) < 0; }), won = cs.filter(function(c){ return c.s === 'Сключен договор'; });
+  var open = cs.filter(function(c){ return c.s && D.closed.indexOf(c.s) < 0; }), won = cs.filter(function(c){ return (WS === 'r' ? ['Сключен договор', 'В процес', 'Завършено'] : ['Сключен договор']).indexOf(c.s) > -1; });
   var sum = function(a){ return a.reduce(function(s, c){ return s + c.b; }, 0); };
   var mon = D.today.slice(0, 7), neu = cs.filter(function(c){ return c.i && c.i.slice(0, 7) === mon; });
   var k = function(l, v, col){ return '<div class="kpi"><div class="l">' + l + '</div><div class="v" style="color:' + col + '">' + v + '</div></div>'; };
@@ -493,6 +519,7 @@ function showNews(all){
 function newsOk(){ ls('crm_seen', D.ver); closeSheet(); }
 function meMenu(){
   openSheet('👤 ' + (D && D.me ? D.me : 'Профил'), '<div class="who"><p style="font-size:15px;color:#334155">Влязъл си като <b>' + esc(D && D.me || '') + '</b>.</p>' +
+    (D && D.renoUrl ? '<a class="lnkb" href="' + esc(D.renoUrl) + '" target="_blank" rel="noopener">📊 Таблицата „Ремонти“</a>' : '') +
     '<button onclick="showNews(true)">🆕 Какво ново</button><button onclick="load(true);closeSheet()">⟳ Обнови данните</button><button onclick="askOut()">🚪 Изход</button></div>');
 }
 var PIN = '';
@@ -512,7 +539,7 @@ function pinK(n){
   }, function(e){ PIN = ''; dots(); el('lerr').textContent = e.message; });
 }
 function askOut(){ if (confirm('Сигурен ли си? След изход трябва пак да въведеш PIN.')) logout(); }
-function logout(){ TOKEN = ''; ls('crm_token', null); keepTok(''); ls('crm_data', null); D = null; closeSheet(); closeCard(); el('main').innerHTML = ''; showLogin(); }
+function logout(){ TOKEN = ''; ls('crm_token', null); keepTok(''); ls('crm_data', null); ls('crm_data_r', null); ls('crm_ws', null); ls('crm_wsr', null); WS = ''; wsUI(null); D = null; closeSheet(); closeCard(); el('main').innerHTML = ''; showLogin(); }
 
 // ---------- Формуляри ----------
 function openSheet(t, h){ el('shT').textContent = t; el('shB').innerHTML = h; el('sheet').style.display = 'block'; el('sheet').scrollTop = 0; }
@@ -548,7 +575,7 @@ function sendRep(e){
   var x = REPX, v = el('fRep').value;
   if (!v) { toast('Избери поне един човек'); return false; }
   closeSheet(); x.rep = v; render(D); toast('👤 ' + v);
-  google.script.run.withSuccessHandler(function(d){ ls('crm_data', JSON.stringify(d)); render(d); }).withFailureHandler(function(er){ err(er); load(); }).setTaskRep(x.row, x.client, v);
+  google.script.run.withSuccessHandler(function(d){ ls(dkOf(d), JSON.stringify(d)); render(d); }).withFailureHandler(function(er){ err(er); load(); }).setTaskRep(x.row, x.client, v);
   return false;
 }
 function openForm(pre){
@@ -558,7 +585,7 @@ function openForm(pre){
     '<input id="fClient" name="client" list="cll" required autocomplete="off" placeholder="Име на клиента…" value="' + esc(pre || '') + '" oninput="onClient()"><datalist id="cll">' + opts(D.clients.map(function(c){ return c.n; })) + '</datalist>');
   h += '<div id="newc" style="display:none">' +
     half(fld('Телефон *', '<input id="fPhone" name="phone" type="tel">'), fld('Град', '<input name="city">')) +
-    half(fld('Модел', '<select name="model">' + opts(blank(D.models)) + '</select>'), fld('Бюджет (€)', '<input name="budget" inputmode="numeric">')) +
+    half(fld(mLbl(), '<select name="model">' + opts(blank(D.models)) + '</select>'), fld('Бюджет (€)', '<input name="budget" inputmode="numeric">')) +
     fld('Източник (откъде дойде)', '<select name="src">' + opts(blank(D.sources)) + '</select>') + '</div>';
   h += fld('Какво', '<select name="type">' + opts(D.types) + '</select>');
   h += fld('👤 Отговорник <span style="font-weight:400;color:#64748b">(може и двама)</span>', repChips(D.me));
@@ -616,7 +643,7 @@ function sendDone(e){
   var p = { note: d.note, stage: d.stage, next: nx ? { type: d.ntype, date: d.ndate, time: d.ntime, remind: d.nremind } : null };
   closeSheet(); D.tasks = D.tasks.filter(function(t){ return t.row !== x.row; }); render(D); toast('✅ Записано');
   google.script.run.withSuccessHandler(function(r){
-    ls('crm_data', JSON.stringify(r)); render(r); toast(nx ? '✅ Готово · следващата стъпка е в календара' : '✅ Готово!');
+    ls(dkOf(r), JSON.stringify(r)); render(r); toast(nx ? '✅ Готово · следващата стъпка е в календара' : '✅ Готово!');
     if (CUR && el('card').style.display === 'block' && CUR.name === x.client) openC(x.client);
   }).withFailureHandler(function(er){ err(er); load(); }).completeTask(x.row, x.client, p);
   return false;
@@ -839,7 +866,7 @@ function stageC(s){
 function editC(){
   var c = CUR, h = '<form id="frm" onsubmit="return sendEdit(event)">';
   h += half(fld('Телефон', '<input name="phone" type="tel" value="' + esc(c.phone) + '">'), fld('Град', '<input name="city" value="' + esc(c.city) + '">'));
-  h += half(fld('Модел', '<select name="model">' + opts(blank(D.models.indexOf(c.model) < 0 && c.model ? D.models.concat([c.model]) : D.models), c.model) + '</select>'),
+  h += half(fld(mLbl(), '<select name="model">' + opts(blank(D.models.indexOf(c.model) < 0 && c.model ? D.models.concat([c.model]) : D.models), c.model) + '</select>'),
     fld('Бюджет (€)', '<input name="budget" inputmode="numeric" value="' + esc(c.budget) + '">'));
   h += half(fld('Източник', '<select name="src">' + opts(blank(D.sources.indexOf(c.src) < 0 && c.src ? D.sources.concat([c.src]) : D.sources), c.src) + '</select>'),
     fld('Отговорник', '<select name="rep">' + opts(blank(D.reps), c.rep) + '</select>'));
@@ -917,7 +944,7 @@ function upC(inp){
 
 document.addEventListener('visibilitychange', function(){ if (!document.hidden && D && TOKEN && el('sheet').style.display !== 'block') load(); });
 // Нова версия → проверява се при всяко отваряне/връщане в приложението и се зарежда сама
-var APP_VER = '3.11';
+var APP_VER = '3.12';
 if ('serviceWorker' in navigator) {
   var swHad = !!navigator.serviceWorker.controller, swDone = false;
   navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).then(function(r){
@@ -931,5 +958,6 @@ if ('serviceWorker' in navigator) {
     toast('🔄 Нова версия…', 3000); setTimeout(function(){ location.reload(); }, 400);
   });
 }
+try { wsUI({ wsr: ls('crm_wsr') === '1' }); } catch (e) {}
 boot();
 </script></body></html>
