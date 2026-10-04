@@ -790,13 +790,17 @@ function costsHtml(c){
   var prof = c.budget ? c.budget - k.cost : null;
   var h = '<div class="cg"><div><small>Разходи</small><b>' + eur(k.cost) + '</b></div><div class="' + (k.owed ? 'ow' : '') + '"><small>Дължим</small><b>' + eur(k.owed) + '</b></div>' +
     (prof !== null ? '<div><small>Печалба ≈</small><b style="color:' + (prof >= 0 ? '#15803d' : '#b91c1c') + '">' + eur(prof) + '</b></div>' : '') + '</div>';
-  var got = k.got || 0, inc = k.inc || [], bud = c.budget || 0, left = Math.max(0, bud - got);
-  h += '<div class="ch">💰 От клиента</div><div class="s">' + (bud ? 'Договор ' + eur(bud) + ' · ' : '') + 'Получено <b style="color:#15803d">' + eur(got) + '</b>' +
+  var got = k.got || 0, inc = k.inc || [], deals = k.deals || [], bud = deals.length ? (k.dealSum || 0) : (c.budget || 0), left = Math.max(0, bud - got);
+  h += '<div class="ch">💰 Клиент: договор и плащания</div><div class="s">' + (bud ? 'Договорено ' + eur(bud) + ' · ' : '') + 'Получено <b style="color:#15803d">' + eur(got) + '</b>' +
     (bud ? ' · Остава <b style="color:' + (left ? '#b45309' : '#15803d') + '">' + eur(left) + '</b>' : '') + '</div>' +
+    (deals.length ? '<div class="xl">' + deals.map(function(x){
+      return '<div class="xr"><span>📝</span><span class="xd"><b>' + esc(x.desc || 'Работа') + '</b><small>' + fmt(x.date) + (x.note ? ' · ' + esc(x.note) : '') + '</small></span><b class="xa">' + eur(x.agreed) + '</b>' +
+        '<button data-id="' + esc(x.id) + '" onclick="dealForm(this.dataset.id)" title="Редактирай">✏️</button><button data-id="' + esc(x.id) + '" data-ask="Да изтрия ли тази работа?" onclick="rmCost(this.dataset.id,this.dataset.ask)" title="Изтрий">🗑️</button></div>';
+    }).join('') + '</div>' : '') +
     (inc.length ? '<div class="xl">' + inc.map(function(x){
       return '<div class="xr"><span>💰</span><span class="xd"><b>' + esc(x.desc || 'Плащане') + '</b><small>' + fmt(x.date) + (x.method ? ' · ' + esc(x.method) : '') + (x.note ? ' · ' + esc(x.note) : '') + '</small></span>' +
         '<b class="xa" style="color:#15803d">+' + eur(x.amount) + '</b><button data-id="' + esc(x.id) + '" onclick="rmCost(this.dataset.id)" title="Изтрий">🗑️</button></div>';
-    }).join('') + '</div>' : '') + '<div class="acts"><button class="ok" onclick="cpForm()">➕ От клиента</button></div>';
+    }).join('') + '</div>' : '') + '<div class="acts"><button onclick="dealForm()">➕ Работа (договор)</button><button class="ok" onclick="cpForm()">➕ Плащане от клиента</button></div>';
   h += '<div class="ch">👷 Работници</div>' + (k.workers.length ? k.workers.map(wkHtml).join('') : '<div class="s">Няма добавени работници</div>') +
     '<div class="acts"><button onclick="wkForm()">➕ Работник</button></div>';
   h += '<div class="ch">🧾 Други разходи</div>' + (k.exp.length ? '<div class="xl">' + k.exp.map(function(x){
@@ -848,13 +852,23 @@ function payForm(w){
   openSheet('💶 ' + w, h);
 }
 function sendPay(e){ e.preventDefault(); var d = formData(); OPENW = d.worker; costSave('addPayment', [CUR.name, d.worker, d], '💶 Плащането е записано'); return false; }
+function dealForm(id){
+  var x = id ? ((CUR.costs && CUR.costs.deals) || []).filter(function(d){ return d.id === id; })[0] : null;
+  var h = '<form id="frm" onsubmit="return sendDeal(event)"><input type="hidden" name="id" value="' + esc(x ? x.id : '') + '">';
+  h += fld('Каква работа', '<input name="desc" required autocomplete="off" placeholder="напр. Фундамент, Монтаж, Баня…" value="' + esc(x ? x.desc : '') + '">');
+  h += half(fld('Договорена сума (€)', '<input name="agreed" inputmode="decimal" required value="' + (x ? x.agreed : '') + '">'), fld('Дата', '<input name="date" type="date" value="' + (x && x.date ? x.date : D.today) + '">'));
+  h += fld('Бележка', '<input name="note" placeholder="по желание" value="' + esc(x ? x.note : '') + '">');
+  h += '<div class="s" style="margin-top:10px">Бюджетът на клиента става сборът на всички работи.</div><button class="save" id="sv">💾 Запази</button></form>';
+  openSheet(x ? '✏️ ' + x.desc : '📝 Нова работа – ' + CUR.name, h);
+}
+function sendDeal(e){ e.preventDefault(); costSave('saveDeal', [CUR.name, formData()], '📝 Работата е записана'); return false; }
 function cpForm(){
   var h = '<form id="frm" onsubmit="return sendCp(event)">';
   h += half(fld('Сума (€)', '<input name="amount" inputmode="decimal" required>'), fld('Дата', '<input name="date" type="date" value="' + D.today + '">'));
   h += half(fld('Вид', '<select name="desc"><option>Аванс</option><option>Плащане</option><option>Окончателно плащане</option></select>'), fld('Начин', '<select name="method"><option>Кеш</option><option>Банка</option></select>'));
   h += fld('Бележка', '<input name="note" placeholder="по желание">');
   h += '<button class="save" id="sv">💰 Запиши плащането</button></form>';
-  openSheet('💰 От клиента – ' + CUR.name, h);
+  openSheet('💰 Плащане от клиента – ' + CUR.name, h);
 }
 function sendCp(e){ e.preventDefault(); costSave('addClientPay', [CUR.name, formData()], '💰 Плащането от клиента е записано'); return false; }
 function exForm(){
@@ -883,7 +897,7 @@ function editC(){
   var c = CUR, h = '<form id="frm" onsubmit="return sendEdit(event)">';
   h += half(fld('Телефон', '<input name="phone" type="tel" value="' + esc(c.phone) + '">'), fld('Град', '<input name="city" value="' + esc(c.city) + '">'));
   h += half(fld(mLbl(), '<select name="model">' + opts(blank(D.models.indexOf(c.model) < 0 && c.model ? D.models.concat([c.model]) : D.models), c.model) + '</select>'),
-    fld('Бюджет (€)', '<input name="budget" inputmode="numeric" value="' + esc(c.budget) + '">'));
+    fld('Бюджет (€)' + (c.costs && c.costs.deals && c.costs.deals.length ? ' <span class="badge">= сбор от работите</span>' : ''), '<input name="budget" inputmode="numeric" value="' + esc(c.budget) + '">'));
   h += half(fld('Източник', '<select name="src">' + opts(blank(D.sources.indexOf(c.src) < 0 && c.src ? D.sources.concat([c.src]) : D.sources), c.src) + '</select>'),
     fld('Отговорник', '<select name="rep">' + opts(blank(D.reps), c.rep) + '</select>'));
   h += fld('Бележки', '<textarea name="notes" rows="6">' + esc(c.notes) + '</textarea>');
@@ -960,7 +974,7 @@ function upC(inp){
 
 document.addEventListener('visibilitychange', function(){ if (!document.hidden && D && TOKEN && el('sheet').style.display !== 'block') load(); });
 // Нова версия → проверява се при всяко отваряне/връщане в приложението и се зарежда сама
-var APP_VER = '3.12.1';
+var APP_VER = '3.12.2';
 if ('serviceWorker' in navigator) {
   var swHad = !!navigator.serviceWorker.controller, swDone = false;
   navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).then(function(r){
