@@ -703,7 +703,7 @@ function drawCard(){
     '<div class="notes">' + (c.notes ? esc(c.notes) : '<span class="s">Няма бележки</span>') + '</div><div class="acts"><button onclick="editC()">✏️ Редактирай</button></div>');
   // 💶 Разходи и работници
   var ck = c.costs;
-  h += fold('costs', '💶 Разходи и работници', ck ? (ck.owed ? 'Дължим ' + eur(ck.owed) : (ck.cost ? eur(ck.cost) : '')) : '', costsHtml(c));
+  h += fold('costs', '💶 Плащания и работници', ck ? ([ck.got ? '💰 ' + eur(ck.got) : '', ck.owed ? 'дължим ' + eur(ck.owed) : ''].filter(Boolean).join(' · ') || (ck.cost ? eur(ck.cost) : '')) : '', costsHtml(c));
   // 📸 Снимки
   var ph = c.photoErr ? '<div class="s">' + esc(c.photoErr) + '</div>' : c.photos.length ? '<div class="ph">' + c.photos.map(function(p){
     return '<a data-id="' + esc(p.id) + '" onclick="viewPhoto(this.dataset.id)">' + (p.thumb ? '<img src="' + p.thumb + '" alt="">' : '📷') + '</a>'; }).join('') + '</div>' +
@@ -790,6 +790,13 @@ function costsHtml(c){
   var prof = c.budget ? c.budget - k.cost : null;
   var h = '<div class="cg"><div><small>Разходи</small><b>' + eur(k.cost) + '</b></div><div class="' + (k.owed ? 'ow' : '') + '"><small>Дължим</small><b>' + eur(k.owed) + '</b></div>' +
     (prof !== null ? '<div><small>Печалба ≈</small><b style="color:' + (prof >= 0 ? '#15803d' : '#b91c1c') + '">' + eur(prof) + '</b></div>' : '') + '</div>';
+  var got = k.got || 0, inc = k.inc || [], bud = c.budget || 0, left = Math.max(0, bud - got);
+  h += '<div class="ch">💰 От клиента</div><div class="s">' + (bud ? 'Договор ' + eur(bud) + ' · ' : '') + 'Получено <b style="color:#15803d">' + eur(got) + '</b>' +
+    (bud ? ' · Остава <b style="color:' + (left ? '#b45309' : '#15803d') + '">' + eur(left) + '</b>' : '') + '</div>' +
+    (inc.length ? '<div class="xl">' + inc.map(function(x){
+      return '<div class="xr"><span>💰</span><span class="xd"><b>' + esc(x.desc || 'Плащане') + '</b><small>' + fmt(x.date) + (x.method ? ' · ' + esc(x.method) : '') + (x.note ? ' · ' + esc(x.note) : '') + '</small></span>' +
+        '<b class="xa" style="color:#15803d">+' + eur(x.amount) + '</b><button data-id="' + esc(x.id) + '" onclick="rmCost(this.dataset.id)" title="Изтрий">🗑️</button></div>';
+    }).join('') + '</div>' : '') + '<div class="acts"><button class="ok" onclick="cpForm()">➕ От клиента</button></div>';
   h += '<div class="ch">👷 Работници</div>' + (k.workers.length ? k.workers.map(wkHtml).join('') : '<div class="s">Няма добавени работници</div>') +
     '<div class="acts"><button onclick="wkForm()">➕ Работник</button></div>';
   h += '<div class="ch">🧾 Други разходи</div>' + (k.exp.length ? '<div class="xl">' + k.exp.map(function(x){
@@ -841,6 +848,15 @@ function payForm(w){
   openSheet('💶 ' + w, h);
 }
 function sendPay(e){ e.preventDefault(); var d = formData(); OPENW = d.worker; costSave('addPayment', [CUR.name, d.worker, d], '💶 Плащането е записано'); return false; }
+function cpForm(){
+  var h = '<form id="frm" onsubmit="return sendCp(event)">';
+  h += half(fld('Сума (€)', '<input name="amount" inputmode="decimal" required>'), fld('Дата', '<input name="date" type="date" value="' + D.today + '">'));
+  h += half(fld('Вид', '<select name="desc"><option>Аванс</option><option>Плащане</option><option>Окончателно плащане</option></select>'), fld('Начин', '<select name="method"><option>Кеш</option><option>Банка</option></select>'));
+  h += fld('Бележка', '<input name="note" placeholder="по желание">');
+  h += '<button class="save" id="sv">💰 Запиши плащането</button></form>';
+  openSheet('💰 От клиента – ' + CUR.name, h);
+}
+function sendCp(e){ e.preventDefault(); costSave('addClientPay', [CUR.name, formData()], '💰 Плащането от клиента е записано'); return false; }
 function exForm(){
   var h = '<form id="frm" onsubmit="return sendEx(event)">';
   h += fld('За какво', '<input name="desc" placeholder="напр. Бетон, Гориво, Хотел…">');
@@ -944,7 +960,7 @@ function upC(inp){
 
 document.addEventListener('visibilitychange', function(){ if (!document.hidden && D && TOKEN && el('sheet').style.display !== 'block') load(); });
 // Нова версия → проверява се при всяко отваряне/връщане в приложението и се зарежда сама
-var APP_VER = '3.12';
+var APP_VER = '3.12.1';
 if ('serviceWorker' in navigator) {
   var swHad = !!navigator.serviceWorker.controller, swDone = false;
   navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).then(function(r){
