@@ -323,7 +323,7 @@ function markC(){
   cardBusy(true);
   google.script.run.withSuccessHandler(function(c){
     var dc = D.clients.filter(function(x){ return x.n === c.name; })[0]; if (dc) dc.l = D.today;
-    CUR = c; cardBusy(false); drawCard(); render(D); toast('☎️ Записано: контакт днес'); load();
+    setCur(c); cardBusy(false); drawCard(); render(D); toast('☎️ Записано: контакт днес'); load();
   }).withFailureHandler(cardErr).markContact(CUR.name);
 }
 // 📋 Задачите – компактен списък; докосване → детайли и бутони
@@ -539,7 +539,7 @@ function pinK(n){
   }, function(e){ PIN = ''; dots(); el('lerr').textContent = e.message; });
 }
 function askOut(){ if (confirm('Сигурен ли си? След изход трябва пак да въведеш PIN.')) logout(); }
-function logout(){ TOKEN = ''; ls('crm_token', null); keepTok(''); ls('crm_data', null); ls('crm_data_r', null); ls('crm_ws', null); ls('crm_wsr', null); WS = ''; wsUI(null); D = null; closeSheet(); closeCard(); el('main').innerHTML = ''; showLogin(); }
+function logout(){ TOKEN = ''; ls('crm_token', null); keepTok(''); ls('crm_data', null); ls('crm_data_r', null); ls('crm_cards', null); ls('crm_cards_r', null); MEDIA = {}; ls('crm_ws', null); ls('crm_wsr', null); WS = ''; wsUI(null); D = null; closeSheet(); closeCard(); el('main').innerHTML = ''; showLogin(); }
 
 // ---------- Формуляри ----------
 function openSheet(t, h){ el('shT').textContent = t; el('shB').innerHTML = h; el('sheet').style.display = 'block'; el('sheet').scrollTop = 0; }
@@ -657,9 +657,45 @@ function goSec(){
   d.open = true; setTimeout(function(){ d.scrollIntoView({ block: 'start', behavior: 'smooth' }); }, 40);
 }
 function openC(n, sec){
-  GOTO = sec || '';
-  el('cdT').textContent = n; el('cdB').innerHTML = '<div class="load">Зареждане…</div>'; el('card').style.display = 'block'; el('card').scrollTop = 0;
-  google.script.run.withSuccessHandler(function(c){ CUR = c; drawCard(); goSec(); }).withFailureHandler(function(e){ closeCard(); err(e); }).getClient(n);
+  GOTO = sec || ''; var tok = ++OPENSEQ;
+  el('cdT').textContent = n; el('card').style.display = 'block'; el('card').scrollTop = 0;
+  var cc = cardGet(n);
+  if (cc) { CUR = cc; useMedia(cc); drawCard(); goSec(); } else el('cdB').innerHTML = '<div class="load">Зареждане…</div>';
+  google.script.run.withSuccessHandler(function(c){
+      if (tok !== OPENSEQ || el('card').style.display !== 'block') return;
+      setCur(c); drawCard(); if (!cc) goSec();
+      if (c.noMedia) loadMedia(c.name, tok);
+    }).withFailureHandler(function(e){ if (tok !== OPENSEQ) return; if (!cc) closeCard(); err(e); }).getClient(n, true);
+}
+var MEDIA = {}, OPENSEQ = 0;
+function mk(n){ return (WS || '') + '|' + n; }
+function ckey(){ return 'crm_cards' + (WS ? '_' + WS : ''); }
+function cardAll(){ try { return JSON.parse(localStorage.getItem(ckey()) || '{}') || {}; } catch (e) { return {}; } }
+function cardGet(n){ var x = cardAll()[String(n).toLowerCase()]; if (!x || !x.c) return null; var c = x.c; c.photos = []; c.files = []; c.folder = ''; c.photoErr = ''; c.mediaOk = false; return c; }
+function cardPut(c){
+  try {
+    var a = cardAll(), o = {}, skip = ['photos', 'files', 'folder', 'photoErr', 'mediaOk', 'noMedia'];
+    Object.keys(c).forEach(function(f){ if (skip.indexOf(f) < 0) o[f] = c[f]; });
+    a[String(c.name).toLowerCase()] = { t: Date.now(), c: o };
+    var ks = Object.keys(a); if (ks.length > 40) ks.sort(function(x, y){ return a[y].t - a[x].t; }).slice(40).forEach(function(x){ delete a[x]; });
+    localStorage.setItem(ckey(), JSON.stringify(a));
+  } catch (e) {}
+}
+function useMedia(c){ var m = MEDIA[mk(c.name)]; if (m) { c.photos = m.photos || []; c.files = m.files || []; c.folder = m.folder || ''; c.photoErr = m.photoErr || ''; c.mediaOk = true; } }
+function setCur(c){
+  if (!c) return;
+  if (c.noMedia) {
+    if (CUR && CUR.name === c.name && CUR.mediaOk) { c.photos = CUR.photos; c.files = CUR.files; c.folder = CUR.folder; c.photoErr = CUR.photoErr; c.mediaOk = true; }
+    else { c.mediaOk = false; useMedia(c); }
+  } else { c.mediaOk = true; MEDIA[mk(c.name)] = { photos: c.photos, files: c.files, folder: c.folder, photoErr: c.photoErr }; }
+  CUR = c; cardPut(c);
+}
+function loadMedia(n, tok){
+  google.script.run.withSuccessHandler(function(m){
+      MEDIA[mk(n)] = m;
+      if (tok !== OPENSEQ || !CUR || CUR.name !== n || el('card').style.display !== 'block') return;
+      CUR.photos = m.photos || []; CUR.files = m.files || []; CUR.folder = m.folder || ''; CUR.photoErr = m.photoErr || ''; CUR.mediaOk = true; drawCard();
+    }).withFailureHandler(function(e){ if (tok !== OPENSEQ || !CUR || CUR.name !== n) return; if (!CUR.mediaOk) { CUR.photoErr = e.message; CUR.mediaOk = true; drawCard(); } }).getMedia(n);
 }
 function closeCard(){ el('card').style.display = 'none'; CUR = null; }
 function secT(d){ OPEN[d.getAttribute('data-k')] = d.open; try { localStorage.setItem('crm_open', JSON.stringify(OPEN)); } catch (e) {} }
@@ -708,7 +744,8 @@ function drawCard(){
   var ph = c.photoErr ? '<div class="s">' + esc(c.photoErr) + '</div>' : c.photos.length ? '<div class="ph">' + c.photos.map(function(p){
     return '<a data-id="' + esc(p.id) + '" onclick="viewPhoto(this.dataset.id)">' + (p.thumb ? '<img src="' + p.thumb + '" alt="">' : '📷') + '</a>'; }).join('') + '</div>' +
     (c.folder ? '<div class="acts"><a href="' + esc(c.folder) + '" target="_blank">📁 Отвори папката</a></div>' : '') : '<div class="s">Няма снимки. Натисни 📸 Снимка горе.</div>';
-  h += fold('photos', '📸 Снимки (' + c.photos.length + ')', '', ph);
+  var ML = '<div class="s">⏳ Зареждане…</div>';
+  h += c.mediaOk === false ? fold('photos', '📸 Снимки', '⏳', ML) : fold('photos', '📸 Снимки (' + c.photos.length + ')', '', ph);
   // 📎 Файлове
   var fl = c.files || [];
   var fh = c.photoErr ? '<div class="s">' + esc(c.photoErr) + '</div>' : (fl.length ? fl.map(function(f){
@@ -720,7 +757,7 @@ function drawCard(){
     : '<div class="s">Няма файлове. PDF, оферта, чертеж, договор… – до 25 MB.</div>') +
     '<div class="acts"><label>📎 Добави файл<input type="file" multiple style="display:none" onchange="upF(this)"></label>' +
     (c.folder ? '<a href="' + esc(c.folder) + '" target="_blank">📁 Отвори папката</a>' : '') + '</div>';
-  h += fold('files', '📎 Файлове (' + fl.length + ')', '', fh);
+  h += c.mediaOk === false ? fold('files', '📎 Файлове', '⏳', ML) : fold('files', '📎 Файлове (' + fl.length + ')', '', fh);
   el('cdB').innerHTML = h;
 }
 function dayOf(t){ var d = new Date(t); return d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2); }
@@ -750,7 +787,7 @@ function upF(inp){
     if (i >= fs.length) {
       OPEN.files = true; if (np) OPEN.photos = true;
       try { localStorage.setItem('crm_open', JSON.stringify(OPEN)); } catch (e) {}
-      google.script.run.withSuccessHandler(function(c){ CUR = c; cardBusy(false); drawCard(); toast('📎 Качени: ' + (nf + np) + (np ? ' (снимки: ' + np + ')' : '')); }).withFailureHandler(fail).getClient(n);
+      google.script.run.withSuccessHandler(function(c){ setCur(c); cardBusy(false); drawCard(); toast('📎 Качени: ' + (nf + np) + (np ? ' (снимки: ' + np + ')' : '')); }).withFailureHandler(fail).getClient(n);
       return;
     }
     var f = fs[i], ok = function(){ i++; nextF(); };
@@ -781,7 +818,7 @@ function dlF(id){
 function delF(id, name){
   if (!confirm('Да изтрия ли „' + name + '“?\nОтива в кошчето на Google Drive (може да се върне до 30 дни).')) return;
   cardBusy(true);
-  google.script.run.withSuccessHandler(function(c){ CUR = c; cardBusy(false); drawCard(); toast('🗑️ Изтрит: ' + name); }).withFailureHandler(cardErr).trashFile(id, CUR.name);
+  google.script.run.withSuccessHandler(function(c){ setCur(c); cardBusy(false); drawCard(); toast('🗑️ Изтрит: ' + name); }).withFailureHandler(cardErr).trashFile(id, CUR.name);
 }
 // ---------- 💶 Разходи и работници ----------
 var EXT = ['Материали', 'Транспорт', 'Друго'], EXI = { 'Материали': '🧱', 'Транспорт': '🚚', 'Друго': '🧾' }, OPENW = null;
@@ -828,7 +865,7 @@ function wkHtml(w){
 function togW(n){ OPENW = OPENW === n ? null : n; drawCard(); }
 function costSave(fn, args, msg){
   var sv = el('sv'); if (sv) { sv.disabled = true; sv.textContent = 'Записване…'; }
-  var run = google.script.run.withSuccessHandler(function(c){ CUR = c; closeSheet(); drawCard(); toast(msg); load(); })
+  var run = google.script.run.withSuccessHandler(function(c){ setCur(c); closeSheet(); drawCard(); toast(msg); load(); })
     .withFailureHandler(function(er){ if (sv) { sv.disabled = false; sv.textContent = '💾 Запази'; } err(er); });
   run[fn].apply(null, args);
 }
@@ -884,14 +921,14 @@ function sendEx(e){ e.preventDefault(); costSave('addExpense', [CUR.name, formDa
 function rmCost(id, ask){
   if (!confirm(ask || 'Да изтрия ли този ред?')) return;
   cardBusy(true);
-  google.script.run.withSuccessHandler(function(c){ CUR = c; cardBusy(false); drawCard(); toast('🗑️ Изтрито'); load(); }).withFailureHandler(cardErr).delCost(CUR.name, id);
+  google.script.run.withSuccessHandler(function(c){ setCur(c); cardBusy(false); drawCard(); toast('🗑️ Изтрито'); load(); }).withFailureHandler(cardErr).delCost(CUR.name, id);
 }
 function rmWk(id, w){ rmCost(id, 'Да изтрия ли ' + w + ' и всичките му плащания по този клиент?'); }
 function cardBusy(on){ el('cdB').style.opacity = on ? .45 : 1; el('cdB').style.pointerEvents = on ? 'none' : 'auto'; }
 function cardErr(e){ cardBusy(false); err(e); }
 function stageC(s){
   if (!CUR || s === CUR.stage) return; cardBusy(true);
-  google.script.run.withSuccessHandler(function(c){ CUR = c; cardBusy(false); drawCard(); toast('Етап: ' + s); load(); }).withFailureHandler(cardErr).setStage(CUR.name, s);
+  google.script.run.withSuccessHandler(function(c){ setCur(c); cardBusy(false); drawCard(); toast('Етап: ' + s); load(); }).withFailureHandler(cardErr).setStage(CUR.name, s);
 }
 function editC(){
   var c = CUR, h = '<form id="frm" onsubmit="return sendEdit(event)">';
@@ -907,7 +944,7 @@ function editC(){
 function sendEdit(e){
   e.preventDefault();
   var d = formData(), sv = el('sv'); sv.disabled = true; sv.textContent = 'Записване…';
-  google.script.run.withSuccessHandler(function(c){ CUR = c; closeSheet(); drawCard(); toast('✅ Записано'); load(); })
+  google.script.run.withSuccessHandler(function(c){ setCur(c); closeSheet(); drawCard(); toast('✅ Записано'); load(); })
     .withFailureHandler(function(er){ sv.disabled = false; sv.textContent = '💾 Запази'; err(er); }).updateClient(CUR.name, d);
   return false;
 }
@@ -915,7 +952,7 @@ function locC(){
   if (!navigator.geolocation) { toast('Телефонът не дава местоположение'); return; }
   toast('📍 Търся местоположението…', 10000); cardBusy(true);
   navigator.geolocation.getCurrentPosition(function(p){
-    google.script.run.withSuccessHandler(function(c){ CUR = c; cardBusy(false); drawCard(); toast('📍 Локацията е записана в бележките'); })
+    google.script.run.withSuccessHandler(function(c){ setCur(c); cardBusy(false); drawCard(); toast('📍 Локацията е записана в бележките'); })
       .withFailureHandler(cardErr).saveLocation(CUR.name, p.coords.latitude, p.coords.longitude);
   }, function(e){ cardBusy(false); toast('Няма достъп до местоположението – разреши го в браузъра', 4500); }, { enableHighAccuracy: true, timeout: 20000, maximumAge: 60000 });
 }
@@ -961,7 +998,7 @@ function upC(inp){
   if (!fs.length) return; cardBusy(true);
   var nextF = function(){
     if (i >= fs.length) {
-      google.script.run.withSuccessHandler(function(c){ CUR = c; cardBusy(false); drawCard(); toast('📸 Качени: ' + fs.length); }).withFailureHandler(cardErr).getClient(n);
+      google.script.run.withSuccessHandler(function(c){ setCur(c); cardBusy(false); drawCard(); toast('📸 Качени: ' + fs.length); }).withFailureHandler(cardErr).getClient(n);
       return;
     }
     toast('📸 Качване ' + (i + 1) + ' / ' + fs.length + '…', 60000);
@@ -974,7 +1011,7 @@ function upC(inp){
 
 document.addEventListener('visibilitychange', function(){ if (!document.hidden && D && TOKEN && el('sheet').style.display !== 'block') load(); });
 // Нова версия → проверява се при всяко отваряне/връщане в приложението и се зарежда сама
-var APP_VER = '3.12.2';
+var APP_VER = '3.13';
 if ('serviceWorker' in navigator) {
   var swHad = !!navigator.serviceWorker.controller, swDone = false;
   navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).then(function(r){
