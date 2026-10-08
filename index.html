@@ -188,7 +188,8 @@ function apiCall(fn, args, extra){
   var body = { fn: fn, args: args || [], token: TOKEN };
   if (WS && fn !== 'login') body.ws = WS;
   if (extra) for (var k in extra) body[k] = extra[k];
-  return fetch(API_URL, { method: 'POST', body: JSON.stringify(body) })
+  var bs = JSON.stringify(body);
+  return fetch(API_URL, { method: 'POST', body: bs, keepalive: bs.length < 60000 })
     .catch(function(){ throw new Error('Няма връзка с интернет'); })
     .then(function(r){ if (!r.ok) throw new Error('Сървърът не отговаря (' + r.status + ')'); return r.json(); })
     .then(function(j){
@@ -226,9 +227,16 @@ function pill(s){ var c = STC[s] || ['#e2e8f0','#334155']; return s ? '<span cla
 function busy(on){ el('main').style.opacity = on ? .45 : 1; el('main').style.pointerEvents = on ? 'none' : 'auto'; }
 function err(e){ busy(false); toast('Грешка: ' + (e && e.message ? e.message : e), 4500); }
 function localToday(){ var n = new Date(); return n.getFullYear() + '-' + ('0' + (n.getMonth() + 1)).slice(-2) + '-' + ('0' + n.getDate()).slice(-2); }
+function bg(fn, args, ok, what){
+  google.script.run.withSuccessHandler(function(r){ if (ok) ok(r); }).withFailureHandler(function(er){
+    var m = (er && er.message) || String(er);
+    if (confirm('⚠️ Не се записа' + (what ? ' (' + what + ')' : '') + ':\n' + m + '\n\nДа опитам ли пак?')) bg(fn, args, ok, what); else load();
+  })[fn].apply(null, args);
+}
+function cardDone(c){ if (!c || !c.name) return; if (CUR && CUR.name === c.name && el('card').style.display === 'block') { setCur(c); drawCard(); } else cardPut(c); }
 function load(manual){
   if (!TOKEN) return;
-  google.script.run.withSuccessHandler(function(d){ el('off').style.display = 'none'; ls(dkOf(d), JSON.stringify(d)); render(d); if (manual) toast('Обновено'); })
+  google.script.run.withSuccessHandler(function(d){ el('off').style.display = 'none'; ls(dkOf(d), JSON.stringify(d)); render(d); if (manual) toast('Обновено'); setTimeout(prefetch, 1500); })
     .withFailureHandler(function(e){ busy(false); if (WS && /Нямаш достъп|не е създаден/.test(e.message)) { ls('crm_wsr', null); setWS(''); toast(e.message, 4000); return; }
       if (/интернет/.test(e.message) && D) el('off').style.display = 'block'; else toast('Грешка: ' + e.message, 4500); }).getAppData();
 }
@@ -270,7 +278,7 @@ function wsUI(d){
 }
 function setWS(w){
   w = w || ''; if (w === WS) return;
-  WS = w; ls('crm_ws', w || null); D = null; Q = ''; WQ = ''; OPENT = null; closeCard(); closeSheet();
+  WS = w; ls('crm_ws', w || null); D = null; PF = {}; Q = ''; WQ = ''; OPENT = null; closeCard(); closeSheet();
   wsUI({ wsr: ls('crm_wsr') === '1' });
   var c = ls(dk()); if (c) { try { var d = JSON.parse(c); d.today = localToday(); render(d); } catch (e) {} }
   if (!D) el('main').innerHTML = '<div class="load">Зареждане…</div>';
@@ -320,16 +328,15 @@ function staleLine(c){
   return '<div class="nxt no">⏳ ' + n + ' дни без контакт след офертата</div><div class="acts"><button onclick="markC()">☎️ Свързах се днес</button></div>';
 }
 function markC(){
-  cardBusy(true);
-  google.script.run.withSuccessHandler(function(c){
-    var dc = D.clients.filter(function(x){ return x.n === c.name; })[0]; if (dc) dc.l = D.today;
-    setCur(c); cardBusy(false); drawCard(); render(D); toast('☎️ Записано: контакт днес'); load();
-  }).withFailureHandler(cardErr).markContact(CUR.name);
+  var n = CUR.name, dc = D.clients.filter(function(x){ return x.n === n; })[0]; if (dc) dc.l = D.today;
+  CUR.last = D.today; drawCard(); render(D); toast('☎️ Записано: контакт днес');
+  bg('markContact', [n], function(c){ cardDone(c); load(); }, 'контакт');
 }
 // 📋 Задачите – компактен списък; докосване → детайли и бутони
 var OPENT = null;
 function togT(row){ OPENT = OPENT === row ? null : row; drawTasks(); }
 function taskCard(x){
+  if (x.tmp) return '<div class="ti"><div class="tr"><span class="dt"></span><span class="tx"><b>' + esc(x.client) + '</b><small>' + esc(whenTxt(x.date, x.time)) + ' · ' + esc(x.type) + ' · ⏳ записва се…</small></span></div></div>';
   var r = rel(x.date), op = OPENT === x.row;
   var h = '<div class="ti ' + r + (op ? ' op' : '') + '"><div class="tr" onclick="togT(' + x.row + ')"><span class="dt"></span><span class="tx"><b>' + esc(x.client) + '</b>' +
     '<small>' + esc(whenTxt(x.date, x.time)) + ' · ' + esc(x.type) + (x.rep && (SEG === 'a' || reps(x.rep).length > 1) ? ' · 👤 ' + esc(reps(x.rep).join(', ')) : '') + '</small></span><span class="ar">›</span></div>';
@@ -602,9 +609,24 @@ function openForm(pre){
 }
 function formData(){ var d = {}; new FormData(el('frm')).forEach(function(v, k){ d[k] = String(v).trim(); }); return d; }
 function afterSave(m, d){ closeSheet(); toast(m); load(); if (CUR && el('card').style.display === 'block' && CUR.name.toLowerCase() === String(d.client).trim().toLowerCase()) openC(CUR.name); }
+function addTmpTask(d){
+  var dc = D.clients.filter(function(c){ return c.n.toLowerCase() === String(d.client).trim().toLowerCase(); })[0];
+  if (dc && (!dc.nx || d.date < dc.nx)) dc.nx = d.date;
+  if (d.date && d.date <= addD(7)) {
+    D.tasks.push({ row: -Date.now(), tmp: true, client: dc ? dc.n : String(d.client).trim(), type: d.type || 'Задача', date: d.date, time: d.time || '', remind: d.remind || '', desc: d.desc || '', rep: d.rep || D.me, phone: dc ? dc.p : '', city: dc ? dc.c : '', maps: '' });
+    D.tasks.sort(function(a, b){ return (a.date + a.time).localeCompare(b.date + b.time); });
+  }
+  render(D);
+}
 function send(e){
   e.preventDefault();
-  var d = formData(), sv = el('sv'); sv.disabled = true; sv.textContent = 'Записване…';
+  var d = formData(), sv = el('sv');
+  if (D.clients.some(function(c){ return c.n.toLowerCase() === String(d.client).trim().toLowerCase(); })) {
+    closeSheet(); addTmpTask(d); toast('✅ Записано');
+    bg('saveTask', [d], function(){ load(); if (CUR && el('card').style.display === 'block' && CUR.name.toLowerCase() === String(d.client).trim().toLowerCase()) openC(CUR.name); }, 'задача');
+    return false;
+  }
+  sv.disabled = true; sv.textContent = 'Записване…';
   google.script.run.withSuccessHandler(function(m){
       if (m && m.dup) {
         sv.disabled = false; sv.textContent = '💾 Запази';
@@ -668,6 +690,16 @@ function openC(n, sec){
     }).withFailureHandler(function(e){ if (tok !== OPENSEQ) return; if (!cc) closeCard(); err(e); }).getClient(n, true);
 }
 var MEDIA = {}, OPENSEQ = 0;
+var PF = {};
+function prefetch(){
+  var ws = WS || '-'; if (!D || !D.tasks || Date.now() - (PF[ws] || 0) < 10 * 60000) return; PF[ws] = Date.now();
+  var a = cardAll(), seen = {}, list = [];
+  D.tasks.forEach(function(t){ if (t.tmp) return; var k = String(t.client).toLowerCase(); if (seen[k]) return; seen[k] = 1; var x = a[k]; if (!x || Date.now() - x.t > 10 * 60000) list.push(t.client); });
+  list = list.slice(0, 10);
+  function next(){ if (!list.length || (WS || '-') !== ws) return; var n = list.shift();
+    apiCall('getClient', [n, true]).then(function(c){ if ((WS || '-') === ws && c && c.name && !(CUR && CUR.name === c.name)) cardPut(c); next(); }, function(){ next(); }); }
+  next(); next();
+}
 function mk(n){ return (WS || '') + '|' + n; }
 function ckey(){ return 'crm_cards' + (WS ? '_' + WS : ''); }
 function cardAll(){ try { return JSON.parse(localStorage.getItem(ckey()) || '{}') || {}; } catch (e) { return {}; } }
@@ -864,10 +896,8 @@ function wkHtml(w){
 }
 function togW(n){ OPENW = OPENW === n ? null : n; drawCard(); }
 function costSave(fn, args, msg){
-  var sv = el('sv'); if (sv) { sv.disabled = true; sv.textContent = 'Записване…'; }
-  var run = google.script.run.withSuccessHandler(function(c){ setCur(c); closeSheet(); drawCard(); toast(msg); load(); })
-    .withFailureHandler(function(er){ if (sv) { sv.disabled = false; sv.textContent = '💾 Запази'; } err(er); });
-  run[fn].apply(null, args);
+  closeSheet(); toast('⏳ Записва се…', 1500);
+  bg(fn, args, function(c){ cardDone(c); toast(msg); load(); }, msg.replace(/^\S+\s*/, ''));
 }
 function wkForm(name){
   var w = name ? CUR.costs.workers.filter(function(x){ return x.name === name; })[0] : null;
@@ -927,8 +957,10 @@ function rmWk(id, w){ rmCost(id, 'Да изтрия ли ' + w + ' и всичк
 function cardBusy(on){ el('cdB').style.opacity = on ? .45 : 1; el('cdB').style.pointerEvents = on ? 'none' : 'auto'; }
 function cardErr(e){ cardBusy(false); err(e); }
 function stageC(s){
-  if (!CUR || s === CUR.stage) return; cardBusy(true);
-  google.script.run.withSuccessHandler(function(c){ setCur(c); cardBusy(false); drawCard(); toast('Етап: ' + s); load(); }).withFailureHandler(cardErr).setStage(CUR.name, s);
+  if (!CUR || s === CUR.stage) return;
+  var n = CUR.name, dc = D.clients.filter(function(x){ return x.n === n; })[0]; if (dc) dc.s = s;
+  CUR.stage = s; drawCard(); toast('Етап: ' + s);
+  bg('setStage', [n, s], function(c){ cardDone(c); load(); }, 'етап');
 }
 function editC(){
   var c = CUR, h = '<form id="frm" onsubmit="return sendEdit(event)">';
@@ -943,9 +975,11 @@ function editC(){
 }
 function sendEdit(e){
   e.preventDefault();
-  var d = formData(), sv = el('sv'); sv.disabled = true; sv.textContent = 'Записване…';
-  google.script.run.withSuccessHandler(function(c){ setCur(c); closeSheet(); drawCard(); toast('✅ Записано'); load(); })
-    .withFailureHandler(function(er){ sv.disabled = false; sv.textContent = '💾 Запази'; err(er); }).updateClient(CUR.name, d);
+  var d = formData(), n = CUR.name;
+  ['phone', 'city', 'model', 'src', 'rep', 'notes'].forEach(function(k){ if (k in d) CUR[k] = d[k]; });
+  CUR.budget = Number(String(d.budget || '').replace(/[^0-9.]/g, '')) || '';
+  closeSheet(); drawCard(); toast('✅ Записано');
+  bg('updateClient', [n, d], function(c){ cardDone(c); load(); }, 'клиент');
   return false;
 }
 function locC(){
@@ -1011,7 +1045,7 @@ function upC(inp){
 
 document.addEventListener('visibilitychange', function(){ if (!document.hidden && D && TOKEN && el('sheet').style.display !== 'block') load(); });
 // Нова версия → проверява се при всяко отваряне/връщане в приложението и се зарежда сама
-var APP_VER = '3.13';
+var APP_VER = '3.14';
 if ('serviceWorker' in navigator) {
   var swHad = !!navigator.serviceWorker.controller, swDone = false;
   navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).then(function(r){
