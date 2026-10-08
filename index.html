@@ -190,15 +190,18 @@ var TOKEN = ls('crm_token') || '';
 var WS = ls('crm_ws') || ''; if (WS && ls('crm_wsr') !== '1') WS = '';
 function dk(){ return 'crm_data' + (WS ? '_' + WS : ''); }
 function dkOf(d){ return 'crm_data' + (d && d.ws ? '_' + d.ws : ''); }
+var PFQ = [];
 function apiCall(fn, args, extra){
-  var body = { fn: fn, args: args || [], token: TOKEN };
+  var body = { fn: fn, args: args || [], token: TOKEN }, t0 = Date.now(), pk = fn + (WS ? '@r' : '');
   if (WS && fn !== 'login') body.ws = WS;
   if (extra) for (var k in extra) body[k] = extra[k];
+  if (fn !== 'login' && PFQ.length) body.pf = PFQ.splice(0, 40);
   var bs = JSON.stringify(body);
   return fetch(API_URL, { method: 'POST', body: bs, keepalive: bs.length < 60000 })
     .catch(function(){ throw new Error('Няма връзка с интернет'); })
     .then(function(r){ if (!r.ok) throw new Error('Сървърът не отговаря (' + r.status + ')'); return r.json(); })
     .then(function(j){
+      PFQ.push([pk, Date.now() - t0]); if (PFQ.length > 60) PFQ = PFQ.slice(-60);
       if (!j.ok) { if (j.error === 'AUTH') { logout(); throw new Error('Влез отново с PIN'); } throw new Error(j.error); }
       return j.data;
     });
@@ -242,7 +245,7 @@ function bg(fn, args, ok, what){
 function cardDone(c){ if (!c || !c.name) return; if (CUR && CUR.name === c.name && el('card').style.display === 'block') { setCur(c); drawCard(); } else cardPut(c); }
 function load(manual){
   if (!TOKEN) return;
-  google.script.run.withSuccessHandler(function(d){ el('off').style.display = 'none'; ls(dkOf(d), JSON.stringify(d)); render(d); if (manual) toast('Обновено'); setTimeout(prefetch, 1500); })
+  google.script.run.withSuccessHandler(function(d){ el('off').style.display = 'none'; ls(dkOf(d), JSON.stringify(d)); render(d); if (manual) toast('Обновено'); setTimeout(function(){ prefetch(true); }, 300); })
     .withFailureHandler(function(e){ busy(false); if (WS && /Нямаш достъп|не е създаден/.test(e.message)) { ls('crm_wsr', null); setWS(''); toast(e.message, 4000); return; }
       if (/интернет/.test(e.message) && D) el('off').style.display = 'block'; else toast('Грешка: ' + e.message, 4500); }).getAppData();
 }
@@ -251,6 +254,8 @@ function idb(fn){
     q.onsuccess = function(){ var st = null; try { st = q.result.transaction('kv', 'readwrite').objectStore('kv'); } catch (e) {} fn(st); };
     q.onerror = function(){ fn(null); }; } catch (e) { fn(null); }
 }
+function idbSet(k, v){ idb(function(st){ try { if (st) { if (v == null) st.delete(k); else st.put(v, k); } } catch (e) {} }); }
+function idbGet(k, cb){ idb(function(st){ if (!st) return cb(null); try { var g = st.get(k); g.onsuccess = function(){ cb(g.result || null); }; g.onerror = function(){ cb(null); }; } catch (e) { cb(null); } }); }
 function keepTok(t){
   idb(function(st){ try { if (st) { if (t) st.put(t, 'token'); else st.delete('token'); } } catch (e) {} });
   try { if (t && navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(function(){}); } catch (e) {}
@@ -263,7 +268,7 @@ function boot(){
   if (!TOKEN) { restoreTok(function(t){ if (t) { TOKEN = t; ls('crm_token', t); boot(); } else showLogin(); }); return; }
   keepTok(TOKEN);
   var c = ls(dk());
-  if (c) { try { var d = JSON.parse(c); d.today = localToday(); render(d); } catch (e) {} }
+  if (c) { try { var d = JSON.parse(c); d.today = localToday(); render(d); setTimeout(prefetch, 50); } catch (e) {} }
   load();
 }
 function intl(p){ var d = String(p || '').replace(/[^0-9]/g, ''); if (d.indexOf('00') === 0) d = d.slice(2); else if (d.indexOf('0') === 0) d = '359' + d.slice(1); return d; }
@@ -617,7 +622,7 @@ function pinK(n){
   }, function(e){ PIN = ''; dots(); el('lerr').textContent = e.message; });
 }
 function askOut(){ if (confirm('Сигурен ли си? След изход трябва пак да въведеш PIN.')) logout(); }
-function logout(){ TOKEN = ''; ls('crm_token', null); keepTok(''); ls('crm_data', null); ls('crm_data_r', null); ls('crm_cards', null); ls('crm_cards_r', null); MEDIA = {}; ls('crm_ws', null); ls('crm_wsr', null); WS = ''; wsUI(null); D = null; closeSheet(); closeCard(); el('main').innerHTML = ''; showLogin(); }
+function logout(){ TOKEN = ''; ls('crm_token', null); keepTok(''); idb(function(st){ try { if (st) st.clear(); } catch (e) {} }); ls('crm_data', null); ls('crm_data_r', null); ls('crm_cards', null); ls('crm_cards_r', null); MEDIA = {}; ls('crm_ws', null); ls('crm_wsr', null); WS = ''; wsUI(null); D = null; closeSheet(); closeCard(); el('main').innerHTML = ''; showLogin(); }
 
 // ---------- Формуляри ----------
 function openSheet(t, h){ el('shT').textContent = t; el('shB').innerHTML = h; el('sheet').style.display = 'block'; el('sheet').scrollTop = 0; }
@@ -749,40 +754,62 @@ function goSec(){
   var d = document.querySelector('#cdB details[data-k="' + k + '"]'); if (!d) return;
   d.open = true; setTimeout(function(){ d.scrollIntoView({ block: 'start', behavior: 'smooth' }); }, 40);
 }
+function stubCard(n){
+  var k = String(n).toLowerCase(), dc = ((D && D.clients) || []).filter(function(c){ return c.n.toLowerCase() === k; })[0]; if (!dc) return null;
+  return { name: dc.n, phone: dc.p, city: dc.c, stage: dc.s, rep: dc.r, model: dc.m, budget: dc.b || '', inq: dc.i, last: dc.l, src: '', notes: '', maps: '', costs: null, stub: true,
+    photos: [], files: [], folder: '', photoErr: '', mediaOk: false,
+    tasks: ((D && D.tasks) || []).filter(function(t){ return !t.tmp && String(t.client).toLowerCase() === k; }).map(function(t){ return { row: t.row, date: t.date, time: t.time, type: t.type, remind: t.remind, desc: t.desc, status: 'Планирана', rep: t.rep }; }) };
+}
 function openC(n, sec){
   GOTO = sec || ''; var tok = ++OPENSEQ;
   el('cdT').textContent = n; el('card').style.display = 'block'; el('card').scrollTop = 0;
-  var cc = cardGet(n);
+  var x = cardAll()[String(n).toLowerCase()], cc = cardGet(n), had = !!cc;
+  if (!cc) cc = stubCard(n);
   if (cc) { CUR = cc; useMedia(cc); drawCard(); goSec(); } else el('cdB').innerHTML = '<div class="load">Зареждане…</div>';
+  var nm0 = cc ? cc.name : n;
+  if (MEDIA[mk(nm0)]) loadMedia(nm0, tok);
+  else idbGet('m:' + mk(nm0), function(m){
+    if (m && !MEDIA[mk(nm0)]) MEDIA[mk(nm0)] = m;
+    if (m && tok === OPENSEQ && CUR && CUR.name === nm0 && !CUR.mediaOk) { useMedia(CUR); drawCard(); }
+    loadMedia(nm0, tok);
+  });
+  if (had && x && Date.now() - x.t < 120000) return;
   google.script.run.withSuccessHandler(function(c){
       if (tok !== OPENSEQ || el('card').style.display !== 'block') return;
-      setCur(c); drawCard(); if (!cc) goSec();
-      if (c.noMedia) loadMedia(c.name, tok);
-    }).withFailureHandler(function(e){ if (tok !== OPENSEQ) return; if (!cc) closeCard(); err(e); }).getClient(n, true);
+      setCur(c); drawCard(); if (!had) goSec();
+    }).withFailureHandler(function(e){ if (tok !== OPENSEQ) return; if (!cc) closeCard(); else if (!had) err(e); }).getClient(n, true);
 }
 var MEDIA = {}, OPENSEQ = 0;
 var PF = {};
-function prefetch(){
-  var ws = WS || '-'; if (!D || !D.tasks || Date.now() - (PF[ws] || 0) < 10 * 60000) return; PF[ws] = Date.now();
-  var a = cardAll(), seen = {}, list = [];
-  D.tasks.forEach(function(t){ if (t.tmp) return; var k = String(t.client).toLowerCase(); if (seen[k]) return; seen[k] = 1; var x = a[k]; if (!x || Date.now() - x.t > 10 * 60000) list.push(t.client); });
-  list = list.slice(0, 10);
-  function next(){ if (!list.length || (WS || '-') !== ws) return; var n = list.shift();
-    apiCall('getClient', [n, true]).then(function(c){ if ((WS || '-') === ws && c && c.name && !(CUR && CUR.name === c.name)) cardPut(c); next(); }, function(){ next(); }); }
-  next(); next();
+var PFB = 0, PFP = false;
+function prefetch(force){
+  var ws = WS || '-'; if (!TOKEN || !D || (!force && Date.now() - (PF[ws] || 0) < 60000)) return;
+  if (PFB) { PFP = true; return; } PF[ws] = Date.now(); PFB = 1;
+  var fin = function(){ PFB = 0; if (PFP) { PFP = false; prefetch(true); } };
+  var a = cardAll(), have = {}; Object.keys(a).forEach(function(k){ if (a[k].h) have[k] = a[k].h; });
+  apiCall('getAllCards', [have]).then(function(r){
+    if ((WS || '-') !== ws || !r || !r.names) return fin();
+    var b = cardAll(), now = Date.now(), keep = {}, mine = null;
+    r.names.forEach(function(k){ keep[k] = 1; if (b[k]) b[k].t = now; });
+    (r.cards || []).forEach(function(c){ b[String(c.name).toLowerCase()] = { t: now, h: c.h, c: cardStrip(c) }; if (CUR && CUR.name === c.name) mine = c; });
+    Object.keys(b).forEach(function(k){ if (!keep[k]) delete b[k]; });
+    cardSave(b);
+    if (mine && el('card').style.display === 'block' && (CUR.stub || CUR.h !== mine.h)) { var st = CUR.stub; setCur(mine); drawCard(); if (st) goSec(); }
+    fin();
+  }, function(){ PF[ws] = 0; fin(); });
 }
 function mk(n){ return (WS || '') + '|' + n; }
 function ckey(){ return 'crm_cards' + (WS ? '_' + WS : ''); }
 function cardAll(){ try { return JSON.parse(localStorage.getItem(ckey()) || '{}') || {}; } catch (e) { return {}; } }
 function cardGet(n){ var x = cardAll()[String(n).toLowerCase()]; if (!x || !x.c) return null; var c = x.c; c.photos = []; c.files = []; c.folder = ''; c.photoErr = ''; c.mediaOk = false; return c; }
+function cardStrip(c){ var o = {}, skip = ['photos', 'files', 'folder', 'photoErr', 'mediaOk', 'noMedia', 'stub']; Object.keys(c).forEach(function(f){ if (skip.indexOf(f) < 0) o[f] = c[f]; }); return o; }
+function cardSave(a){
+  try { localStorage.setItem(ckey(), JSON.stringify(a)); }
+  catch (e) { try { var ks = Object.keys(a).sort(function(x, y){ return a[y].t - a[x].t; }); ks.slice(150).forEach(function(x){ delete a[x]; }); localStorage.setItem(ckey(), JSON.stringify(a)); } catch (e2) {} }
+}
 function cardPut(c){
-  try {
-    var a = cardAll(), o = {}, skip = ['photos', 'files', 'folder', 'photoErr', 'mediaOk', 'noMedia'];
-    Object.keys(c).forEach(function(f){ if (skip.indexOf(f) < 0) o[f] = c[f]; });
-    a[String(c.name).toLowerCase()] = { t: Date.now(), c: o };
-    var ks = Object.keys(a); if (ks.length > 40) ks.sort(function(x, y){ return a[y].t - a[x].t; }).slice(40).forEach(function(x){ delete a[x]; });
-    localStorage.setItem(ckey(), JSON.stringify(a));
-  } catch (e) {}
+  if (!c || !c.name || c.stub) return;
+  var a = cardAll(); a[String(c.name).toLowerCase()] = { t: Date.now(), h: c.h || '', c: cardStrip(c) }; cardSave(a);
 }
 function useMedia(c){ var m = MEDIA[mk(c.name)]; if (m) { c.photos = m.photos || []; c.files = m.files || []; c.folder = m.folder || ''; c.photoErr = m.photoErr || ''; c.mediaOk = true; } }
 function setCur(c){
@@ -790,15 +817,18 @@ function setCur(c){
   if (c.noMedia) {
     if (CUR && CUR.name === c.name && CUR.mediaOk) { c.photos = CUR.photos; c.files = CUR.files; c.folder = CUR.folder; c.photoErr = CUR.photoErr; c.mediaOk = true; }
     else { c.mediaOk = false; useMedia(c); }
-  } else { c.mediaOk = true; MEDIA[mk(c.name)] = { photos: c.photos, files: c.files, folder: c.folder, photoErr: c.photoErr }; }
+  } else { c.mediaOk = true; mediaSet(c.name, { photos: c.photos, files: c.files, folder: c.folder, photoErr: c.photoErr, h: c.mediaH || '' }); }
   CUR = c; cardPut(c);
 }
+function mediaSet(n, m){ MEDIA[mk(n)] = m; idbSet('m:' + mk(n), m); }
 function loadMedia(n, tok){
+  var old = MEDIA[mk(n)];
   google.script.run.withSuccessHandler(function(m){
-      MEDIA[mk(n)] = m;
+      if (m && m.same) { if (old) { old.t = Date.now(); if (tok === OPENSEQ && CUR && CUR.name === n && !CUR.mediaOk) { useMedia(CUR); drawCard(); } } return; }
+      mediaSet(n, m);
       if (tok !== OPENSEQ || !CUR || CUR.name !== n || el('card').style.display !== 'block') return;
       CUR.photos = m.photos || []; CUR.files = m.files || []; CUR.folder = m.folder || ''; CUR.photoErr = m.photoErr || ''; CUR.mediaOk = true; drawCard();
-    }).withFailureHandler(function(e){ if (tok !== OPENSEQ || !CUR || CUR.name !== n) return; if (!CUR.mediaOk) { CUR.photoErr = e.message; CUR.mediaOk = true; drawCard(); } }).getMedia(n);
+    }).withFailureHandler(function(e){ if (tok !== OPENSEQ || !CUR || CUR.name !== n) return; if (!CUR.mediaOk) { CUR.photoErr = e.message; CUR.mediaOk = true; drawCard(); } }).getMedia(n, old && old.h ? old.h : '');
 }
 function closeCard(){ el('card').style.display = 'none'; CUR = null; }
 function secT(d){ OPEN[d.getAttribute('data-k')] = d.open; try { localStorage.setItem('crm_open', JSON.stringify(OPEN)); } catch (e) {} }
@@ -926,7 +956,7 @@ function delF(id, name){
 // ---------- 💶 Разходи и работници ----------
 var EXT = ['Материали', 'Транспорт', 'Друго'], EXI = { 'Материали': '🧱', 'Транспорт': '🚚', 'Друго': '🧾' }, OPENW = null;
 function costsHtml(c){
-  var k = c.costs; if (!k) return '<div class="s">Няма данни – обнови</div>';
+  var k = c.costs; if (!k) return '<div class="s">' + (c.stub ? '⏳ Зареждане…' : 'Няма данни – обнови') + '</div>';
   var prof = c.budget ? c.budget - k.cost : null;
   var h = '<div class="cg"><div><small>Разходи</small><b>' + eur(k.cost) + '</b></div><div class="' + (k.owed ? 'ow' : '') + '"><small>Дължим</small><b>' + eur(k.owed) + '</b></div>' +
     (prof !== null ? '<div><small>Печалба ≈</small><b style="color:' + (prof >= 0 ? '#15803d' : '#b91c1c') + '">' + eur(prof) + '</b></div>' : '') + '</div>';
@@ -1034,6 +1064,7 @@ function stageC(s){
   bg('setStage', [n, s], function(c){ cardDone(c); load(); }, 'етап');
 }
 function editC(){
+  if (CUR && CUR.stub) { toast('⏳ Момент – зареждам картата…'); return; }
   var c = CUR, h = '<form id="frm" onsubmit="return sendEdit(event)">';
   h += half(fld('Телефон', '<input name="phone" type="tel" value="' + esc(c.phone) + '">'), fld('Град', '<input name="city" value="' + esc(c.city) + '">'));
   h += half(fld(mLbl(), '<select name="model">' + opts(blank(D.models.indexOf(c.model) < 0 && c.model ? D.models.concat([c.model]) : D.models), c.model) + '</select>'),
@@ -1116,7 +1147,7 @@ function upC(inp){
 
 document.addEventListener('visibilitychange', function(){ if (!document.hidden && D && TOKEN && el('sheet').style.display !== 'block') load(); });
 // Нова версия → проверява се при всяко отваряне/връщане в приложението и се зарежда сама
-var APP_VER = '3.15';
+var APP_VER = '3.16';
 if ('serviceWorker' in navigator) {
   var swHad = !!navigator.serviceWorker.controller, swDone = false;
   navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).then(function(r){
