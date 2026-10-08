@@ -67,6 +67,12 @@ input,select,textarea{width:100%;padding:12px;border:1px solid #cbd5e1;border-ra
 .info div{font-size:15px;padding:4px 0;border-bottom:1px solid #f1f5f9}.info div:last-child{border:0}
 .chips{display:flex;flex-wrap:wrap;gap:6px}.chips button{border:1px solid #cbd5e1;background:#fff;border-radius:16px;padding:7px 11px;font-size:13px;font-weight:600;color:#334155}
 .chips button.on{background:#1e3a5f;border-color:#1e3a5f;color:#fff}
+.wbar{padding:4px 16px 8px}.wadd{width:100%;border:0;border-radius:12px;padding:13px;font-size:15.5px;font-weight:700;background:#1e3a5f;color:#fff}body.r .wadd{background:#7c2d12}
+.wf{padding:0 16px 10px}.wf button{padding:6px 10px;font-size:12.5px}
+.st{color:#f59e0b;letter-spacing:-1px;font-size:13px;font-weight:400;white-space:nowrap}.st i{color:#cbd5e1;font-style:normal}
+.rate{display:flex;align-items:center;gap:2px}.rate button{border:0;background:none;font-size:36px;line-height:1;color:#cbd5e1;padding:0 3px}.rate button.on{color:#f59e0b}.rate span{margin-left:8px;font-size:14px;color:#475569;font-weight:600}
+.tgs{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}.tgs span{background:#f1f5f9;border-radius:12px;padding:4px 10px;font-size:13px}
+.wr{font-size:16px;margin:2px 0 6px}.wr .st{font-size:20px}
 .notes{white-space:pre-wrap;font-size:14px;line-height:1.45}
 .ph{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
 .ph a{display:block;aspect-ratio:1;background:#e2e8f0;border-radius:8px;overflow:hidden;font-size:11px;color:#475569;text-decoration:none;text-align:center}
@@ -278,7 +284,7 @@ function wsUI(d){
 }
 function setWS(w){
   w = w || ''; if (w === WS) return;
-  WS = w; ls('crm_ws', w || null); D = null; PF = {}; Q = ''; WQ = ''; OPENT = null; closeCard(); closeSheet();
+  WS = w; ls('crm_ws', w || null); D = null; PF = {}; Q = ''; WQ = ''; WF = ''; OPENT = null; closeCard(); closeSheet();
   wsUI({ wsr: ls('crm_wsr') === '1' });
   var c = ls(dk()); if (c) { try { var d = JSON.parse(c); d.today = localToday(); render(d); } catch (e) {} }
   if (!D) el('main').innerHTML = '<div class="load">Зареждане…</div>';
@@ -439,39 +445,104 @@ function onQ(){
 }
 
 // ---------- 👷 Работници ----------
-var WQ = '';
+var WQ = '', WF = '', WTOP = false;
+var WSPECS_D = ['Общ работник', 'Фундамент / Бетон', 'Монтаж', 'Зидария', 'Покрив', 'Изолация / Фасада', 'Мазилка / Шпакловка', 'Гипсокартон', 'Боя', 'Плочки', 'Подове', 'Ел. инсталация', 'ВиК', 'Отопление / Климатици', 'Дограма', 'Дърводелство', 'Багер / Техника', 'Транспорт'];
+var WTAGS_D = ['💰 Изгоден', '💎 Скъп', '⚡ Бърз', '🎯 Качествен', '🤝 Надежден', '🕐 Точен', '👥 Има екип', '🚚 Има транспорт', '🧾 С фактура', '🐢 Бавен', '⚠️ Закъснява', '⛔ Не препоръчвам'];
+var RLBL = ['', 'Слаб', 'Среден', 'Добър', 'Много добър', 'Отличен'];
+function wSpecs(){ return (D && D.wspecs) || WSPECS_D; }
+function wTags(){ return (D && D.wtags) || WTAGS_D; }
+function splitL(x){ return String(x || '').split(',').map(function(t){ return t.trim(); }).filter(Boolean); }
+function stars(r){ r = Number(r) || 0; return r ? '<span class="st">' + '★★★★★'.slice(0, r) + '<i>' + '★★★★★'.slice(r) + '</i></span>' : ''; }
 function wJobs(w){ var a = []; w.jobs.forEach(function(j){ String(j.j || '').split(', ').forEach(function(x){ if (x && a.indexOf(x) < 0) a.push(x); }); }); return a; }
 function findW(q){
   var toks = lat(q).split(' ').filter(Boolean), qd = q.replace(/[^0-9]/g, ''), digits = /^[0-9\s+()\/-]+$/.test(q.trim());
   return (D.workers || []).filter(function(w){
     if (digits) { var pd = String(w.p || '').replace(/[^0-9]/g, ''); return qd.length >= 3 && (pd.indexOf(qd) > -1 || intl(w.p).indexOf(intl(qd)) > -1); }
-    var hay = lat(w.n + ' ' + wJobs(w).join(' ') + ' ' + w.jobs.map(function(j){ return j.c; }).join(' ')), hc = hay.replace(/[aeiou]/g, '');
+    var hay = lat(w.n + ' ' + wJobs(w).join(' ') + ' ' + w.jobs.map(function(j){ return j.c; }).join(' ') + ' ' + [w.sp, w.city, w.tags, w.note].join(' ')), hc = hay.replace(/[aeiou]/g, '');
     return toks.every(function(t){ var k = t.replace(/[aeiou]/g, ''); return hay.indexOf(t) > -1 || (k.length >= 3 && hc.indexOf(k) > -1); });
   });
 }
 function drawWorkers(){
-  el('main').innerHTML = '<div class="srch"><input id="wq" type="search" enterkeyhint="search" autocomplete="off" placeholder="🔎 Търси работник: име, работа, телефон…" value="' + esc(WQ) + '" oninput="WQ=this.value;listW()"></div><div id="wl"></div>';
+  el('main').innerHTML = '<div class="srch"><input id="wq" type="search" enterkeyhint="search" autocomplete="off" placeholder="🔎 Търси работник: име, работа, град, телефон…" value="' + esc(WQ) + '" oninput="WQ=this.value;listW()"></div>' +
+    '<div class="wbar"><button class="wadd" onclick="wInfoForm()">➕ Нов работник</button></div><div class="chips wf" id="wf"></div><div id="wl"></div>';
   listW();
 }
 function listW(){
-  var q = WQ.trim(), a = q ? findW(q) : (D.workers || []);
-  el('wl').innerHTML = '<h2>' + (q ? '🔎 Резултати' : 'Работници') + '<span>' + a.length + '</span></h2>' + (a.length ? '<div class="lst">' + a.map(function(w){
-    var jb = wJobs(w).slice(0, 3).join(', ');
-    return '<div class="ti"><div class="tr" data-w="' + esc(w.n) + '" onclick="openW(this.dataset.w)"><span class="tx"><b>' + esc(w.n) + '</b><small>' + esc(jb || '—') + ' · ' + w.jobs.length + (w.jobs.length === 1 ? ' обект' : ' обекта') + '</small></span>' +
+  var q = WQ.trim(), a = q ? findW(q) : (D.workers || []).slice(), sp = [];
+  (D.workers || []).forEach(function(w){ splitL(w.sp).forEach(function(x){ if (sp.indexOf(x) < 0) sp.push(x); }); });
+  var ord = wSpecs(); sp.sort(function(x, y){ var i = ord.indexOf(x), j = ord.indexOf(y); return (i < 0 ? 99 : i) - (j < 0 ? 99 : j) || x.localeCompare(y); });
+  if (WF && sp.indexOf(WF) < 0) WF = '';
+  el('wf').innerHTML = (D.workers || []).length ? '<button class="' + (WTOP ? 'on' : '') + '" onclick="WTOP=!WTOP;listW()">⭐ Най-добрите първо</button>' + (sp.length ? '<button class="' + (WF ? '' : 'on') + '" onclick="WF=\'\';listW()">Всички</button>' +
+    sp.map(function(x){ return '<button data-v="' + esc(x) + '" class="' + (WF === x ? 'on' : '') + '" onclick="WF=this.dataset.v;listW()">' + esc(x) + '</button>'; }).join('') : '') : '';
+  if (WF) a = a.filter(function(w){ return splitL(w.sp).indexOf(WF) > -1; });
+  if (WTOP) a.sort(function(x, y){ return (y.r || 0) - (x.r || 0) || x.n.localeCompare(y.n); });
+  el('wl').innerHTML = '<h2>' + (q ? '🔎 Резултати' : (WF || 'Работници')) + '<span>' + a.length + '</span></h2>' + (a.length ? '<div class="lst">' + a.map(function(w){
+    var sub = [splitL(w.sp).slice(0, 2).join(', ') || wJobs(w).slice(0, 3).join(', ') || '—'];
+    if (w.city) sub.push(w.city);
+    sub.push(w.jobs.length ? w.jobs.length + (w.jobs.length === 1 ? ' обект' : ' обекта') : 'без обект');
+    var tg = splitL(w.tags).map(function(t){ return t.split(' ')[0]; }).join(' ');
+    return '<div class="ti"><div class="tr" data-w="' + esc(w.n) + '" onclick="openW(this.dataset.w)"><span class="tx"><b>' + esc(w.n) + ' ' + stars(w.r) + '</b><small>' + esc(sub.join(' · ')) + (tg ? ' · ' + esc(tg) : '') + '</small></span>' +
       (w.ow ? '<span class="due">' + eur(w.ow) + '</span>' : '') + '<span class="ar">›</span></div></div>';
-  }).join('') + '</div>' : '<div class="empty">' + (q ? 'Няма работник с „' + esc(q) + '“.' : 'Още няма работници. Добавят се от картата на клиента → 💶 Разходи и работници → ➕ Работник.') + '</div>');
+  }).join('') + '</div>' : '<div class="empty">' + (q ? 'Няма работник с „' + esc(q) + '“.' : 'Още няма работници. Натисни ➕ Нов работник.') + '</div>');
 }
 function openW(n){
   var w = (D.workers || []).filter(function(x){ return x.n === n; })[0]; if (!w) return;
-  var h = '<div style="padding:12px 16px 30px">' + (w.p ? '<div class="acts">' + tel(w.p) + '</div>' : '<div class="s">Няма телефон – добави го от картата на клиента (✏️).</div>') +
+  var info = '';
+  if (w.r) info += '<div class="wr">' + stars(w.r) + ' <b>' + RLBL[w.r] + '</b></div>';
+  if (w.sp) info += '<div class="s">🔧 ' + esc(w.sp) + '</div>';
+  if (w.city) info += '<div class="s">📍 ' + esc(w.city) + '</div>';
+  if (w.tags) info += '<div class="tgs">' + splitL(w.tags).map(function(t){ return '<span>' + esc(t) + '</span>'; }).join('') + '</div>';
+  if (w.note) info += '<div class="s" style="white-space:pre-wrap">📝 ' + esc(w.note) + '</div>';
+  var h = '<div style="padding:12px 16px 30px">' + info + '<div class="acts">' + tel(w.p) + '<button data-w="' + esc(w.n) + '" onclick="wInfoForm(this.dataset.w)">✏️ Данни и оценка</button></div>' +
+    (w.p ? '' : '<div class="s" style="margin-top:6px">Няма телефон – добави го с ✏️.</div>') +
     '<div class="cg" style="margin-top:12px"><div><small>Договорено</small><b>' + eur(w.ag) + '</b></div><div><small>Платено</small><b>' + eur(w.pd) + '</b></div>' +
     '<div class="' + (w.ow ? 'ow' : '') + '"><small>Дължим</small><b>' + eur(w.ow) + '</b></div></div>' +
     '<div class="ch">🔨 Работи (' + w.jobs.length + ')</div><div class="lst" style="margin:0">' + w.jobs.map(function(j){
       var r = j.a - j.pd;
       return '<div class="ti"><div class="tr" data-n="' + esc(j.c) + '" onclick="closeSheet();openC(this.dataset.n)"><span class="tx"><b>' + esc(j.c) + '</b><small>' + esc(j.j || '—') + (j.d ? ' · ' + fmt(j.d) : '') +
         (r > 0 ? ' · остава ' + eur(r) : (j.pd ? ' · ✔ платено' : '')) + '</small></span><b class="xa">' + eur(j.a) + '</b><span class="ar">›</span></div></div>';
-    }).join('') + '</div></div>';
+    }).join('') + '</div>' + (w.jobs.length ? '' : '<div class="s" style="margin-top:8px">Още няма обекти. Към клиент се добавя от картата на клиента → 💶 → ➕ Работник.</div>') + '</div>';
   openSheet('👷 ' + w.n, h);
+}
+function wInfoForm(n){
+  var w = n ? (D.workers || []).filter(function(x){ return x.n === n; })[0] : null;
+  var sp = splitL(w && w.sp), tg = splitL(w && w.tags), specs = wSpecs().slice(), tags = wTags().slice();
+  sp.forEach(function(x){ if (specs.indexOf(x) < 0) specs.push(x); }); tg.forEach(function(x){ if (tags.indexOf(x) < 0) tags.push(x); });
+  function ch(list, on, id){ return '<div class="chips" data-t="' + id + '">' + list.map(function(x){ return '<button type="button" data-v="' + esc(x) + '" class="' + (on.indexOf(x) > -1 ? 'on' : '') + '" onclick="wTog(this)">' + esc(x) + '</button>'; }).join('') + '</div>'; }
+  var h = '<form id="frm" onsubmit="return sendWInfo(event)"><input type="hidden" name="old" value="' + esc(w ? w.n : '') + '">' +
+    '<input type="hidden" name="spec" id="wSp" value="' + esc(sp.join(', ')) + '"><input type="hidden" name="tags" id="wTg" value="' + esc(tg.join(', ')) + '"><input type="hidden" name="rate" id="wRt" value="' + (w && w.r ? w.r : '') + '">';
+  h += fld('Име / бригада', '<input name="name" required autocomplete="off" value="' + esc(w ? w.n : '') + '">');
+  h += half(fld('Телефон', '<input name="phone" type="tel" value="' + esc(w ? w.p || '' : '') + '">'), fld('Град', '<input name="city" autocomplete="off" value="' + esc(w && w.city || '') + '">'));
+  h += fld('⭐ Оценка', '<div class="rate" id="wRate">' + [1, 2, 3, 4, 5].map(function(i){ return '<button type="button" data-i="' + i + '" onclick="wRate(' + i + ')">★</button>'; }).join('') + '<span id="wRl"></span></div>');
+  h += fld('🔧 Специалност (може няколко)', ch(specs, sp, 'wSp') + '<input id="wSpX" autocomplete="off" placeholder="✍️ друга специалност (по желание)" style="margin-top:8px">');
+  h += fld('🏷️ Етикети', ch(tags, tg, 'wTg'));
+  h += fld('Бележка', '<textarea name="note" rows="3" placeholder="напр. цена на ден, с кого работи, кога е свободен…">' + esc(w && w.note || '') + '</textarea>');
+  h += '<button class="save" id="sv">💾 Запази</button></form>';
+  openSheet(w ? '✏️ ' + w.n : '👷 Нов работник', h);
+  wRate(w && w.r || 0, true);
+}
+function wTog(b){ b.classList.toggle('on'); var p = b.parentNode; el(p.dataset.t).value = [].map.call(p.querySelectorAll('button.on'), function(x){ return x.dataset.v; }).join(', '); }
+function wRate(i, init){
+  var v = el('wRt'); if (!init && Number(v.value) === i) i = 0; v.value = i || '';
+  [].forEach.call(el('wRate').querySelectorAll('button'), function(b){ b.classList.toggle('on', Number(b.dataset.i) <= i); });
+  el('wRl').textContent = i ? RLBL[i] : 'без оценка';
+}
+function sendWInfo(e){
+  e.preventDefault();
+  var d = formData(), xv = el('wSpX') ? el('wSpX').value : '', W = D.workers = D.workers || [];
+  d.name = d.name.replace(/\s+/g, ' ');
+  if (xv.trim()) d.spec = splitL(d.spec).concat(splitL(xv).filter(function(x){ return splitL(d.spec).indexOf(x) < 0; })).join(', ');
+  var lc = function(x){ return String(x || '').toLowerCase(); };
+  var same = W.filter(function(x){ return lc(x.n) === lc(d.name); })[0];
+  if (!d.old && same) d.old = same.n;
+  else if (d.old && lc(d.old) !== lc(d.name) && same) { alert('Вече има работник „' + same.n + '“ – избери друго име.'); return false; }
+  var w = W.filter(function(x){ return lc(x.n) === lc(d.old || d.name); })[0];
+  if (!w) { w = { n: d.name, p: '', ag: 0, pd: 0, ow: 0, jobs: [] }; W.push(w); }
+  w.n = d.name; w.p = d.phone || w.p; w.sp = d.spec; w.city = d.city; w.r = Number(d.rate) || 0; w.tags = d.tags; w.note = d.note;
+  W.sort(function(a, b){ return a.n.localeCompare(b.n); });
+  closeSheet(); if (TAB === 'w' && el('wl')) listW(); if (d.old) openW(w.n); toast('✅ Записано');
+  bg('saveWorkerInfo', [d], function(){ load(); }, 'работник');
+  return false;
 }
 
 // ---------- 👥 Клиенти ----------
@@ -1045,7 +1116,7 @@ function upC(inp){
 
 document.addEventListener('visibilitychange', function(){ if (!document.hidden && D && TOKEN && el('sheet').style.display !== 'block') load(); });
 // Нова версия → проверява се при всяко отваряне/връщане в приложението и се зарежда сама
-var APP_VER = '3.14';
+var APP_VER = '3.15';
 if ('serviceWorker' in navigator) {
   var swHad = !!navigator.serviceWorker.controller, swDone = false;
   navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).then(function(r){
