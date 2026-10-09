@@ -74,6 +74,7 @@ input,select,textarea{width:100%;padding:12px;border:1px solid #cbd5e1;border-ra
 .tgs{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}.tgs span{background:#f1f5f9;border-radius:12px;padding:4px 10px;font-size:13px}
 .wr{font-size:16px;margin:2px 0 6px}.wr .st{font-size:20px}
 .wks{display:flex;flex-direction:column;gap:6px;margin-top:6px}.wks button{text-align:left;border:1px solid #cbd5e1;background:#f8fafc;border-radius:10px;padding:9px 12px;font-family:inherit;font-size:15px;color:#0f172a}
+.ph a.up{opacity:.55;position:relative}.ph a.up:after{content:'⏳';position:absolute;right:4px;bottom:2px;font-size:14px}.ph a.bad{outline:2px solid #ef4444}
 [data-lp]{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
 #lpm{position:fixed;inset:0;z-index:16;background:rgba(15,23,42,.45);display:none;align-items:flex-end}
 #lpm .bx{background:#fff;width:100%;border-radius:18px 18px 0 0;padding:14px 14px calc(14px + env(safe-area-inset-bottom));max-height:82vh;overflow:auto;animation:lpu .16s ease-out}
@@ -1023,6 +1024,7 @@ function drawCard(){
   h += fold('costs', '💶 Плащания и работници', ck ? ([ck.got ? '💰 ' + eur(ck.got) : '', ck.owed ? 'дължим ' + eur(ck.owed) : ''].filter(Boolean).join(' · ') || (ck.cost ? eur(ck.cost) : '')) : '', costsHtml(c));
   // 📸 Снимки
   var ph = c.photoErr ? '<div class="s">' + esc(c.photoErr) + '</div>' : c.photos.length ? '<div class="ph">' + c.photos.map(function(p){
+    if (p.tmp) return '<a class="up' + (p.bad ? ' bad' : '') + '">' + (p.thumb ? '<img src="' + p.thumb + '" alt="">' : '📷') + '</a>';
     return '<a data-id="' + esc(p.id) + '" onclick="viewPhoto(this.dataset.id)">' + (p.thumb ? '<img src="' + p.thumb + '" alt="">' : '📷') + '</a>'; }).join('') + '</div>' +
     (c.folder ? '<div class="acts"><a href="' + esc(c.folder) + '" target="_blank">📁 Отвори папката</a></div>' : '') : '<div class="s">Няма снимки. Натисни 📸 Снимка горе.</div>';
   var ML = '<div class="s">⏳ Зареждане…</div>';
@@ -1068,7 +1070,8 @@ function upF(inp){
     if (i >= fs.length) {
       OPEN.files = true; if (np) OPEN.photos = true;
       try { localStorage.setItem('crm_open', JSON.stringify(OPEN)); } catch (e) {}
-      google.script.run.withSuccessHandler(function(c){ setCur(c); cardBusy(false); drawCard(); toast('📎 Качени: ' + (nf + np) + (np ? ' (снимки: ' + np + ')' : '')); }).withFailureHandler(fail).getClient(n);
+      cardBusy(false); toast('📎 Качени: ' + (nf + np) + (np ? ' (снимки: ' + np + ')' : ''));
+      loadMedia(n, CUR && CUR.name === n && el('card').style.display === 'block' ? OPENSEQ : -1);
       return;
     }
     var f = fs[i], ok = function(){ i++; nextF(); };
@@ -1338,24 +1341,39 @@ function shrink(file, cb){
   rd.readAsDataURL(file);
 }
 function upC(inp){
-  var fs = Array.prototype.slice.call(inp.files || []), n = CUR.name, i = 0; inp.value = '';
-  if (!fs.length) return; cardBusy(true);
-  var nextF = function(){
-    if (i >= fs.length) {
-      google.script.run.withSuccessHandler(function(c){ setCur(c); cardBusy(false); drawCard(); toast('📸 Качени: ' + fs.length); }).withFailureHandler(cardErr).getClient(n);
-      return;
-    }
-    toast('📸 Качване ' + (i + 1) + ' / ' + fs.length + '…', 60000);
-    shrink2(fs[i], function(data, thumb){
-      google.script.run.withSuccessHandler(function(){ i++; nextF(); }).withFailureHandler(cardErr).uploadPhoto(n, data, fs[i].name, thumb);
+  var fs = Array.prototype.slice.call(inp.files || []); inp.value = '';
+  if (fs.length) upPhotos(CUR.name, fs);
+}
+function upPhotos(n, fs){
+  var queue = fs.slice(), total = fs.length, done = 0, bad = 0, fin = 0;
+  OPEN.photos = true; try { localStorage.setItem('crm_open', JSON.stringify(OPEN)); } catch (e) {}
+  toast('📸 Качване 0 / ' + total + '… (може да продължиш работа)', 4000); syncOn(1);
+  function prog(){ toast('📸 Качени ' + done + ' / ' + total + (bad ? ' · ⚠️ ' + bad : ''), fin < total ? 60000 : 3000); }
+  function end(){
+    syncOn(-1); prog();
+    if (bad) toast('⚠️ ' + bad + ' снимки не се качиха – опитай пак', 6000);
+    loadMedia(n, CUR && CUR.name === n && el('card').style.display === 'block' ? OPENSEQ : -1);
+  }
+  function one(){
+    var f = queue.shift(); if (!f) return;
+    shrink2(f, function(data, thumb){
+      var tmp = { id: 'tmp-' + newRid(), tmp: true, thumb: thumb || data, name: f.name, t: Date.now() }, rid = newRid();
+      if (CUR && CUR.name === n && CUR.mediaOk) { CUR.photos = [tmp].concat(CUR.photos || []); drawCard(); }
+      (function send(tries){
+        apiCall('uploadPhoto', [n, data, f.name, thumb], { rid: rid }).then(function(){ done++; next(); }, function(){
+          if (tries < 2) return setTimeout(function(){ send(tries + 1); }, 1500 * (tries + 1));
+          bad++; tmp.bad = true; if (CUR && CUR.name === n) drawCard(); next();
+        });
+      })(0);
     });
-  };
-  nextF();
+  }
+  function next(){ fin++; prog(); if (fin >= total) end(); else one(); }
+  one(); if (total > 1) one();
 }
 
 document.addEventListener('visibilitychange', function(){ if (!document.hidden && D && TOKEN && el('sheet').style.display !== 'block') load(); });
 // Нова версия → проверява се при всяко отваряне/връщане в приложението и се зарежда сама
-var APP_VER = '3.19';
+var APP_VER = '3.20';
 if ('serviceWorker' in navigator) {
   var swHad = !!navigator.serviceWorker.controller, swDone = false;
   navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).then(function(r){
