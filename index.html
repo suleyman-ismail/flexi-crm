@@ -73,6 +73,15 @@ input,select,textarea{width:100%;padding:12px;border:1px solid #cbd5e1;border-ra
 .rate{display:flex;align-items:center;gap:2px}.rate button{border:0;background:none;font-size:36px;line-height:1;color:#cbd5e1;padding:0 3px}.rate button.on{color:#f59e0b}.rate span{margin-left:8px;font-size:14px;color:#475569;font-weight:600}
 .tgs{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}.tgs span{background:#f1f5f9;border-radius:12px;padding:4px 10px;font-size:13px}
 .wr{font-size:16px;margin:2px 0 6px}.wr .st{font-size:20px}
+.wks{display:flex;flex-direction:column;gap:6px;margin-top:6px}.wks button{text-align:left;border:1px solid #cbd5e1;background:#f8fafc;border-radius:10px;padding:9px 12px;font-family:inherit;font-size:15px;color:#0f172a}
+[data-lp]{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+#lpm{position:fixed;inset:0;z-index:16;background:rgba(15,23,42,.45);display:none;align-items:flex-end}
+#lpm .bx{background:#fff;width:100%;border-radius:18px 18px 0 0;padding:14px 14px calc(14px + env(safe-area-inset-bottom));max-height:82vh;overflow:auto;animation:lpu .16s ease-out}
+@keyframes lpu{from{transform:translateY(40px);opacity:.4}to{transform:none;opacity:1}}
+#lpm h4{margin:2px 4px 10px;font-size:15px;color:#475569;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#lpm button{display:block;width:100%;text-align:left;border:0;background:#f1f5f9;border-radius:12px;padding:15px 16px;margin:0 0 8px;font-size:16.5px;font-family:inherit;color:#0f172a}
+#lpm button.dg{background:#fee2e2;color:#b91c1c;font-weight:700}#lpm button.cx{background:none;text-align:center;color:#64748b;margin:0}
+.wks button b{font-weight:700}.wks small{display:block;color:#64748b;font-size:12.5px;margin-top:2px}.wks .s{color:#15803d;font-weight:600}
 .notes{white-space:pre-wrap;font-size:14px;line-height:1.45}
 .ph{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
 .ph a{display:block;aspect-ratio:1;background:#e2e8f0;border-radius:8px;overflow:hidden;font-size:11px;color:#475569;text-decoration:none;text-align:center}
@@ -176,7 +185,7 @@ input,textarea,.notes{-webkit-user-select:text;user-select:text}
 <div class="wsb" id="wsb"><button id="ws_m" onclick="setWS('')">🏠 Flexi Home</button><button id="ws_r" onclick="setWS('r')">🔨 Ремонти и строителство</button></div><div id="sync"></div><nav class="tabs"><button id="tb_t" onclick="tab('t')">📋 Задачи</button><button id="tb_c" onclick="tab('c')">👥 Клиенти</button><button id="tb_w" onclick="tab('w')">👷 Работници</button><button id="tb_r" onclick="tab('r')">📊 Отчет</button></nav></div>
 <div class="seg" id="seg"><button id="sg_m" onclick="seg('m')">👤 Мои</button><button id="sg_a" onclick="seg('a')">👥 Всички</button></div>
 <div id="off">📴 Няма интернет – показани са последните данни</div><div id="main"><div class="load">Зареждане…</div></div>
-<div id="card" class="sheet"><div class="top"><button onclick="closeCard()">←</button><b id="cdT"></b></div><div id="cdB"></div></div>
+<div id="lpm" onclick="if(event.target===this)lpClose()"><div class="bx" id="lpmB"></div></div><div id="card" class="sheet"><div class="top"><button onclick="closeCard()">←</button><b id="cdT"></b></div><div id="cdB"></div></div>
 <div id="sheet" class="sheet"><div class="top"><b id="shT"></b><button onclick="closeSheet()">✕</button></div><div id="shB"></div></div>
 <div id="pv"><button class="c" onclick="closePv()">✕</button><div class="l" id="pvL">Зареждане…</div><img id="pvI" alt=""></div>
 <div id="login"><div class="logo"><img src="icon-192.png" alt=""></div><h1>CRM Flexi Home</h1><p>Въведи своя PIN</p>
@@ -236,11 +245,14 @@ function pill(s){ var c = STC[s] || ['#e2e8f0','#334155']; return s ? '<span cla
 function busy(on){ el('main').style.opacity = on ? .45 : 1; el('main').style.pointerEvents = on ? 'none' : 'auto'; }
 function err(e){ busy(false); toast('Грешка: ' + (e && e.message ? e.message : e), 4500); }
 function localToday(){ var n = new Date(); return n.getFullYear() + '-' + ('0' + (n.getMonth() + 1)).slice(-2) + '-' + ('0' + n.getDate()).slice(-2); }
-function bg(fn, args, ok, what){
-  google.script.run.withSuccessHandler(function(r){ if (ok) ok(r); }).withFailureHandler(function(er){
-    var m = (er && er.message) || String(er);
-    if (confirm('⚠️ Не се записа' + (what ? ' (' + what + ')' : '') + ':\n' + m + '\n\nДа опитам ли пак?')) bg(fn, args, ok, what); else load();
-  })[fn].apply(null, args);
+function newRid(){ try { return crypto.randomUUID(); } catch (e) { return Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 12); } }
+function bg(fn, args, ok, what, rid){
+  rid = rid || newRid(); syncOn(1);
+  apiCall(fn, args, { rid: rid }).then(function(r){ syncOn(-1); if (ok) ok(r); }, function(er){
+    syncOn(-1); var m = (er && er.message) || String(er);
+    if (/Влез отново/.test(m)) return;
+    if (confirm('⚠️ Не се записа' + (what ? ' (' + what + ')' : '') + ':\n' + m + '\n\nДа опитам ли пак?')) bg(fn, args, ok, what, rid); else load();
+  });
 }
 function cardDone(c){ if (!c || !c.name) return; if (CUR && CUR.name === c.name && el('card').style.display === 'block') { setCur(c); drawCard(); } else cardPut(c); }
 function load(manual){
@@ -328,7 +340,7 @@ function stale(){
 function staleSec(){
   var a = stale(); if (!a.length) return '';
   return sec('⏳ Оферти без отговор', a.length, '<div class="lst">' + a.map(function(c){
-    return '<div class="ti today"><div class="tr" data-n="' + esc(c.n) + '" onclick="openC(this.dataset.n)"><span class="dt"></span><span class="tx"><b>' + esc(c.n) + '</b>' +
+    return '<div class="ti today"><div class="tr" data-lp="c" data-n="' + esc(c.n) + '" onclick="openC(this.dataset.n)"><span class="dt"></span><span class="tx"><b>' + esc(c.n) + '</b>' +
       '<small>📄 ' + daysSince(c.l || c.i) + ' дни без контакт' + (c.nx && c.nx !== '-' ? ' · 📅 ' + fmt(c.nx) : '') + (SEG === 'a' && c.r ? ' · 👤 ' + esc(c.r) : '') + '</small></span><span class="ar">›</span></div></div>';
   }).join('') + '</div>', '');
 }
@@ -349,10 +361,11 @@ function togT(row){ OPENT = OPENT === row ? null : row; drawTasks(); }
 function taskCard(x){
   if (x.tmp) return '<div class="ti"><div class="tr"><span class="dt"></span><span class="tx"><b>' + esc(x.client) + '</b><small>' + esc(whenTxt(x.date, x.time)) + ' · ' + esc(x.type) + ' · ⏳ записва се…</small></span></div></div>';
   var r = rel(x.date), op = OPENT === x.row;
-  var h = '<div class="ti ' + r + (op ? ' op' : '') + '"><div class="tr" onclick="togT(' + x.row + ')"><span class="dt"></span><span class="tx"><b>' + esc(x.client) + '</b>' +
+  var h = '<div class="ti ' + r + (op ? ' op' : '') + '"><div class="tr" data-lp="t" data-row="' + x.row + '" onclick="togT(' + x.row + ')"><span class="dt"></span><span class="tx"><b>' + esc(x.client) + '</b>' +
     '<small>' + esc(whenTxt(x.date, x.time)) + ' · ' + esc(x.type) + (x.rep && (SEG === 'a' || reps(x.rep).length > 1) ? ' · 👤 ' + esc(reps(x.rep).join(', ')) : '') + '</small></span><span class="ar">›</span></div>';
   if (!op) return h + '</div>';
   var sub = [x.desc, x.city].filter(Boolean).join(' · ');
+  if (/^⚠️/.test(x.cal || '')) sub = '📅 Не е в календара (опитва се пак): ' + x.cal.replace(/^⚠️\s*/, '') + (sub ? ' · ' + sub : '');
   var rem = x.remind ? '<div class="s" style="color:#92400e;font-weight:700">🔔 ' + esc(x.remind) + '</div>' : '<div class="s" style="color:#b91c1c;font-weight:700">🔔 няма текст за календара</div>';
   return h + '<div class="tb">' + rem + (sub ? '<div class="s">' + esc(sub) + '</div>' : '') +
     '<div class="s wh" onclick="repForm(' + x.row + ')">👤 ' + esc(reps(x.rep).join(', ') || '—') + ' <u>✏️ промени</u></div>' +
@@ -368,7 +381,7 @@ function owedC(n){
   return t > 0 ? 'дължим ' + eur(t) : '';
 }
 function freeCard(c){
-  return '<div class="card free"><div class="when">' + esc(c.s || 'Без етап') + (SEG === 'a' && c.r ? ' · 👤 ' + esc(c.r) : '') + '</div><div class="t">' + nm(c.n) + '</div>' +
+  return '<div class="card free" data-lp="c" data-n="' + esc(c.n) + '"><div class="when">' + esc(c.s || 'Без етап') + (SEG === 'a' && c.r ? ' · 👤 ' + esc(c.r) : '') + '</div><div class="t">' + nm(c.n) + '</div>' +
     '<div class="acts">' + tel(c.p) + '<button class="ok" data-n="' + esc(c.n) + '" onclick="openForm(this.dataset.n)">➕ Задача</button></div></div>';
 }
 function noTask(){ return D.clients.filter(function(c){ return !c.nx && D.closed.indexOf(c.s) < 0 && mine(c.r); }); }
@@ -381,9 +394,10 @@ function drawTasks(){
     sec('⚠️ Клиенти без задача', free.length, rows(free), 'Всички активни клиенти имат задача ✅') + '</div>';
   onQ();
 }
+function addFrom(d, n){ var p = String(d).split('-'); return new Date(Date.UTC(+p[0], +p[1] - 1, +p[2] + n)).toISOString().slice(0, 10); }
 function snooze(row, days){
-  var x = taskBy(row); x.date = addD(days); x.time = x.time || ''; render(D);
-  google.script.run.withSuccessHandler(function(d){ render(d); toast('📅 Преместено след ' + days + ' дни'); }).withFailureHandler(err).snoozeTask(row, x.client, days);
+  var x = taskBy(row); if (!x) return; x.date = addFrom(x.date > D.today ? x.date : D.today, days); x.time = x.time || ''; cardStale(x.client); render(D);
+  bg('snoozeTask', [row, x.client, days, x.id || ''], function(d){ if (d && d.tasks) render(d); toast('📅 Преместено: ' + fmt(x.date)); prefetch(true); }, 'отлагане');
 }
 
 // ---------- 🔎 Търсачка (име, град, телефон, модел – и на латиница) ----------
@@ -431,7 +445,7 @@ function findC(q){
 }
 function clientRow(c){
   var col = (STC[c.s] || ['#e2e8f0', '#94a3b8'])[1];
-  return '<div class="lr" data-n="' + esc(c.n) + '" onclick="openC(this.dataset.n)" title="' + esc(c.s || '') + '"><span class="dt" style="background:' + col + '"></span>' +
+  return '<div class="lr" data-lp="c" data-n="' + esc(c.n) + '" onclick="openC(this.dataset.n)" title="' + esc(c.s || '') + '"><span class="dt" style="background:' + col + '"></span>' +
     '<span class="nm">' + esc(c.n) + '</span><span class="ar">›</span></div>';
 }
 function rows(a){ return '<div class="lst">' + a.map(clientRow).join('') + '</div>'; }
@@ -486,7 +500,7 @@ function listW(){
     if (w.city) sub.push(w.city);
     sub.push(w.jobs.length ? w.jobs.length + (w.jobs.length === 1 ? ' обект' : ' обекта') : 'без обект');
     var tg = splitL(w.tags).map(function(t){ return t.split(' ')[0]; }).join(' ');
-    return '<div class="ti"><div class="tr" data-w="' + esc(w.n) + '" onclick="openW(this.dataset.w)"><span class="tx"><b>' + esc(w.n) + ' ' + stars(w.r) + '</b><small>' + esc(sub.join(' · ')) + (tg ? ' · ' + esc(tg) : '') + '</small></span>' +
+    return '<div class="ti"><div class="tr" data-lp="w" data-w="' + esc(w.n) + '" onclick="openW(this.dataset.w)"><span class="tx"><b>' + esc(w.n) + ' ' + stars(w.r) + '</b><small>' + esc(sub.join(' · ')) + (tg ? ' · ' + esc(tg) : '') + '</small></span>' +
       (w.ow ? '<span class="due">' + eur(w.ow) + '</span>' : '') + '<span class="ar">›</span></div></div>';
   }).join('') + '</div>' : '<div class="empty">' + (q ? 'Няма работник с „' + esc(q) + '“.' : 'Още няма работници. Натисни ➕ Нов работник.') + '</div>');
 }
@@ -498,7 +512,7 @@ function openW(n){
   if (w.city) info += '<div class="s">📍 ' + esc(w.city) + '</div>';
   if (w.tags) info += '<div class="tgs">' + splitL(w.tags).map(function(t){ return '<span>' + esc(t) + '</span>'; }).join('') + '</div>';
   if (w.note) info += '<div class="s" style="white-space:pre-wrap">📝 ' + esc(w.note) + '</div>';
-  var h = '<div style="padding:12px 16px 30px">' + info + '<div class="acts">' + tel(w.p) + '<button data-w="' + esc(w.n) + '" onclick="wInfoForm(this.dataset.w)">✏️ Данни и оценка</button></div>' +
+  var h = '<div style="padding:12px 16px 30px">' + info + '<div class="acts">' + tel(w.p) + '<button data-w="' + esc(w.n) + '" onclick="wInfoForm(this.dataset.w)">✏️ Данни и оценка</button><button class="ok" data-w="' + esc(w.n) + '" onclick="wToClient(this.dataset.w)">➕ Към проект</button></div>' +
     (w.p ? '' : '<div class="s" style="margin-top:6px">Няма телефон – добави го с ✏️.</div>') +
     '<div class="cg" style="margin-top:12px"><div><small>Договорено</small><b>' + eur(w.ag) + '</b></div><div><small>Платено</small><b>' + eur(w.pd) + '</b></div>' +
     '<div class="' + (w.ow ? 'ow' : '') + '"><small>Дължим</small><b>' + eur(w.ow) + '</b></div></div>' +
@@ -649,7 +663,7 @@ function repChips(sel){
 function repT(b){ b.classList.toggle('on'); var a = []; Array.prototype.forEach.call(b.parentNode.querySelectorAll('button.on'), function(x){ a.push(x.getAttribute('data-r')); }); el('fRep').value = a.join(', '); }
 var REPX = null;
 function repForm(row){
-  var x = taskBy(row); if (!x) return; REPX = x;
+  var x = typeof row === 'object' ? row : taskBy(row); if (!x) return; REPX = x;
   openSheet('👤 Отговорник', '<form id="frm" onsubmit="return sendRep(event)"><div class="s" style="margin:4px 0 10px">' + esc(x.client) + ' · ' + esc(whenTxt(x.date, x.time)) + ' · ' + esc(x.type) + '</div>' +
     repChips(x.rep) + '<div class="s" style="margin-top:12px">Може и двама. Всеки избран получава задачата в своя Google Календар с известие.</div><button class="save" id="sv">💾 Запази</button></form>');
 }
@@ -657,8 +671,8 @@ function sendRep(e){
   e.preventDefault();
   var x = REPX, v = el('fRep').value;
   if (!v) { toast('Избери поне един човек'); return false; }
-  closeSheet(); x.rep = v; render(D); toast('👤 ' + v);
-  google.script.run.withSuccessHandler(function(d){ ls(dkOf(d), JSON.stringify(d)); render(d); }).withFailureHandler(function(er){ err(er); load(); }).setTaskRep(x.row, x.client, v);
+  closeSheet(); x.rep = v; cardStale(x.client); render(D); toast('👤 ' + v);
+  bg('setTaskRep', [x.row, x.client, v, x.id || ''], function(d){ if (d && d.tasks) { ls(dkOf(d), JSON.stringify(d)); render(d); } prefetch(true); }, 'отговорник');
   return false;
 }
 function openForm(pre){
@@ -720,7 +734,7 @@ function send(e){
 // ---------- ✅ Готово → как мина + следваща стъпка ----------
 var DONE = null;
 function doneForm(row){
-  var x = taskBy(row); if (!x) return; DONE = x;
+  var x = typeof row === 'object' ? row : taskBy(row); if (!x) return; DONE = x;
   var h = '<form id="frm" onsubmit="return sendDone(event)">';
   h += fld('💬 Как мина? <span style="font-weight:400;color:#64748b">(по желание)</span>', '<textarea name="note" rows="3" placeholder="напр. Хареса модела, иска оферта до петък"></textarea>');
   h += fld('Етап на клиента', '<select name="stage" onchange="if(this.value===&quot;Загубен&quot;){el(&quot;noNx&quot;).checked=true;nxT();}"><option value="">— без промяна' + (x.stage ? ' (' + esc(x.stage) + ')' : '') + ' —</option>' + opts(D.stages) + '</select>');
@@ -738,12 +752,12 @@ function sendDone(e){
   e.preventDefault();
   var d = formData(), x = DONE, nx = !el('noNx').checked;
   if (nx && (!d.ndate || !d.nremind)) { toast('Попълни дата и 🔔 текст за следващата стъпка (или отметни „Няма следваща стъпка“)', 4000); return false; }
-  var p = { note: d.note, stage: d.stage, next: nx ? { type: d.ntype, date: d.ndate, time: d.ntime, remind: d.nremind } : null };
-  closeSheet(); D.tasks = D.tasks.filter(function(t){ return t.row !== x.row; }); render(D); toast('✅ Записано');
-  google.script.run.withSuccessHandler(function(r){
-    ls(dkOf(r), JSON.stringify(r)); render(r); toast(nx ? '✅ Готово · следващата стъпка е в календара' : '✅ Готово!');
-    if (CUR && el('card').style.display === 'block' && CUR.name === x.client) openC(x.client);
-  }).withFailureHandler(function(er){ err(er); load(); }).completeTask(x.row, x.client, p);
+  var p = { id: x.id || '', note: d.note, stage: d.stage, next: nx ? { type: d.ntype, date: d.ndate, time: d.ntime, remind: d.nremind } : null };
+  closeSheet(); D.tasks = D.tasks.filter(function(t){ return t.row !== x.row; }); cardStale(x.client); render(D); toast('✅ Записано');
+  bg('completeTask', [x.row, x.client, p], function(r){
+    if (r && r.tasks) { ls(dkOf(r), JSON.stringify(r)); render(r); } toast(nx ? '✅ Готово · следващата стъпка е в календара' : '✅ Готово!');
+    if (CUR && el('card').style.display === 'block' && CUR.name === x.client) openC(x.client); else prefetch(true);
+  }, 'Готово');
   return false;
 }
 
@@ -786,12 +800,12 @@ function prefetch(force){
   var ws = WS || '-'; if (!TOKEN || !D || (!force && Date.now() - (PF[ws] || 0) < 60000)) return;
   if (PFB) { PFP = true; return; } PF[ws] = Date.now(); PFB = 1;
   var fin = function(){ PFB = 0; if (PFP) { PFP = false; prefetch(true); } };
-  var a = cardAll(), have = {}; Object.keys(a).forEach(function(k){ if (a[k].h) have[k] = a[k].h; });
+  var a = cardAll(), have = {}, t0 = Date.now(); Object.keys(a).forEach(function(k){ if (a[k].h) have[k] = a[k].h; });
   apiCall('getAllCards', [have]).then(function(r){
     if ((WS || '-') !== ws || !r || !r.names) return fin();
     var b = cardAll(), now = Date.now(), keep = {}, mine = null;
     r.names.forEach(function(k){ keep[k] = 1; if (b[k]) b[k].t = now; });
-    (r.cards || []).forEach(function(c){ b[String(c.name).toLowerCase()] = { t: now, h: c.h, c: cardStrip(c) }; if (CUR && CUR.name === c.name) mine = c; });
+    (r.cards || []).forEach(function(c){ var k = String(c.name).toLowerCase(); if (b[k] && b[k].lw && b[k].lw > t0) return; b[k] = { t: now, h: c.h, c: cardStrip(c) }; if (CUR && CUR.name === c.name) mine = c; });
     Object.keys(b).forEach(function(k){ if (!keep[k]) delete b[k]; });
     cardSave(b);
     if (mine && el('card').style.display === 'block' && (CUR.stub || CUR.h !== mine.h)) { var st = CUR.stub; setCur(mine); drawCard(); if (st) goSec(); }
@@ -809,7 +823,7 @@ function cardSave(a){
 }
 function cardPut(c){
   if (!c || !c.name || c.stub) return;
-  var a = cardAll(); a[String(c.name).toLowerCase()] = { t: Date.now(), h: c.h || '', c: cardStrip(c) }; cardSave(a);
+  var a = cardAll(), now = Date.now(); a[String(c.name).toLowerCase()] = { t: now, lw: now, h: c.h || '', c: cardStrip(c) }; cardSave(a);
 }
 function useMedia(c){ var m = MEDIA[mk(c.name)]; if (m) { c.photos = m.photos || []; c.files = m.files || []; c.folder = m.folder || ''; c.photoErr = m.photoErr || ''; c.mediaOk = true; } }
 function setCur(c){
@@ -830,6 +844,140 @@ function loadMedia(n, tok){
       CUR.photos = m.photos || []; CUR.files = m.files || []; CUR.folder = m.folder || ''; CUR.photoErr = m.photoErr || ''; CUR.mediaOk = true; drawCard();
     }).withFailureHandler(function(e){ if (tok !== OPENSEQ || !CUR || CUR.name !== n) return; if (!CUR.mediaOk) { CUR.photoErr = e.message; CUR.mediaOk = true; drawCard(); } }).getMedia(n, old && old.h ? old.h : '');
 }
+var LP = null, LPX = 0, LPY = 0, LPFIRED = false, LPT = 0, LPA = [];
+function lpStart(e){
+  var t = e.target.closest && e.target.closest('[data-lp]'); if (!t) return;
+  var p = e.touches ? e.touches[0] : e; LPX = p.clientX; LPY = p.clientY; clearTimeout(LP);
+  LP = setTimeout(function(){ LP = null; LPFIRED = true; try { if (navigator.vibrate) navigator.vibrate(25); } catch (x) {} lpOpen(t); }, 450);
+}
+function lpMove(e){ if (!LP) return; var p = e.touches ? e.touches[0] : e; if (Math.abs(p.clientX - LPX) > 10 || Math.abs(p.clientY - LPY) > 10) { clearTimeout(LP); LP = null; } }
+function lpEnd(){ if (LP) { clearTimeout(LP); LP = null; } }
+document.addEventListener('touchstart', function(e){ LPFIRED = false; lpStart(e); }, { passive: true });
+document.addEventListener('touchmove', lpMove, { passive: true }); document.addEventListener('touchend', lpEnd); document.addEventListener('touchcancel', lpEnd);
+document.addEventListener('mousedown', function(e){ if (e.button === 0 && !('ontouchstart' in window)) { LPFIRED = false; lpStart(e); } });
+document.addEventListener('mousemove', lpMove); document.addEventListener('mouseup', lpEnd);
+document.addEventListener('click', function(e){ if (LPFIRED) { LPFIRED = false; e.stopPropagation(); e.preventDefault(); } }, true);
+document.addEventListener('contextmenu', function(e){ var t = e.target.closest && e.target.closest('[data-lp]'); if (!t) return; e.preventDefault(); clearTimeout(LP); LP = null; if (Date.now() - LPT > 900) lpOpen(t); });
+function lpShow(title, b){
+  if (!b.length) return; LPT = Date.now(); LPA = b;
+  el('lpmB').innerHTML = '<h4>' + esc(title) + '</h4>' + b.map(function(x, i){ return '<button class="' + (x[2] || '') + '" onclick="lpGo(' + i + ')">' + x[0] + '</button>'; }).join('') + '<button class="cx" onclick="lpClose()">Затвори</button>';
+  el('lpm').style.display = 'flex';
+}
+function lpClose(){ el('lpm').style.display = 'none'; }
+function lpGo(i){ var a = LPA[i]; lpClose(); if (a) a[1](); }
+function lpOpen(t){
+  var k = t.getAttribute('data-lp');
+  if (k === 'c') { var n = t.getAttribute('data-n'); lpShow('👤 ' + n, cMenu(n)); }
+  else if (k === 't') { var x = taskBy(Number(t.getAttribute('data-row'))); if (x) lpShow('📋 ' + x.client + ' · ' + whenTxt(x.date, x.time), tMenu(x)); }
+  else if (k === 'h') { var y = CUR && CUR.tasks[Number(t.getAttribute('data-i'))]; if (y) { y.client = CUR.name; lpShow('📋 ' + y.type + ' · ' + fmt(y.date) + ' · ' + y.status, tMenu(y)); } }
+  else if (k === 'w') { var w = t.getAttribute('data-w'); lpShow('👷 ' + w, [['👷 Отвори', function(){ openW(w); }], ['✏️ Данни и оценка', function(){ wInfoForm(w); }], ['➕ Към проект', function(){ wToClient(w); }], ['🗑️ Изтрий от картотеката', function(){ wDel(w); }, 'dg']]); }
+  else if (k === 'wk') { var wn = t.getAttribute('data-w'), wo = CUR && CUR.costs ? CUR.costs.workers.filter(function(z){ return z.name === wn; })[0] : null; if (!wo) return;
+    lpShow('👷 ' + wn + ' – ' + CUR.name, [['💶 Плащане', function(){ payForm(wn); }], ['✏️ Промени (работа, сума, телефон)', function(){ wkForm(wn); }]].concat(wo.id ? [['🗑️ Махни от проекта', function(){ rmWk(wo.id, wn); }, 'dg']] : [])); }
+  else if (k === 'x') { var id = t.getAttribute('data-id'), kd = t.getAttribute('data-k');
+    lpShow(kd === 'deal' ? '📝 Работа (договор)' : kd === 'inc' ? '💰 Плащане от клиента' : kd === 'pay' ? '💶 Плащане към работник' : '🧾 Разход',
+      [['✏️ Промени', function(){ if (kd === 'deal') dealForm(id); else costEdit(id); }], ['🗑️ Изтрий', function(){ rmCost(id, kd === 'deal' ? 'Да изтрия ли тази работа?' : ''); }, 'dg']]); }
+}
+function whenCard(n, fn){
+  var tries = 0;
+  (function go(){ if (!CUR || CUR.name.toLowerCase() !== String(n).toLowerCase() || CUR.stub) { if (++tries < 25) return setTimeout(go, 200); toast('⏳ Картата още се зарежда – опитай пак'); return; } fn(); })();
+}
+function cMenu(n){
+  var b = [['👤 Отвори картата', function(){ openC(n); }], ['✏️ Промени данните и името', function(){ openC(n); whenCard(n, editC); }],
+    ['➕ Нова задача', function(){ openForm(n); }], ['🏷️ Смени етапа', function(){ openC(n, 'stage'); }], ['💶 Плащания и работници', function(){ openC(n, 'costs'); }]];
+  if (D && D.adm) b.push(['🗑️ Изтрий клиента', function(){ delClient(n); }, 'dg']);
+  return b;
+}
+function cMenuCur(){ if (CUR) lpShow('👤 ' + CUR.name, cMenu(CUR.name).slice(1)); }
+function delClient(n){
+  if (!confirm('🗑️ Да изтрия ли „' + n + '“?\n\nИзтриват се и задачите му (и от календара), плащанията и разходите, а папката със снимки отива в кошчето на Google Drive.\n\nВсичко се пази в лист „🗑️ Изтрити“.')) return;
+  var k = n.toLowerCase();
+  D.clients = D.clients.filter(function(c){ return c.n.toLowerCase() !== k; }); D.tasks = D.tasks.filter(function(t){ return String(t.client).toLowerCase() !== k; });
+  var a = cardAll(); delete a[k]; cardSave(a);
+  if (CUR && CUR.name.toLowerCase() === k) closeCard();
+  render(D); toast('🗑️ Изтрит: ' + n);
+  bg('deleteClient', [n], function(d){ if (d && d.tasks) { ls(dkOf(d), JSON.stringify(d)); render(d); } }, 'изтриване');
+}
+// задача: ✏️ / ❌ / 🗑️
+function tMenu(x){
+  var pl = x.status === undefined || x.status === 'Планирана', b = [];
+  if (x.tmp || x.row < 0) return [['⏳ Задачата още се записва…', function(){}]];
+  if (pl) b.push(['✅ Готово', function(){ doneForm(x); }]);
+  b.push(['✏️ Промени задачата', function(){ taskEdit(x); }]);
+  if (pl) b.push(['👤 Отговорник', function(){ repForm(x); }]);
+  if (x.status === 'Отменена') b.push(['↩️ Върни като планирана', function(){ taskEdit(x, true); }]);
+  if (pl) b.push(['❌ Отмени задачата', function(){ tCancel(x); }]);
+  if (!(CUR && el('card').style.display === 'block' && CUR.name === x.client)) b.push(['👤 Клиент', function(){ openC(x.client); }]);
+  b.push(['🗑️ Изтрий задачата', function(){ tDel(x); }, 'dg']);
+  return b;
+}
+var TE = null;
+function taskEdit(x, reopen){
+  TE = x; TE.reopen = !!reopen;
+  var h = '<form id="frm" onsubmit="return sendTE(event)">';
+  h += fld('Какво', '<select name="type">' + opts(D.types.indexOf(x.type) < 0 ? D.types.concat([x.type]) : D.types, x.type) + '</select>');
+  h += half(fld('Дата', '<input type="date" name="date" required value="' + esc(x.date) + '">'), fld('Час', '<input type="time" name="time" value="' + esc(String(x.time || '').slice(0, 5)) + '">'));
+  h += fld('🔔 Текст за календара', '<input name="remind" class="remind" maxlength="80" value="' + esc(x.remind || '') + '">');
+  h += fld('Бележка / адрес', '<textarea name="desc" rows="3">' + esc(x.desc || '') + '</textarea>');
+  h += fld('👤 Отговорник', repChips(x.rep || D.me));
+  h += '<button class="save" id="sv">💾 Запази</button></form>';
+  openSheet('✏️ ' + x.client + ' · ' + x.type, h);
+}
+function tRefresh(n){ if (CUR && el('card').style.display === 'block' && CUR.name === n) openC(n); else prefetch(true); }
+function cardStale(n){ var a = cardAll(), k = String(n || '').toLowerCase(); if (a[k]) { a[k].t = 0; cardSave(a); } }
+function tLocal(x, f){ [D.tasks, CUR && CUR.tasks || []].forEach(function(L){ L.forEach(function(t){ if ((x.id && t.id === x.id) || t === x) f(t); }); }); }
+function sendTE(e){
+  e.preventDefault(); var d = formData(), x = TE;
+  if (!d.rep) { toast('Избери поне един човек'); return false; }
+  var p = { row: x.row, client: x.client, type: d.type, date: d.date, time: d.time, remind: d.remind, desc: d.desc, rep: d.rep, reopen: x.reopen };
+  tLocal(x, function(t){ t.type = d.type; t.date = d.date; t.time = d.time; t.remind = d.remind; t.desc = d.desc; t.rep = d.rep; if (x.reopen) t.status = 'Планирана'; });
+  cardStale(x.client); closeSheet(); render(D); if (CUR && el('card').style.display === 'block') drawCard(); toast('✅ Записано');
+  bg('editTask', [x.id || '', p], function(r){ if (r && r.tasks) { ls(dkOf(r), JSON.stringify(r)); render(r); } tRefresh(x.client); }, 'задача');
+  return false;
+}
+function tCancel(x){
+  if (!confirm('❌ Да отменя ли задачата?\n' + x.client + ' · ' + whenTxt(x.date, x.time) + '\n\n(Остава в историята, махa се от календара.)')) return;
+  D.tasks = D.tasks.filter(function(t){ return !((x.id && t.id === x.id) || t === x || t.row === x.row); });
+  tLocal(x, function(t){ t.status = 'Отменена'; });
+  cardStale(x.client); render(D); if (CUR && el('card').style.display === 'block') drawCard(); toast('❌ Отменена');
+  bg('cancelTask', [x.id || '', x.row, x.client], function(r){ if (r && r.tasks) { ls(dkOf(r), JSON.stringify(r)); render(r); } tRefresh(x.client); }, 'отмяна');
+}
+function tDel(x){
+  if (!confirm('🗑️ Да изтрия ли задачата завинаги?\n' + x.client + ' · ' + whenTxt(x.date, x.time) + ' · ' + x.type)) return;
+  D.tasks = D.tasks.filter(function(t){ return !((x.id && t.id === x.id) || t === x || t.row === x.row); });
+  if (CUR && CUR.tasks) CUR.tasks = CUR.tasks.filter(function(t){ return !((x.id && t.id === x.id) || t === x); });
+  cardStale(x.client); render(D); if (CUR && el('card').style.display === 'block') drawCard(); toast('🗑️ Изтрита');
+  bg('deleteTask', [x.id || '', x.row, x.client], function(r){ if (r && r.tasks) { ls(dkOf(r), JSON.stringify(r)); render(r); } tRefresh(x.client); }, 'изтриване');
+}
+// плащане / разход: ✏️
+function costFind(id){
+  var k = CUR && CUR.costs, out = null; if (!k) return null;
+  (k.inc || []).forEach(function(x){ if (x.id === id) out = { r: x, kind: 'inc' }; });
+  (k.exp || []).forEach(function(x){ if (x.id === id) out = { r: x, kind: 'exp' }; });
+  (k.workers || []).forEach(function(w){ w.pays.forEach(function(p){ if (p.id === id) out = { r: p, kind: 'pay', w: w.name }; }); });
+  return out;
+}
+function costEdit(id){
+  var f = costFind(id); if (!f) { toast('Записът не е намерен – обнови'); return; }
+  var x = f.r, meth = '<select name="method">' + opts(['Кеш', 'Банка'], x.method || 'Кеш') + '</select>';
+  var h = '<form id="frm" onsubmit="return sendCE(event)"><input type="hidden" name="id" value="' + esc(id) + '"><input type="hidden" name="w" value="' + esc(f.w || '') + '">';
+  if (f.kind === 'exp') h += fld('За какво', '<input name="desc" value="' + esc(x.desc || '') + '">');
+  h += half(fld('Сума (€)', '<input name="amount" inputmode="decimal" required value="' + (x.amount || '') + '">'), fld('Дата', '<input name="date" type="date" value="' + esc(x.date || D.today) + '">'));
+  if (f.kind === 'inc') h += half(fld('Вид', '<select name="desc">' + opts(['Аванс', 'Плащане', 'Окончателно плащане'], x.desc || 'Плащане') + '</select>'), fld('Начин', meth));
+  else if (f.kind === 'exp') h += half(fld('Вид', '<select name="type">' + opts(EXT, x.type) + '</select>'), fld('Начин', meth));
+  else h += fld('Начин', meth);
+  h += fld('Бележка', '<input name="note" value="' + esc(x.note || '') + '">');
+  h += '<button class="save" id="sv">💾 Запази</button></form>';
+  openSheet('✏️ ' + (f.kind === 'pay' ? '💶 ' + f.w : f.kind === 'inc' ? '💰 Плащане от клиента' : '🧾 Разход'), h);
+}
+function sendCE(e){ e.preventDefault(); var d = formData(); if (d.w) OPENW = d.w; costSave('editCost', [CUR.name, d.id, d], '✅ Записано'); return false; }
+// работник: 🗑️ от картотеката
+function wDel(n){
+  var w = (D.workers || []).filter(function(x){ return x.n === n; })[0]; if (!w) return;
+  if (!confirm('🗑️ Да изтрия ли „' + n + '“ от картотеката?' + (w.jobs.length ? '\n\n(Обектите и плащанията му по клиентите остават.)' : ''))) return;
+  if (w.jobs.length) { w.sp = ''; w.city = ''; w.r = 0; w.tags = ''; w.note = ''; } else D.workers = D.workers.filter(function(x){ return x !== w; });
+  closeSheet(); if (TAB === 'w' && el('wl')) listW(); toast('🗑️ Изтрит от картотеката');
+  bg('delWorkerInfo', [n], function(){ load(); }, 'изтриване');
+}
 function closeCard(){ el('card').style.display = 'none'; CUR = null; }
 function secT(d){ OPEN[d.getAttribute('data-k')] = d.open; try { localStorage.setItem('crm_open', JSON.stringify(OPEN)); } catch (e) {} }
 function fold(k, title, sum, inner){
@@ -849,7 +997,7 @@ function drawCard(){
     '<div class="acts">' + tel(c.phone) + mapB(c.maps) + '</div>' +
     '<div class="acts"><button class="ok" data-n="' + esc(c.name) + '" onclick="openForm(this.dataset.n)">➕ Задача</button>' +
     '<label>📸 Снимка<input type="file" accept="image/*" multiple style="display:none" onchange="upC(this)"></label>' +
-    '<label>📎 Файл<input type="file" multiple style="display:none" onchange="upF(this)"></label></div></div>';
+    '<label>📎 Файл<input type="file" multiple style="display:none" onchange="upF(this)"></label><button onclick="cMenuCur()">⋯ Още</button></div></div>';
   // 👤 Информация
   var info = [['📞', c.phone], ['📍', c.city], ['🏠', c.model], ['💶', c.budget ? eur(c.budget) : ''], ['🔎', c.src ? 'Източник: ' + c.src : ''],
     ['👤', c.rep], ['🗓️', c.inq ? 'Запитване: ' + fmt(c.inq) : ''], ['☎️', c.last ? 'Последен контакт: ' + fmt(c.last) : '']]
@@ -860,9 +1008,9 @@ function drawCard(){
   h += fold('stage', '🏷️ Етап', pill(c.stage), '<div class="chips">' + D.stages.map(function(s){
     return '<button class="' + (s === c.stage ? 'on' : '') + '" data-s="' + esc(s) + '" onclick="stageC(this.dataset.s)">' + esc(s) + '</button>'; }).join('') + '</div>');
   // 🕑 История
-  var hist = c.tasks.length ? c.tasks.map(function(t){
+  var hist = c.tasks.length ? c.tasks.map(function(t, i){
     var p = t.status === 'Планирана', ic = p ? '🔵' : t.status === 'Изпълнена' ? '✅' : '✖️';
-    return '<div class="hist ' + (p ? 'pl' : 'dn') + '"><div class="when">' + ic + ' ' + fmt(t.date) + (t.time ? ' · ' + esc(t.time) : '') + ' · ' + esc(t.status) + '</div>' +
+    return '<div class="hist ' + (p ? 'pl' : 'dn') + '" data-lp="h" data-i="' + i + '"><div class="when">' + ic + ' ' + fmt(t.date) + (t.time ? ' · ' + esc(t.time) : '') + ' · ' + esc(t.status) + '</div>' +
       '<div class="t">' + esc(t.type) + (t.rep ? ' <span class="s">👤 ' + esc(t.rep) + '</span>' : '') + '</div>' +
       (t.remind ? '<div class="s" style="color:#92400e">🔔 ' + esc(t.remind) + '</div>' : '') + (t.desc ? '<div class="s notes">' + esc(t.desc) + '</div>' : '') + '</div>';
   }).join('') : '<div class="s">Няма задачи</div>';
@@ -964,32 +1112,32 @@ function costsHtml(c){
   h += '<div class="ch">💰 Клиент: договор и плащания</div><div class="s">' + (bud ? 'Договорено ' + eur(bud) + ' · ' : '') + 'Получено <b style="color:#15803d">' + eur(got) + '</b>' +
     (bud ? ' · Остава <b style="color:' + (left ? '#b45309' : '#15803d') + '">' + eur(left) + '</b>' : '') + '</div>' +
     (deals.length ? '<div class="xl">' + deals.map(function(x){
-      return '<div class="xr"><span>📝</span><span class="xd"><b>' + esc(x.desc || 'Работа') + '</b><small>' + fmt(x.date) + (x.note ? ' · ' + esc(x.note) : '') + '</small></span><b class="xa">' + eur(x.agreed) + '</b>' +
+      return '<div class="xr" data-lp="x" data-k="deal" data-id="' + esc(x.id) + '"><span>📝</span><span class="xd"><b>' + esc(x.desc || 'Работа') + '</b><small>' + fmt(x.date) + (x.note ? ' · ' + esc(x.note) : '') + '</small></span><b class="xa">' + eur(x.agreed) + '</b>' +
         '<button data-id="' + esc(x.id) + '" onclick="dealForm(this.dataset.id)" title="Редактирай">✏️</button><button data-id="' + esc(x.id) + '" data-ask="Да изтрия ли тази работа?" onclick="rmCost(this.dataset.id,this.dataset.ask)" title="Изтрий">🗑️</button></div>';
     }).join('') + '</div>' : '') +
     (inc.length ? '<div class="xl">' + inc.map(function(x){
-      return '<div class="xr"><span>💰</span><span class="xd"><b>' + esc(x.desc || 'Плащане') + '</b><small>' + fmt(x.date) + (x.method ? ' · ' + esc(x.method) : '') + (x.note ? ' · ' + esc(x.note) : '') + '</small></span>' +
-        '<b class="xa" style="color:#15803d">+' + eur(x.amount) + '</b><button data-id="' + esc(x.id) + '" onclick="rmCost(this.dataset.id)" title="Изтрий">🗑️</button></div>';
+      return '<div class="xr" data-lp="x" data-k="inc" data-id="' + esc(x.id) + '"><span>💰</span><span class="xd"><b>' + esc(x.desc || 'Плащане') + '</b><small>' + fmt(x.date) + (x.method ? ' · ' + esc(x.method) : '') + (x.note ? ' · ' + esc(x.note) : '') + '</small></span>' +
+        '<b class="xa" style="color:#15803d">+' + eur(x.amount) + '</b><button data-id="' + esc(x.id) + '" onclick="costEdit(this.dataset.id)" title="Промени">✏️</button><button data-id="' + esc(x.id) + '" onclick="rmCost(this.dataset.id)" title="Изтрий">🗑️</button></div>';
     }).join('') + '</div>' : '') + '<div class="acts"><button onclick="dealForm()">➕ Работа (договор)</button><button class="ok" onclick="cpForm()">➕ Плащане от клиента</button></div>';
   h += '<div class="ch">👷 Работници</div>' + (k.workers.length ? k.workers.map(wkHtml).join('') : '<div class="s">Няма добавени работници</div>') +
     '<div class="acts"><button onclick="wkForm()">➕ Работник</button></div>';
   h += '<div class="ch">🧾 Други разходи</div>' + (k.exp.length ? '<div class="xl">' + k.exp.map(function(x){
-    return '<div class="xr"><span>' + (EXI[x.type] || '🧾') + '</span><span class="xd"><b>' + esc(x.desc || x.type) + '</b><small>' + fmt(x.date) + ' · ' + esc(x.type) +
+    return '<div class="xr" data-lp="x" data-k="exp" data-id="' + esc(x.id) + '"><span>' + (EXI[x.type] || '🧾') + '</span><span class="xd"><b>' + esc(x.desc || x.type) + '</b><small>' + fmt(x.date) + ' · ' + esc(x.type) +
       (x.method ? ' · ' + esc(x.method) : '') + (x.note ? ' · ' + esc(x.note) : '') + '</small></span><b class="xa">' + eur(x.amount) + '</b>' +
-      '<button data-id="' + esc(x.id) + '" onclick="rmCost(this.dataset.id)" title="Изтрий">🗑️</button></div>';
+      '<button data-id="' + esc(x.id) + '" onclick="costEdit(this.dataset.id)" title="Промени">✏️</button><button data-id="' + esc(x.id) + '" onclick="rmCost(this.dataset.id)" title="Изтрий">🗑️</button></div>';
   }).join('') + '</div>' : '<div class="s">Няма други разходи</div>') + '<div class="acts"><button onclick="exForm()">➕ Разход</button></div>';
   return h;
 }
 function wkHtml(w){
   var op = OPENW === w.name;
-  var h = '<div class="wk' + (op ? ' op' : '') + '"><div class="wh" data-w="' + esc(w.name) + '" onclick="togW(this.dataset.w)"><span class="tx"><b>' + esc(w.name) + '</b><small>' + esc(w.job || '—') + '</small></span>' +
+  var h = '<div class="wk' + (op ? ' op' : '') + '"><div class="wh" data-lp="wk" data-w="' + esc(w.name) + '" onclick="togW(this.dataset.w)"><span class="tx"><b>' + esc(w.name) + '</b><small>' + esc(w.job || '—') + '</small></span>' +
     (w.rem ? '<span class="due">Остава ' + eur(w.rem) + '</span>' : (w.paid ? '<span class="pd">✔ Платено</span>' : '')) + '<span class="ar">›</span></div>';
   if (!op) return h + '</div>';
   return h + '<div class="wb"><div class="s">Договорено <b>' + eur(w.agreed) + '</b> · Платено <b>' + eur(w.paid) + '</b> · Остава <b>' + eur(w.rem) + '</b></div>' +
     (w.note ? '<div class="s notes">' + esc(w.note) + '</div>' : '') +
     (w.pays.length ? '<div class="xl">' + w.pays.map(function(p){
-      return '<div class="xr"><span>💶</span><span class="xd"><b>' + fmt(p.date) + (p.method ? ' · ' + esc(p.method) : '') + '</b>' + (p.note ? '<small>' + esc(p.note) + '</small>' : '') + '</span>' +
-        '<b class="xa">' + eur(p.amount) + '</b><button data-id="' + esc(p.id) + '" onclick="rmCost(this.dataset.id)" title="Изтрий">🗑️</button></div>';
+      return '<div class="xr" data-lp="x" data-k="pay" data-id="' + esc(p.id) + '"><span>💶</span><span class="xd"><b>' + fmt(p.date) + (p.method ? ' · ' + esc(p.method) : '') + '</b>' + (p.note ? '<small>' + esc(p.note) + '</small>' : '') + '</span>' +
+        '<b class="xa">' + eur(p.amount) + '</b><button data-id="' + esc(p.id) + '" onclick="costEdit(this.dataset.id)" title="Промени">✏️</button><button data-id="' + esc(p.id) + '" onclick="rmCost(this.dataset.id)" title="Изтрий">🗑️</button></div>';
     }).join('') + '</div>' : '') +
     '<div class="acts"><button class="ok" data-w="' + esc(w.name) + '" onclick="payForm(this.dataset.w)">💶 Плащане</button>' + tel(w.phone) +
     '<button data-w="' + esc(w.name) + '" onclick="wkForm(this.dataset.w)">✏️</button>' +
@@ -1003,14 +1151,64 @@ function costSave(fn, args, msg){
 function wkForm(name){
   var w = name ? CUR.costs.workers.filter(function(x){ return x.name === name; })[0] : null;
   var h = '<form id="frm" onsubmit="return sendWk(event)"><input type="hidden" name="id" value="' + esc(w && w.id || '') + '"><input type="hidden" name="old" value="' + esc(w ? w.name : '') + '">';
-  h += fld('Работник / бригада', '<input name="name" list="wkl" required autocomplete="off" value="' + esc(w ? w.name : '') + '" oninput="wkFill(this.value)"><datalist id="wkl">' + opts((D.workers || []).map(function(x){ return x.n; })) + '</datalist>');
-  h += fld('Каква работа', '<input name="job" placeholder="напр. Фундамент, Монтаж, Покрив…" value="' + esc(w ? w.job : '') + '">');
+  h += fld('Работник / бригада', '<input name="name" required autocomplete="off" placeholder="🔎 пиши име или работа…" value="' + esc(w ? w.name : '') + '" oninput="wkFill(this.value)"><div class="wks" id="wkS"></div>');
+  h += fld('Каква работа', '<input name="job" id="wkJ" placeholder="напр. Фундамент, Монтаж, Покрив…" value="' + esc(w ? w.job : '') + '">');
   h += half(fld('Договорено (€)', '<input name="agreed" inputmode="decimal" value="' + (w && w.agreed ? w.agreed : '') + '">'), fld('Телефон', '<input name="phone" id="wkP" type="tel" value="' + esc(w ? w.phone : '') + '">'));
   h += fld('Бележка', '<textarea name="note" rows="3">' + esc(w ? w.note : '') + '</textarea>');
   h += '<button class="save" id="sv">💾 Запази</button></form>';
   openSheet((w ? '✏️ ' : '👷 Нов работник – ') + (w ? w.name : CUR.name), h);
+  if (!w) wkSug('');
 }
-function wkFill(v){ var p = el('wkP'); if (!p || p.value) return; var k = String(v).trim().toLowerCase(); var w = (D.workers || []).filter(function(x){ return x.n.toLowerCase() === k; })[0]; if (w && w.p) p.value = w.p; }
+function wkAll(){ var m = {}, out = []; (D.workers || []).concat(D.xw || []).forEach(function(w){ var k = String(w.n || '').toLowerCase(); if (!k || m[k]) return; m[k] = 1; out.push(w); }); return out; }
+function wkJob(w){ return splitL(w.sp)[0] || w.j || (w.jobs ? (wJobs(w)[0] || '') : ''); }
+var WKS = [];
+function wkSug(q){
+  var box = el('wkS'); if (!box) return;
+  q = String(q || '').trim(); var a = wkAll(), toks = lat(q).split(' ').filter(Boolean), qd = q.replace(/[^0-9]/g, '');
+  var on = ((CUR && CUR.costs && CUR.costs.workers) || []).map(function(x){ return String(x.name).toLowerCase(); });
+  if (q) a = a.filter(function(w){
+    var hay = lat(w.n + ' ' + (w.sp || '') + ' ' + (w.city || '') + ' ' + wkJob(w));
+    return toks.every(function(t){ return hay.indexOf(t) > -1; }) || (qd.length >= 3 && String(w.p || '').replace(/[^0-9]/g, '').indexOf(qd) > -1);
+  });
+  a = a.filter(function(w){ var k = w.n.toLowerCase(); return on.indexOf(k) < 0 && k !== q.toLowerCase(); });
+  a.sort(function(x, y){ return (y.r || 0) - (x.r || 0) || x.n.localeCompare(y.n); });
+  WKS = a.slice(0, 6);
+  box.innerHTML = WKS.map(function(w, i){ return '<button type="button" onclick="wkPick(' + i + ')"><b>' + esc(w.n) + '</b> ' + stars(w.r) + '<small>' + esc([wkJob(w), w.city, w.p].filter(Boolean).join(' · ') || '—') + '</small></button>'; }).join('');
+}
+function wkPick(i){
+  var w = WKS[i], f = el('frm'); if (!w || !f) return;
+  f.elements['name'].value = w.n; if (w.p) el('wkP').value = w.p;
+  var j = el('wkJ'); if (j && !j.value) j.value = wkJob(w);
+  el('wkS').innerHTML = '<div class="s">✓ ' + esc(w.n) + ' – данните са попълнени от картотеката</div>';
+  try { f.elements['agreed'].focus(); } catch (e) {}
+}
+function wkFill(v){
+  wkSug(v);
+  var k = String(v).trim().toLowerCase(), w = wkAll().filter(function(x){ return x.n.toLowerCase() === k; })[0]; if (!w) return;
+  var p = el('wkP'), j = el('wkJ'); if (p && !p.value && w.p) p.value = w.p; if (j && !j.value) j.value = wkJob(w);
+}
+// От картата на работника: ➕ Към проект
+var WTO = '';
+function wToClient(n){
+  WTO = n;
+  openSheet('👷 ' + n + ' → към проект', '<div style="padding:12px 16px 30px"><input id="wtq" type="search" autocomplete="off" placeholder="🔎 Клиент / проект…" oninput="wtList(this.value)" style="width:100%;padding:12px;border:1px solid #cbd5e1;border-radius:10px;font-size:16px"><div id="wtl" class="wks"></div></div>');
+  wtList('');
+}
+function wtList(q){
+  var t = lat(q), a = (D.clients || []).filter(function(c){ return !t || lat(c.n + ' ' + (c.c || '')).indexOf(t) > -1; });
+  a.sort(function(x, y){ return (y.nx ? 1 : 0) - (x.nx ? 1 : 0) || String(y.l || y.i || '').localeCompare(String(x.l || x.i || '')); });
+  el('wtl').innerHTML = a.slice(0, 15).map(function(c){ return '<button type="button" data-n="' + esc(c.n) + '" onclick="wtPick(this.dataset.n)"><b>' + esc(c.n) + '</b><small>' + esc([c.c, c.s].filter(Boolean).join(' · ') || '—') + '</small></button>'; }).join('') || '<div class="empty">Няма такъв клиент</div>';
+}
+function wtPick(c){
+  var n = WTO; closeSheet(); openC(c, 'costs');
+  var tries = 0;
+  (function go(){
+    if (!CUR || CUR.stub || !CUR.costs) { if (++tries < 25) return setTimeout(go, 200); toast('⏳ Картата още се зарежда – опитай пак'); return; }
+    if (CUR.costs.workers.some(function(x){ return x.name.toLowerCase() === n.toLowerCase(); })) { toast('✓ ' + n + ' вече е в този проект'); return; }
+    wkForm(); var f = el('frm'); if (!f) return; f.elements['name'].value = n; wkFill(n);
+    el('wkS').innerHTML = '<div class="s">✓ ' + esc(n) + ' – данните са попълнени от картотеката</div>';
+  })();
+}
 function sendWk(e){ e.preventDefault(); var d = formData(); OPENW = d.name; costSave('saveWorker', [CUR.name, d], '✅ Записано'); return false; }
 function payForm(w){
   var h = '<form id="frm" onsubmit="return sendPay(event)"><input type="hidden" name="worker" value="' + esc(w) + '">';
@@ -1063,9 +1261,12 @@ function stageC(s){
   CUR.stage = s; drawCard(); toast('Етап: ' + s);
   bg('setStage', [n, s], function(c){ cardDone(c); load(); }, 'етап');
 }
+var EDO = null;
 function editC(){
   if (CUR && CUR.stub) { toast('⏳ Момент – зареждам картата…'); return; }
   var c = CUR, h = '<form id="frm" onsubmit="return sendEdit(event)">';
+  EDO = { phone: c.phone || '', city: c.city || '', model: c.model || '', budget: c.budget || '', src: c.src || '', rep: c.rep || '', notes: c.notes || '' };
+  h += fld('Име на клиента', '<input name="name" required autocomplete="off" value="' + esc(c.name) + '">');
   h += half(fld('Телефон', '<input name="phone" type="tel" value="' + esc(c.phone) + '">'), fld('Град', '<input name="city" value="' + esc(c.city) + '">'));
   h += half(fld(mLbl(), '<select name="model">' + opts(blank(D.models.indexOf(c.model) < 0 && c.model ? D.models.concat([c.model]) : D.models), c.model) + '</select>'),
     fld('Бюджет (€)' + (c.costs && c.costs.deals && c.costs.deals.length ? ' <span class="badge">= сбор от работите</span>' : ''), '<input name="budget" inputmode="numeric" value="' + esc(c.budget) + '">'));
@@ -1077,7 +1278,14 @@ function editC(){
 }
 function sendEdit(e){
   e.preventDefault();
-  var d = formData(), n = CUR.name;
+  var d = formData(), n = CUR.name, nn = String(d.name || '').trim().replace(/\s+/g, ' ');
+  if (nn && nn !== n) {
+    if (D.clients.some(function(c){ return c.n.toLowerCase() === nn.toLowerCase() && c.n.toLowerCase() !== n.toLowerCase(); })) { toast('⚠️ Вече има клиент „' + nn + '“', 3500); return false; }
+    D.clients.forEach(function(c){ if (c.n === n) c.n = nn; }); D.tasks.forEach(function(t){ if (t.client === n) t.client = nn; });
+    var a = cardAll(), o = a[n.toLowerCase()]; delete a[n.toLowerCase()]; if (o) { o.c.name = nn; a[nn.toLowerCase()] = o; } cardSave(a);
+    CUR.name = nn; render(D);
+  }
+  if (EDO) d.orig = EDO; EDO = null;
   ['phone', 'city', 'model', 'src', 'rep', 'notes'].forEach(function(k){ if (k in d) CUR[k] = d[k]; });
   CUR.budget = Number(String(d.budget || '').replace(/[^0-9.]/g, '')) || '';
   closeSheet(); drawCard(); toast('✅ Записано');
@@ -1147,7 +1355,7 @@ function upC(inp){
 
 document.addEventListener('visibilitychange', function(){ if (!document.hidden && D && TOKEN && el('sheet').style.display !== 'block') load(); });
 // Нова версия → проверява се при всяко отваряне/връщане в приложението и се зарежда сама
-var APP_VER = '3.16';
+var APP_VER = '3.19';
 if ('serviceWorker' in navigator) {
   var swHad = !!navigator.serviceWorker.controller, swDone = false;
   navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).then(function(r){
