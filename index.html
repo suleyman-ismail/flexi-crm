@@ -526,7 +526,7 @@ function listW(){
   el('wl').innerHTML = '<h2>' + (q ? '🔎 Резултати' : (WF || 'Работници')) + '<span>' + a.length + '</span></h2>' + (a.length ? '<div class="lst">' + a.map(function(w){
     var sub = [splitL(w.sp).slice(0, 2).join(', ') || wJobs(w).slice(0, 3).join(', ') || '—'];
     if (w.city) sub.push(w.city);
-    sub.push(w.jobs.length ? w.jobs.length + (w.jobs.length === 1 ? ' обект' : ' обекта') : 'без обект');
+    sub.push(w.jobs.length ? w.jobs.length + (w.jobs.length === 1 ? ' обект' : ' обекта') : (w.fh ? '🏠 от Flexi Home' : 'без обект'));
     var tg = splitL(w.tags).map(function(t){ return t.split(' ')[0]; }).join(' ');
     return '<div class="ti"><div class="tr" data-lp="w" data-w="' + esc(w.n) + '" onclick="openW(this.dataset.w)"><span class="tx"><b>' + esc(w.n) + ' ' + stars(w.r) + '</b><small>' + esc(sub.join(' · ')) + (tg ? ' · ' + esc(tg) : '') + '</small></span>' +
       (w.ow ? '<span class="due">' + eur(w.ow) + '</span>' : '') + '<span class="ar">›</span></div></div>';
@@ -548,7 +548,7 @@ function openW(n){
       var r = j.a - j.pd;
       return '<div class="ti"><div class="tr" data-n="' + esc(j.c) + '" onclick="closeSheet();openC(this.dataset.n)"><span class="tx"><b>' + esc(j.c) + '</b><small>' + esc(j.j || '—') + (j.d ? ' · ' + fmt(j.d) : '') +
         (!fin() ? '' : r > 0 ? ' · остава ' + eur(r) : (j.pd ? ' · ✔ платено' : '')) + '</small></span>' + (fin() ? '<b class="xa">' + eur(j.a) + '</b>' : '') + '<span class="ar">›</span></div></div>';
-    }).join('') + '</div>' + (w.jobs.length ? '' : '<div class="s" style="margin-top:8px">Още няма обекти. Към клиент се добавя от картата на клиента → 💶 → ➕ Работник.</div>') + '</div>';
+    }).join('') + '</div>' + (w.jobs.length ? '' : (w.fh ? '<div class="s" style="margin-top:8px">🏠 Работи с Flexi Home' + (w.fh !== '✓' ? ' (' + esc(w.fh) + ')' : '') + '. Тук още няма обекти.</div>' : '') + '<div class="s" style="margin-top:8px">Още няма обекти. Към клиент се добавя от картата на клиента → 💶 → ➕ Работник.</div>') + '</div>';
   openSheet('👷 ' + w.n, h);
 }
 function wInfoForm(n){
@@ -1782,7 +1782,7 @@ if ('serviceWorker' in navigator) navigator.serviceWorker.addEventListener('mess
   var m = e.data && e.data.crmOpen; if (!m) return; PENDOPEN = { c: m.c || '', w: m.w || '' }; if (D) { pendOpen(D); load(); }
 });
 
-var APP_VER = '3.22';
+var APP_VER = '3.23';
 if ('serviceWorker' in navigator) {
   var swHad = !!navigator.serviceWorker.controller, swDone = false;
   navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).then(function(r){
