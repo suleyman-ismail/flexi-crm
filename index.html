@@ -155,6 +155,10 @@ input,textarea,.notes{-webkit-user-select:text;user-select:text}
 .jc small{flex-basis:100%;order:3;color:#64748b;font-size:12.5px}.jc.on{background:#ecfdf5;border-color:#99f6e4;border-left-color:#0f766e}
 .jadd{width:100%;margin-top:6px;border:2px dashed #0f766e;background:#f0fdfa;color:#0f766e;border-radius:12px;padding:13px;font-size:16px;font-weight:700;font-family:inherit}
 .jb{margin:2px 0 10px}
+.sck{width:24px;height:24px;flex:none;margin:0;accent-color:#0f766e}.selm .xr button,.selm .wh .ar,.selm .xr .ar{display:none}.selm .xr,.selm .wh{cursor:pointer}.selm .xr.on,.selm .wk.on{background:#ecfdf5}
+#selbar{position:fixed;left:0;right:0;bottom:0;z-index:11;background:#0f172a;color:#fff;padding:10px 12px calc(10px + env(safe-area-inset-bottom));display:none;flex-wrap:wrap;gap:8px;align-items:center;box-shadow:0 -4px 12px rgba(0,0,0,.25)}
+#selbar b{flex:1 1 100%;font-size:15px}#selbar button{flex:1;border:0;border-radius:10px;padding:12px 6px;font-size:14.5px;font-weight:700;font-family:inherit;background:#334155;color:#fff}#selbar button.mv{background:#0f766e}#selbar button.dl{background:#b91c1c}#selbar button:disabled{opacity:.4}
+.selhint{background:#ecfdf5;border:1px solid #99f6e4;border-radius:10px;padding:8px 10px;font-size:13px;color:#115e59;margin:4px 0 8px}
 .jsel{width:100%;margin:2px 0 10px;padding:12px;border:2px solid #0f766e;border-radius:12px;font-size:16px;font-weight:700;color:#0f172a;background:#f0fdfa}
 .jsl{display:block;font-size:12px;font-weight:700;color:#64748b;margin:0 0 4px}
 .jc .je{border:1px solid #cbd5e1;background:#fff;border-radius:9px;padding:5px 9px;font-size:14px;font-family:inherit}
@@ -1109,6 +1113,7 @@ function lpShow(title, b){
 function lpClose(){ el('lpm').style.display = 'none'; }
 function lpGo(i){ var a = LPA[i]; lpClose(); if (a) a[1](); }
 function lpOpen(t){
+  if (SELM) return;
   var k = t.getAttribute('data-lp');
   if (k === 'c') { var n = t.getAttribute('data-n'); lpShow('👤 ' + n, cMenu(n)); }
   else if (k === 't') { var x = taskBy(Number(t.getAttribute('data-row'))); if (x) lpShow('📋 ' + x.client + ' · ' + whenTxt(x.date, x.time), tMenu(x)); }
@@ -1226,7 +1231,7 @@ function wDel(n){
   closeSheet(); if (TAB === 'w' && el('wl')) listW(); toast('🗑️ Изтрит от картотеката');
   bg('delWorkerInfo', [n], function(){ load(); }, 'изтриване');
 }
-function closeCard(){ el('card').style.display = 'none'; CUR = null; }
+function closeCard(){ el('card').style.display = 'none'; CUR = null; SELM = false; SELS = {}; selUpd(); }
 function secT(d){ OPEN[d.getAttribute('data-k')] = d.open; try { localStorage.setItem('crm_open', JSON.stringify(OPEN)); } catch (e) {} }
 function fold(k, title, sum, inner){
   return '<details class="sec" data-k="' + k + '" ontoggle="secT(this)"' + (OPEN[k] ? ' open' : '') + '><summary>' + title +
@@ -1388,6 +1393,9 @@ function costsHtml(c){
   var jo = function(id, l){ return '<option value="' + esc(id) + '"' + (sel === id ? ' selected' : '') + '>' + esc(l) + '</option>'; };
   var h = J.length ? '<label class="jsl">Покажи:</label><select class="jsel" onchange="jSel(this.value)">' + jo('*', '📊 Общо – всички работи') + J.map(function(x){ return jo(x.id, '📝 ' + (x.desc || 'Работа') + (x.agreed ? ' – ' + eur(x.agreed) : '')); }).join('') + (gen ? jo('_', '📦 Без работа (общи записи)') : '') + '</select>' : '';
   var S = jSum(k, sel);
+  var nItems = S.inc.length + S.ex.length + S.ws.filter(function(w){ return w.id; }).length;
+  if (SELM) h += '<div class="selhint">☑️ Докосни записите, които искаш да преместиш или изтриеш – долу са бутоните.</div>';
+  else if (nItems > 1) h += '<div class="acts" style="margin:0 0 8px"><button onclick="selTog(true)">☑️ Избери няколко</button></div>';
   if (sel === '*') {
     h += (J.length ? '<div class="ch">📊 Общо за клиента (всички работи)</div>' : '') + kGrid(J.length && k.dealSum ? k.dealSum : (c.budget || 0), k.got || 0, k.cost, k.owed);
     if (J.length) {
@@ -1406,17 +1414,17 @@ function costsHtml(c){
     h += '<div class="jh"><span><b>📝 ' + esc(d.desc || 'Работа') + '</b><small>' + fmt(d.date) + (d.note ? ' · ' + esc(d.note) : '') + '</small></span><button data-id="' + esc(d.id) + '" onclick="dealForm(this.dataset.id)" title="Промени">✏️</button><button data-id="' + esc(d.id) + '" onclick="rmDeal(this.dataset.id)" title="Изтрий">🗑️</button></div>' + kGrid(S.ag, S.got, S.cost, S.owed);
   }
   h += '<div class="ch">💰 Плащания от клиента</div>' + (S.inc.length ? '<div class="xl">' + S.inc.map(function(x){
-    return '<div class="xr" data-lp="x" data-k="inc" data-id="' + esc(x.id) + '"><span>💰</span><span class="xd"><b>' + esc(x.desc || 'Плащане') + '</b><small>' + fmt(x.date) + (x.method ? ' · ' + esc(x.method) : '') + (x.note ? ' · ' + esc(x.note) : '') + jTag(k, x) + '</small></span>' +
+    return '<div class="xr' + (SELM && SELS[x.id] ? ' on' : '') + '" data-lp="x" data-k="inc" data-id="' + esc(x.id) + '" onclick="selRow(event,this.dataset.id)">' + selBox(x.id) + '<span>💰</span><span class="xd"><b>' + esc(x.desc || 'Плащане') + '</b><small>' + fmt(x.date) + (x.method ? ' · ' + esc(x.method) : '') + (x.note ? ' · ' + esc(x.note) : '') + jTag(k, x) + '</small></span>' +
       '<b class="xa" style="color:#15803d">+' + eur(x.amount) + '</b>' + mvBtn(x.id) + '<button data-id="' + esc(x.id) + '" onclick="costEdit(this.dataset.id)" title="Промени">✏️</button><button data-id="' + esc(x.id) + '" onclick="rmCost(this.dataset.id)" title="Изтрий">🗑️</button></div>';
   }).join('') + '</div>' : '<div class="s">Още няма плащания</div>') + '<div class="acts"><button class="ok" onclick="cpForm()">➕ Плащане от клиента</button></div>';
   h += '<div class="ch">👷 Работници</div>' + (S.ws.length ? S.ws.map(wkHtml).join('') : '<div class="s">Няма добавени работници</div>') +
     '<div class="acts"><button onclick="wkForm()">➕ Работник</button></div>';
   h += '<div class="ch">🧾 Други разходи</div>' + (S.ex.length ? '<div class="xl">' + S.ex.map(function(x){
-    return '<div class="xr" data-lp="x" data-k="exp" data-id="' + esc(x.id) + '"><span>' + (EXI[x.type] || '🧾') + '</span><span class="xd"><b>' + esc(x.desc || x.type) + '</b><small>' + fmt(x.date) + ' · ' + esc(x.type) +
+    return '<div class="xr' + (SELM && SELS[x.id] ? ' on' : '') + '" data-lp="x" data-k="exp" data-id="' + esc(x.id) + '" onclick="selRow(event,this.dataset.id)">' + selBox(x.id) + '<span>' + (EXI[x.type] || '🧾') + '</span><span class="xd"><b>' + esc(x.desc || x.type) + '</b><small>' + fmt(x.date) + ' · ' + esc(x.type) +
       (x.method ? ' · ' + esc(x.method) : '') + (x.note ? ' · ' + esc(x.note) : '') + jTag(k, x) + '</small></span><b class="xa">' + eur(x.amount) + '</b>' + mvBtn(x.id) +
       '<button data-id="' + esc(x.id) + '" onclick="costEdit(this.dataset.id)" title="Промени">✏️</button><button data-id="' + esc(x.id) + '" onclick="rmCost(this.dataset.id)" title="Изтрий">🗑️</button></div>';
   }).join('') + '</div>' : '<div class="s">Няма други разходи</div>') + '<div class="acts"><button onclick="exForm()">➕ Разход</button></div>';
-  return h;
+  return SELM ? '<div class="selm">' + h + '</div>' : h;
 }
 var JOBQ = ['Фундамент', 'Монтаж', 'Покрив', 'Изолация', 'Фасада', 'Тераса', 'Навес', 'Ограда', 'Баня', 'Кухня', 'Подове', 'Ел. инсталация', 'ВиК', 'Боядисване'];
 function jobsBox(c){
@@ -1463,11 +1471,52 @@ function jobNewFor(n){
   openC(n); var tries = 0;
   (function go(){ if (!CUR || CUR.name.toLowerCase() !== String(n).toLowerCase() || CUR.stub || !CUR.costs) { if (++tries < 30) return setTimeout(go, 200); toast('⏳ Картата още се зарежда – опитай пак'); return; } jobNew(); })();
 }
+var SELM = false, SELS = {};
+function selBox(id){ return SELM && id ? '<input type="checkbox" class="sck" data-id="' + esc(id) + '"' + (SELS[id] ? ' checked' : '') + ' onclick="event.stopPropagation();selPick(this.dataset.id)">' : ''; }
+function selTog(on){ SELM = on === undefined ? !SELM : on; SELS = {}; OPENW = null; if (CUR) drawCard(); selUpd(); }
+function selPick(id){ if (SELS[id]) delete SELS[id]; else SELS[id] = 1; drawCard(); selUpd(); }
+function selRow(e, id){ if (!SELM) return; e.stopPropagation(); selPick(id); }
+function selAll(){
+  var k = CUR && CUR.costs; if (!k) return;
+  var sel = JSEL[CUR.name] || '*', S = jSum(k, sel), ids = S.inc.concat(S.ex).map(function(x){ return x.id; }).concat(S.ws.filter(function(w){ return w.id; }).map(function(w){ return w.id; }));
+  var all = ids.every(function(id){ return SELS[id]; }); SELS = {}; if (!all) ids.forEach(function(id){ SELS[id] = 1; });
+  drawCard(); selUpd();
+}
+function selUpd(){
+  var b = el('selbar');
+  if (!b) { b = document.createElement('div'); b.id = 'selbar'; document.body.appendChild(b); }
+  if (!SELM || !CUR || el('card').style.display !== 'block') { b.style.display = 'none'; return; }
+  var n = Object.keys(SELS).length, J = (CUR.costs && CUR.costs.deals) || [];
+  b.innerHTML = '<b>☑️ Избрани: ' + n + '</b><button onclick="selAll()">Всички</button>' + (J.length ? '<button class="mv" onclick="selMove()"' + (n ? '' : ' disabled') + '>↔️ Премести</button>' : '') +
+    '<button class="dl" onclick="selDel()"' + (n ? '' : ' disabled') + '>🗑️ Изтрий</button><button onclick="selTog(false)">✖ Готово</button>';
+  b.style.display = 'flex';
+}
+function selMove(){
+  var ids = Object.keys(SELS), J = (CUR.costs && CUR.costs.deals) || []; if (!ids.length) return;
+  var cur = JSEL[CUR.name] || '*';
+  var h = '<form id="frm" onsubmit="return selMoveGo(event)"><div class="s" style="margin-top:8px">' + ids.length + (ids.length === 1 ? ' запис' : ' записа') + ' → в коя работа?</div>' +
+    fld('📝 Работа', '<select name="jid">' + J.map(function(x){ return '<option value="' + esc(x.id) + '"' + (x.id === cur ? ' disabled' : '') + '>' + esc(x.desc || 'Работа') + '</option>'; }).join('') + '<option value=""' + (cur === '_' ? ' disabled' : '') + '>📦 Без работа (общи)</option></select>') +
+    '<div class="s" style="margin-top:8px">Работниците се местят заедно с плащанията си.</div><button class="save" id="sv">↔️ Премести</button></form>';
+  openSheet('↔️ Премести в друга работа', h);
+  var o = el('frm').elements['jid']; for (var i = 0; i < o.options.length; i++) if (!o.options[i].disabled) { o.selectedIndex = i; break; }
+}
+function selMoveGo(e){
+  e.preventDefault(); var jid = formData().jid, ids = Object.keys(SELS);
+  SELM = false; SELS = {}; selUpd(); if (jid) JSEL[CUR.name] = jid; else if ((JSEL[CUR.name] || '*') !== '*') JSEL[CUR.name] = '_';
+  costSave('costBulk', [CUR.name, ids, 'move', jid], '↔️ Преместени: ' + ids.length);
+  return false;
+}
+function selDel(){
+  var ids = Object.keys(SELS); if (!ids.length) return;
+  if (!confirm('🗑️ Да изтрия ли ' + ids.length + (ids.length === 1 ? ' запис' : ' записа') + '?\n\nРаботниците се изтриват заедно с плащанията си. Всичко се пази в „🗑️ Изтрити“.')) return;
+  SELM = false; SELS = {}; selUpd();
+  costSave('costBulk', [CUR.name, ids, 'del'], '🗑️ Изтрити: ' + ids.length);
+}
 function rmDeal(id){ rmCost(id, 'Да изтрия ли тази работа?\n\nПлащанията и разходите ѝ остават – стават „без работа“.'); }
 function wkKey(w){ return w.name + '|' + (w.jid || ''); }
 function wkHtml(w){
-  var key = wkKey(w), op = OPENW === key;
-  var h = '<div class="wk' + (op ? ' op' : '') + '"><div class="wh" data-lp="wk" data-w="' + esc(w.name) + '" data-j="' + esc(w.jid || '') + '" data-wk="' + esc(key) + '" onclick="togW(this.dataset.wk)"><span class="tx"><b>' + esc(w.name) + '</b><small>' + esc(w.job || '—') + jTag(CUR.costs, w) + '</small></span>' +
+  var key = wkKey(w), op = !SELM && OPENW === key;
+  var h = '<div class="wk' + (op ? ' op' : '') + (SELM && SELS[w.id] ? ' on' : '') + '"><div class="wh" data-lp="wk" data-w="' + esc(w.name) + '" data-j="' + esc(w.jid || '') + '" data-wk="' + esc(key) + '" data-id="' + esc(w.id || '') + '" onclick="if(SELM){if(this.dataset.id)selPick(this.dataset.id)}else togW(this.dataset.wk)">' + selBox(w.id) + '<span class="tx"><b>' + esc(w.name) + '</b><small>' + esc(w.job || '—') + jTag(CUR.costs, w) + '</small></span>' +
     (w.rem ? '<span class="due">Остава ' + eur(w.rem) + '</span>' : (w.paid ? '<span class="pd">✔ Платено</span>' : '')) + '<span class="ar">›</span></div>';
   if (!op) return h + '</div>';
   var dw = ' data-w="' + esc(w.name) + '" data-j="' + esc(w.jid || '') + '"';
@@ -1484,7 +1533,7 @@ function wkHtml(w){
 function togW(n){ OPENW = OPENW === n ? null : n; drawCard(); }
 function costSave(fn, args, msg){
   closeSheet(); toast('⏳ Записва се…', 1500);
-  bg(fn, args, function(c){ cardDone(c); toast(msg); load(); }, msg.replace(/^\S+\s*/, ''));
+  bg(fn, args, function(c){ cardDone(c); if (c && c.warn) toast('⚠️ ' + c.warn, 6000); else toast(msg); load(); }, msg.replace(/^\S+\s*/, ''));
 }
 function wkForm(name, jid){
   var w = name ? CUR.costs.workers.filter(function(x){ return x.name === name && (jid == null || (x.jid || '') === (jid || '')); })[0] : null;
@@ -1960,7 +2009,7 @@ if ('serviceWorker' in navigator) navigator.serviceWorker.addEventListener('mess
   var m = e.data && e.data.crmOpen; if (!m) return; PENDOPEN = { c: m.c || '', w: m.w || '' }; if (D) { pendOpen(D); load(); }
 });
 
-var APP_VER = '3.26';
+var APP_VER = '3.27';
 if ('serviceWorker' in navigator) {
   var swHad = !!navigator.serviceWorker.controller, swDone = false;
   navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).then(function(r){
