@@ -155,6 +155,11 @@ input,textarea,.notes{-webkit-user-select:text;user-select:text}
 .jc small{flex-basis:100%;order:3;color:#64748b;font-size:12.5px}.jc.on{background:#ecfdf5;border-color:#99f6e4;border-left-color:#0f766e}
 .jadd{width:100%;margin-top:6px;border:2px dashed #0f766e;background:#f0fdfa;color:#0f766e;border-radius:12px;padding:13px;font-size:16px;font-weight:700;font-family:inherit}
 .jb{margin:2px 0 10px}
+.jcard{border:1px solid #e2e8f0;border-left:5px solid #0f766e;border-radius:12px;padding:10px 12px;margin:12px 0;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.05)}.jcard.gen{border-left-color:#94a3b8}
+.jch{display:flex;align-items:center;gap:8px;padding-bottom:8px;border-bottom:1px solid #f1f5f9;margin-bottom:2px}.jt2{flex:1;min-width:0;display:flex;flex-direction:column}.jt2 b{font-size:16.5px;color:#0f172a}.jt2 small{font-size:12px;color:#64748b}.jch em{font-style:normal;font-weight:800;font-size:15px}
+.jch .je{border:1px solid #cbd5e1;background:#fff;border-radius:9px;padding:5px 9px;font-size:14px;font-family:inherit}
+.jsub{font-size:12px;font-weight:800;color:#475569;margin:10px 0 2px;text-transform:uppercase;letter-spacing:.03em}
+.jadds{display:flex;gap:6px;margin-top:10px}.jadds button{flex:1;border:1px solid #cbd5e1;background:#f8fafc;border-radius:10px;padding:10px 2px;font-size:13px;font-weight:600;font-family:inherit;color:#0f172a}
 .sck{width:24px;height:24px;flex:none;margin:0;accent-color:#0f766e}.selm .xr button,.selm .wh .ar,.selm .xr .ar{display:none}.selm .xr,.selm .wh{cursor:pointer}.selm .xr.on,.selm .wk.on{background:#ecfdf5}
 #selbar{position:fixed;left:0;right:0;bottom:0;z-index:11;background:#0f172a;color:#fff;padding:10px 12px calc(10px + env(safe-area-inset-bottom));display:none;flex-wrap:wrap;gap:8px;align-items:center;box-shadow:0 -4px 12px rgba(0,0,0,.25)}
 #selbar b{flex:1 1 100%;font-size:15px}#selbar button{flex:1;border:0;border-radius:10px;padding:12px 6px;font-size:14.5px;font-weight:700;font-family:inherit;background:#334155;color:#fff}#selbar button.mv{background:#0f766e}#selbar button.dl{background:#b91c1c}#selbar button:disabled{opacity:.4}
@@ -215,7 +220,163 @@ input,textarea,.notes{-webkit-user-select:text;user-select:text}
 #cdB details{scroll-margin-top:70px}
 #toast{position:fixed;left:16px;right:16px;bottom:calc(20px + env(safe-area-inset-bottom));background:#0f172a;color:#fff;padding:14px;border-radius:12px;text-align:center;display:none;z-index:20;font-size:15px}
 .load{text-align:center;color:#64748b;padding:30px}
-</style></head><body>
+/* 🌙 нощен режим (автоматично от дневните цветове) */
+html.dark body{background:#0f172a;color:#e2e8f0}
+html.dark header h1 img{background:#1e293b}
+html.dark .wsb button.on{background:#1e293b;color:#93c5fd}
+html.dark body.r .wsb button.on{color:#fdba74}
+html.dark body.r .tabs button.on{border-bottom-color:#9a3412}
+html.dark .who a.lnkb{border:1px solid #3b4a60;background:#1e293b;color:#e2e8f0}
+html.dark .seg{background:#334155}
+html.dark .seg button{color:#a3b2c6}
+html.dark .seg button.on{background:#1e293b;color:#e2e8f0}
+html.dark h2{color:#a3b2c6}
+html.dark h2 span{background:#334155}
+html.dark .card{background:#1e293b}
+html.dark .card.cl{border-left-color:#3b4a60}
+html.dark .s{color:#a3b2c6}
+html.dark .lnk{color:#93c5fd}
+html.dark .when{color:#93c5fd}
+html.dark .over .when{color:#f87171}
+html.dark .free .when{color:#fbbf24}
+html.dark .acts a,html.dark .acts button,html.dark .acts label{border:1px solid #3b4a60;background:#182234;color:#e2e8f0}
+html.dark .acts .ok{background:#123a24;border-color:#166534}
+html.dark .empty{color:#94a3b8;background:#1e293b}
+html.dark .pill{background:#334155;color:#cbd5e1}
+html.dark .srch input{border:1px solid #3b4a60}
+html.dark .kpi{background:#1e293b}
+html.dark .kpi .l{color:#a3b2c6}
+html.dark .bar{background:#1e293b}
+html.dark .sheet{background:#182234}
+html.dark #sheet{background:#1e293b}
+html.dark label{color:#cbd5e1}
+html.dark input,html.dark select,html.dark textarea{border:1px solid #3b4a60;background:#1e293b;color:#e2e8f0}
+html.dark #newc{background:#0f2e1d}
+html.dark .nx{background:#0c2540;border:1px solid #1e3a8a}
+html.dark .nx h3{color:#93c5fd}
+html.dark .qd button{background:#1e293b;color:#93c5fd}
+html.dark .remind{background:#3a2a0a}
+html.dark .badge{background:#123a24;color:#4ade80}
+html.dark .more{color:#93c5fd}
+html.dark .box{background:#1e293b}
+html.dark .box h4{color:#a3b2c6}
+html.dark .info div{border-bottom:1px solid #273449}
+html.dark .chips button{border:1px solid #3b4a60;background:#1e293b;color:#cbd5e1}
+html.dark .rate span{color:#a3b2c6}
+html.dark .tgs span{background:#0f172a}
+html.dark .wks button{border:1px solid #3b4a60;background:#182234;color:#e2e8f0}
+html.dark .site{background:#1e293b}
+html.dark .site.idle{border-left-color:#3b4a60}
+html.dark .site .nxt.late{color:#f87171}
+html.dark .mb{background:#334155}
+html.dark .mg{color:#a3b2c6}
+html.dark .mg b{color:#e2e8f0}
+html.dark .tfl button{border:1px solid #3b4a60;background:#1e293b;color:#cbd5e1}
+html.dark .sw{background:#182234;border:1px solid #334155}
+html.dark .sw b{color:#e2e8f0}
+html.dark .sw small{color:#94a3b8}
+html.dark .pinbig{color:#e2e8f0}
+html.dark .pask{background:#0b2e36;border:1px solid #155e75}
+html.dark .pask b{color:#67e8f9}
+html.dark .pask span{color:#cbd5e1}
+html.dark #lpm .bx{background:#1e293b}
+html.dark #lpm h4{color:#a3b2c6}
+html.dark #lpm button{background:#0f172a;color:#e2e8f0}
+html.dark #lpm button.dg{background:#3b1414;color:#f87171}
+html.dark #lpm button.cx{color:#94a3b8}
+html.dark .wks small{color:#94a3b8}
+html.dark .wks .s{color:#4ade80}
+html.dark .ph a{background:#334155;color:#a3b2c6}
+html.dark .hist{border-left:3px solid #3b4a60}
+html.dark .who button{border:1px solid #3b4a60;background:#1e293b}
+html.dark details.sec{background:#1e293b}
+html.dark details.sec summary .sm{color:#94a3b8}
+html.dark details.sec[open] summary{border-bottom:1px solid #273449}
+html.dark .nxt{color:#93c5fd}
+html.dark .nxt.no{color:#fbbf24}
+html.dark #off{background:#3a2a0a;color:#fcd34d}
+html.dark .rch button{border:1.5px solid #3b4a60;background:#1e293b;color:#cbd5e1}
+html.dark .wh{color:#93c5fd}
+html.dark .wh u{color:#5eead4}
+html.dark .fl{border-bottom:1px solid #273449}
+html.dark .fl .fn{color:#e2e8f0}
+html.dark .fl .fx small{color:#94a3b8}
+html.dark .fl button{border:1px solid #334155;background:#182234}
+html.dark .srch input{background:#1e293b}
+html.dark .qnew button{background:#1e293b;color:#e2e8f0}
+html.dark .lst{background:#1e293b}
+html.dark .lr{border-top:1px solid #273449}
+html.dark .lr:active{background:#0f172a}
+html.dark .lr .nm{color:#e2e8f0}
+html.dark .nw{background:#182234}
+html.dark .nw b{color:#5eead4}
+html.dark .nw div{color:#e2e8f0}
+html.dark .oth button{border:1px solid #3b4a60;background:#1e293b}
+html.dark .jobs .jt{color:#e2e8f0}
+html.dark .jobs .jt span{background:#0c2a3f;color:#7dd3fc}
+html.dark .jc{border:1px solid #334155;background:#182234}
+html.dark .jc small{color:#94a3b8}
+html.dark .jc.on{background:#0f2e26;border-color:#115e59}
+html.dark .jadd{background:#0f2e2b;color:#5eead4}
+html.dark .jcard{border:1px solid #334155;background:#1e293b}
+html.dark .jch{border-bottom:1px solid #273449}
+html.dark .jt2 b{color:#e2e8f0}
+html.dark .jt2 small{color:#94a3b8}
+html.dark .jch .je{border:1px solid #3b4a60;background:#1e293b}
+html.dark .jsub{color:#a3b2c6}
+html.dark .jadds button{border:1px solid #3b4a60;background:#182234;color:#e2e8f0}
+html.dark .selm .xr.on,html.dark .selm .wk.on{background:#0f2e26}
+html.dark .selhint{background:#0f2e26;border:1px solid #115e59;color:#5eead4}
+html.dark .jsel{color:#e2e8f0;background:#0f2e2b}
+html.dark .jsl{color:#94a3b8}
+html.dark .jc .je{border:1px solid #3b4a60;background:#1e293b}
+html.dark .fnav button{border:1px solid #3b4a60;background:#1e293b}
+html.dark .fnav small{color:#94a3b8}
+html.dark .fbig>div{background:#1e293b}
+html.dark .fbig small{color:#94a3b8}
+html.dark .fl2{background:#1e293b}
+html.dark .fl2 .fr{border-top:1px solid #273449}
+html.dark .fr .fx small{color:#94a3b8}
+html.dark .fbar{background:#5b1a1a}
+html.dark .fbar.g{background:#14532d}
+html.dark .jh small{color:#94a3b8}
+html.dark .jh button{border:1px solid #3b4a60;background:#1e293b}
+html.dark .cg>div{background:#182234}
+html.dark .cg small{color:#94a3b8}
+html.dark .cg b{color:#e2e8f0}
+html.dark .cg .ow b{color:#fbbf24}
+html.dark .ch{color:#cbd5e1}
+html.dark .wk{border:1px solid #334155}
+html.dark .wk.op{background:#182234}
+html.dark .wh .tx b{color:#e2e8f0}
+html.dark .wh .tx small{color:#94a3b8}
+html.dark .wh .due{color:#fbbf24;background:#3a2a0a}
+html.dark .wh .pd{color:#4ade80}
+html.dark .xr{border-top:1px solid #273449}
+html.dark .xr .xd b{color:#e2e8f0}
+html.dark .xr .xd small{color:#94a3b8}
+html.dark .xa{color:#e2e8f0}
+html.dark .tr .due{color:#fbbf24;background:#3a2a0a}
+html.dark .ti{border-top:1px solid #273449}
+html.dark .ti.op{background:#182234}
+html.dark .tr:active{background:#0f172a}
+html.dark .tr .tx b{color:#e2e8f0}
+html.dark .tr .tx small{color:#94a3b8}
+html.dark .ti.over .tx small{color:#f87171}
+html.dark .qg button{background:#1e293b;border:1px solid #334155;color:#e2e8f0}
+html.dark .qg button small{color:#fbbf24}
+html.dark .load{color:#94a3b8}
+html.dark{color-scheme:dark}
+html.dark body{background:#0b1220;color:#e2e8f0}
+html.dark input,html.dark select,html.dark textarea{background:#0f172a;color:#e2e8f0;border-color:#3b4a60}
+html.dark ::placeholder{color:#64748b}
+html.dark [style*="color:#15803d"]{color:#4ade80!important}html.dark [style*="color:#b91c1c"]{color:#f87171!important}html.dark [style*="color:#b45309"]{color:#fbbf24!important}
+html.dark [style*="color:#334155"]{color:#cbd5e1!important}html.dark [style*="color:#64748b"]{color:#94a3b8!important}html.dark [style*="color:#0f172a"]{color:#e2e8f0!important}html.dark [style*="color:#1e3a5f"]{color:#93c5fd!important}html.dark [style*="color:#92400e"]{color:#fcd34d!important}
+html.dark [style*="background:#fef3c7"]{background:#3a2a0a!important}html.dark [style*="background:#dcfce7"]{background:#123a24!important}html.dark [style*="background:#cffafe"]{background:#0b2e36!important}
+html.dark .chips button.on,html.dark .tfl button.on{background:#2563eb;border-color:#2563eb;color:#fff}
+html.dark img{opacity:.92}
+</style>
+<script>try{var tm=localStorage.getItem('crm_theme')||'auto';if(tm==='dark'||(tm==='auto'&&window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.classList.add('dark')}catch(e){}</script></head><body>
 <div class="hd"><header><div><h1><img src="icon-192.png" alt=""><span id="ttl">CRM Flexi Home</span></h1><div class="d" id="dt"></div></div><div class="hr"><button class="me" id="meB" onclick="meMenu()">👤</button><button onclick="load(true)" title="Обнови">⟳</button></div></header>
 <div class="wsb" id="wsb"><button id="ws_m" onclick="setWS('')">🏠 Flexi Home</button><button id="ws_r" onclick="setWS('r')">🔨 Ремонти и строителство</button></div><div id="sync"></div><nav class="tabs"><button id="tb_t" onclick="tab('t')"><i>📋</i>Задачи</button><button id="tb_s" onclick="tab('s')"><i>🏗️</i>Обекти</button><button id="tb_c" onclick="tab('c')"><i>👥</i>Клиенти</button><button id="tb_w" onclick="tab('w')"><i>👷</i>Работници</button><button id="tb_r" onclick="tab('r')"><i>📊</i>Отчет</button></nav></div>
 <div class="seg" id="seg"><button id="sg_m" onclick="seg('m')">👤 Мои</button><button id="sg_a" onclick="seg('a')">👥 Всички</button></div>
@@ -845,11 +1006,21 @@ function showNews(all){
     '<button class="save" onclick="newsOk()">👍 Разбрах</button></div>');
 }
 function newsOk(){ ls('crm_seen', D.ver); closeSheet(); }
+var THL = { auto: '🌓 Авто (като телефона)', dark: '🌙 Нощен', light: '☀️ Дневен' };
+function thMode(){ return ls('crm_theme') || 'auto'; }
+function thApply(){
+  var m = thMode(), d = m === 'dark' || (m === 'auto' && window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches);
+  document.documentElement.classList.toggle('dark', d);
+  var mt = document.querySelector('meta[name="theme-color"]'); if (mt) mt.setAttribute('content', d ? '#0b1220' : '#1e3a5f');
+}
+function thNext(){ var m = thMode(), n = m === 'auto' ? 'dark' : m === 'dark' ? 'light' : 'auto'; ls('crm_theme', n); thApply(); var b = el('thB'); if (b) b.textContent = 'Тема: ' + THL[n]; toast(THL[n]); }
+try { matchMedia('(prefers-color-scheme: dark)').addEventListener('change', thApply); } catch (e) {}
+thApply();
 function meMenu(){
   openSheet('👤 ' + (D && D.me ? D.me : 'Профил'), '<div class="who"><p style="font-size:15px;color:#334155">Влязъл си като <b>' + esc(D && D.me || '') + '</b>.</p>' +
     (D && D.renoUrl ? '<a class="lnkb" href="' + esc(D.renoUrl) + '" target="_blank" rel="noopener">📊 Таблицата „Ремонти“</a>' : '') +
     '<button id="pushB" onclick="closeSheet();pushOn()">🔔 Включи известията</button>' + (isAdm() ? '<button onclick="admOpen()">⚙️ Хора и достъп</button>' : '') +
-    '<button onclick="showNews(true)">🆕 Какво ново</button><button onclick="load(true);closeSheet()">⟳ Обнови данните</button><button onclick="askOut()">🚪 Изход</button></div>');
+    '<button id="thB" onclick="thNext()">Тема: ' + THL[thMode()] + '</button><button onclick="showNews(true)">🆕 Какво ново</button><button onclick="load(true);closeSheet()">⟳ Обнови данните</button><button onclick="askOut()">🚪 Изход</button></div>');
   pushBtn();
 }
 var PIN = '';
@@ -1363,9 +1534,9 @@ function delF(id, name){
 var EXT = ['Материали', 'Транспорт', 'Друго'], EXI = { 'Материали': '🧱', 'Транспорт': '🚚', 'Друго': '🧾' }, OPENW = null;
 var JSEL = {};
 function jobN(k, id){ var d = (k.deals || []).filter(function(x){ return x.id === id; })[0]; return d ? (d.desc || 'Работа') : ''; }
-function jTag(k, x){ return x.jid && (JSEL[CUR.name] || '*') === '*' ? ' · 📝 ' + esc(jobN(k, x.jid)) : ''; }
+function jTag(k, x){ return ''; }
 function jSel(id){ JSEL[CUR.name] = id; OPENW = null; drawCard(); }
-function jCur(){ var x = CUR && JSEL[CUR.name] || '*'; return x === '*' || x === '_' ? '' : x; }
+function jCur(){ if (JNEXT !== null) return JNEXT; var x = CUR && JSEL[CUR.name] || '*'; return x === '*' || x === '_' ? '' : x; }
 function jSum(k, jid){
   var m = function(x){ return jid === '*' || (x.jid || '') === (jid === '_' ? '' : jid); };
   var ws = k.workers.filter(m), ex = k.exp.filter(m), inc = (k.inc || []).filter(m), d = (k.deals || []).filter(function(x){ return x.id === jid; })[0];
@@ -1382,6 +1553,31 @@ function jobFld(cur){
   var J = (CUR && CUR.costs && CUR.costs.deals) || []; if (!J.length) return '';
   return fld('📝 Към коя работа <span style="font-weight:400;color:#64748b">(смени, за да го прехвърлиш)</span>', '<select name="jid"><option value="">— обща (без конкретна работа) —</option>' + J.map(function(x){ return '<option value="' + esc(x.id) + '"' + (x.id === cur ? ' selected' : '') + '>' + esc(x.desc || 'Работа') + '</option>'; }).join('') + '</select>');
 }
+var JNEXT = null;
+function addIn(j, fn){ JNEXT = j || ''; try { fn(); } finally { JNEXT = null; } }
+function incRow(x){
+  return '<div class="xr' + (SELM && SELS[x.id] ? ' on' : '') + '" data-lp="x" data-k="inc" data-id="' + esc(x.id) + '" onclick="selRow(event,this.dataset.id)">' + selBox(x.id) + '<span>💰</span><span class="xd"><b>' + esc(x.desc || 'Плащане') + '</b><small>' + fmt(x.date) + (x.method ? ' · ' + esc(x.method) : '') + (x.note ? ' · ' + esc(x.note) : '') + '</small></span>' +
+    '<b class="xa" style="color:#15803d">+' + eur(x.amount) + '</b>' + mvBtn(x.id) + '<button data-id="' + esc(x.id) + '" onclick="costEdit(this.dataset.id)" title="Промени">✏️</button><button data-id="' + esc(x.id) + '" onclick="rmCost(this.dataset.id)" title="Изтрий">🗑️</button></div>';
+}
+function expRow(x){
+  return '<div class="xr' + (SELM && SELS[x.id] ? ' on' : '') + '" data-lp="x" data-k="exp" data-id="' + esc(x.id) + '" onclick="selRow(event,this.dataset.id)">' + selBox(x.id) + '<span>' + (EXI[x.type] || '🧾') + '</span><span class="xd"><b>' + esc(x.desc || x.type) + '</b><small>' + fmt(x.date) + ' · ' + esc(x.type) +
+    (x.method ? ' · ' + esc(x.method) : '') + (x.note ? ' · ' + esc(x.note) : '') + '</small></span><b class="xa">' + eur(x.amount) + '</b>' + mvBtn(x.id) +
+    '<button data-id="' + esc(x.id) + '" onclick="costEdit(this.dataset.id)" title="Промени">✏️</button><button data-id="' + esc(x.id) + '" onclick="rmCost(this.dataset.id)" title="Изтрий">🗑️</button></div>';
+}
+function jobCard(k, x){
+  var id = x ? x.id : '_', s = jSum(k, id), p = x && x.agreed ? x.agreed - s.cost : null;
+  var sub = [x && x.agreed ? 'Договор ' + eur(x.agreed) : '', 'Получено ' + eur(s.got), 'Разходи ' + eur(s.cost), s.owed ? 'Дължим ' + eur(s.owed) : ''].filter(Boolean).join(' · ');
+  var h = '<div class="jcard' + (x ? '' : ' gen') + '"><div class="jch"><span class="jt2"><b>' + (x ? '📝 ' + esc(x.desc || 'Работа') : '📦 Без работа (общи)') + '</b><small>' + sub + '</small></span>' +
+    (p !== null ? '<em style="color:' + (p >= 0 ? '#15803d' : '#b91c1c') + '" title="Печалба ≈">' + eur(p) + '</em>' : '') +
+    (x && !SELM ? '<button class="je" data-id="' + esc(x.id) + '" onclick="dealForm(this.dataset.id)" title="Преименувай / промени">✏️</button>' : '') + '</div>';
+  var body = (s.inc.length ? '<div class="jsub">💰 Плащания от клиента</div><div class="xl">' + s.inc.map(incRow).join('') + '</div>' : '') +
+    (s.ws.length ? '<div class="jsub">👷 Работници</div>' + s.ws.map(wkHtml).join('') : '') +
+    (s.ex.length ? '<div class="jsub">🧾 Разходи</div><div class="xl">' + s.ex.map(expRow).join('') + '</div>' : '');
+  h += body || '<div class="s" style="padding:8px 0 0">Още няма записи – добави с бутоните долу.</div>';
+  var jd = ' data-j="' + (x ? esc(x.id) : '') + '"';
+  if (!SELM) h += '<div class="jadds"><button' + jd + ' onclick="addIn(this.dataset.j,cpForm)">➕ 💰 Плащане</button><button' + jd + ' onclick="addIn(this.dataset.j,wkForm)">➕ 👷 Работник</button><button' + jd + ' onclick="addIn(this.dataset.j,exForm)">➕ 🧾 Разход</button></div>';
+  return h + '</div>';
+}
 function costsHtml(c){
   var k = c.costs; if (!k) return '<div class="s">' + (c.stub ? '⏳ Зареждане…' : 'Няма данни – обнови') + '</div>';
   if (k.nf) return k.workers.length ? k.workers.map(function(w){ return '<div class="fl"><span class="fx" style="flex:1"><b>👷 ' + esc(w.name) + '</b><small>' + esc(w.job || '—') + '</small></span>' + (w.phone ? '<div class="acts" style="margin:0">' + tel(w.phone) + '</div>' : '') + '</div>'; }).join('') : '<div class="s">Няма добавени работници</div>';
@@ -1389,42 +1585,29 @@ function costsHtml(c){
   if (sel !== '*' && sel !== '_' && !J.some(function(x){ return x.id === sel; })) sel = JSEL[c.name] = '*';
   var gen = k.workers.concat(k.exp, k.inc || []).some(function(x){ return !x.jid; });
   if (sel === '_' && !gen) sel = JSEL[c.name] = '*';
-  var jb = function(id, l){ return '<button type="button" class="' + (sel === id ? 'on' : '') + '" data-j="' + esc(id) + '" onclick="jSel(this.dataset.j)">' + esc(l) + '</button>'; };
   var jo = function(id, l){ return '<option value="' + esc(id) + '"' + (sel === id ? ' selected' : '') + '>' + esc(l) + '</option>'; };
-  var h = J.length ? '<label class="jsl">Покажи:</label><select class="jsel" onchange="jSel(this.value)">' + jo('*', '📊 Общо – всички работи') + J.map(function(x){ return jo(x.id, '📝 ' + (x.desc || 'Работа') + (x.agreed ? ' – ' + eur(x.agreed) : '')); }).join('') + (gen ? jo('_', '📦 Без работа (общи записи)') : '') + '</select>' : '';
+  var h = J.length ? '<label class="jsl">Покажи:</label><select class="jsel" onchange="jSel(this.value)">' + jo('*', '📊 Всички работи (по карти)') + J.map(function(x){ return jo(x.id, '📝 Само: ' + (x.desc || 'Работа') + (x.agreed ? ' – ' + eur(x.agreed) : '')); }).join('') + (gen ? jo('_', '📦 Само: без работа') : '') + '</select>' : '';
   var S = jSum(k, sel);
   var nItems = S.inc.length + S.ex.length + S.ws.filter(function(w){ return w.id; }).length;
   if (SELM) h += '<div class="selhint">☑️ Докосни записите, които искаш да преместиш или изтриеш – долу са бутоните.</div>';
   else if (nItems > 1) h += '<div class="acts" style="margin:0 0 8px"><button onclick="selTog(true)">☑️ Избери няколко</button></div>';
-  if (sel === '*') {
-    h += (J.length ? '<div class="ch">📊 Общо за клиента (всички работи)</div>' : '') + kGrid(J.length && k.dealSum ? k.dealSum : (c.budget || 0), k.got || 0, k.cost, k.owed);
-    if (J.length) {
-      h += '<div class="ch">📝 Работи (' + J.length + ')</div><div class="xl">' + J.map(function(x){
-        var s2 = jSum(k, x.id), p = x.agreed - s2.cost;
-        return '<div class="xr" data-lp="x" data-k="deal" data-id="' + esc(x.id) + '"><span>📝</span><span class="xd" data-j="' + esc(x.id) + '" onclick="jSel(this.dataset.j)"><b>' + esc(x.desc || 'Работа') + '</b><small>Договор ' + eur(x.agreed) + ' · Получено ' + eur(s2.got) + ' · Разходи ' + eur(s2.cost) + '</small></span>' +
-          '<b class="xa" style="color:' + (p >= 0 ? '#15803d' : '#b91c1c') + '">' + eur(p) + '</b><span class="ar" data-j="' + esc(x.id) + '" onclick="jSel(this.dataset.j)">›</span></div>';
-      }).join('') + (gen ? (function(){ var g = jSum(k, '_'); return '<div class="xr"><span>📦</span><span class="xd" onclick="jSel(\'_\')"><b>Без работа (общи)</b><small>Получено ' + eur(g.got) + ' · Разходи ' + eur(g.cost) + '</small></span><span class="ar" onclick="jSel(\'_\')">›</span></div>'; })() : '') +
-        '</div><div class="s">Вдясно: печалба ≈ по работа. Докосни работа, за да видиш и добавяш само нейните плащания и разходи.</div>';
-    }
-    h += '<div class="acts"><button class="ok" onclick="jobNew()">➕ Нова работа</button></div>';
-  } else if (sel === '_') {
-    h += '<div class="ch">📦 Без работа – общи записи</div>' + kGrid(0, S.got, S.cost, S.owed);
-  } else {
+  var wrap = function(x){ return SELM ? '<div class="selm">' + x + '</div>' : x; };
+  if (sel === '*' && J.length) {
+    h += '<div class="ch">📊 Общо за клиента (всички работи)</div>' + kGrid(k.dealSum ? k.dealSum : (c.budget || 0), k.got || 0, k.cost, k.owed);
+    h += J.map(function(x){ return jobCard(k, x); }).join('') + (gen ? jobCard(k, null) : '');
+    if (!SELM) h += '<div class="acts"><button class="ok" onclick="jobNew()">➕ Нова работа</button></div>';
+    return wrap(h);
+  }
+  if (sel === '*') h += kGrid(c.budget || 0, k.got || 0, k.cost, k.owed) + '<div class="acts"><button class="ok" onclick="jobNew()">➕ Нова работа</button></div>';
+  else if (sel === '_') h += '<div class="ch">📦 Без работа – общи записи</div>' + kGrid(0, S.got, S.cost, S.owed);
+  else {
     var d = S.d;
     h += '<div class="jh"><span><b>📝 ' + esc(d.desc || 'Работа') + '</b><small>' + fmt(d.date) + (d.note ? ' · ' + esc(d.note) : '') + '</small></span><button data-id="' + esc(d.id) + '" onclick="dealForm(this.dataset.id)" title="Промени">✏️</button><button data-id="' + esc(d.id) + '" onclick="rmDeal(this.dataset.id)" title="Изтрий">🗑️</button></div>' + kGrid(S.ag, S.got, S.cost, S.owed);
   }
-  h += '<div class="ch">💰 Плащания от клиента</div>' + (S.inc.length ? '<div class="xl">' + S.inc.map(function(x){
-    return '<div class="xr' + (SELM && SELS[x.id] ? ' on' : '') + '" data-lp="x" data-k="inc" data-id="' + esc(x.id) + '" onclick="selRow(event,this.dataset.id)">' + selBox(x.id) + '<span>💰</span><span class="xd"><b>' + esc(x.desc || 'Плащане') + '</b><small>' + fmt(x.date) + (x.method ? ' · ' + esc(x.method) : '') + (x.note ? ' · ' + esc(x.note) : '') + jTag(k, x) + '</small></span>' +
-      '<b class="xa" style="color:#15803d">+' + eur(x.amount) + '</b>' + mvBtn(x.id) + '<button data-id="' + esc(x.id) + '" onclick="costEdit(this.dataset.id)" title="Промени">✏️</button><button data-id="' + esc(x.id) + '" onclick="rmCost(this.dataset.id)" title="Изтрий">🗑️</button></div>';
-  }).join('') + '</div>' : '<div class="s">Още няма плащания</div>') + '<div class="acts"><button class="ok" onclick="cpForm()">➕ Плащане от клиента</button></div>';
-  h += '<div class="ch">👷 Работници</div>' + (S.ws.length ? S.ws.map(wkHtml).join('') : '<div class="s">Няма добавени работници</div>') +
-    '<div class="acts"><button onclick="wkForm()">➕ Работник</button></div>';
-  h += '<div class="ch">🧾 Други разходи</div>' + (S.ex.length ? '<div class="xl">' + S.ex.map(function(x){
-    return '<div class="xr' + (SELM && SELS[x.id] ? ' on' : '') + '" data-lp="x" data-k="exp" data-id="' + esc(x.id) + '" onclick="selRow(event,this.dataset.id)">' + selBox(x.id) + '<span>' + (EXI[x.type] || '🧾') + '</span><span class="xd"><b>' + esc(x.desc || x.type) + '</b><small>' + fmt(x.date) + ' · ' + esc(x.type) +
-      (x.method ? ' · ' + esc(x.method) : '') + (x.note ? ' · ' + esc(x.note) : '') + jTag(k, x) + '</small></span><b class="xa">' + eur(x.amount) + '</b>' + mvBtn(x.id) +
-      '<button data-id="' + esc(x.id) + '" onclick="costEdit(this.dataset.id)" title="Промени">✏️</button><button data-id="' + esc(x.id) + '" onclick="rmCost(this.dataset.id)" title="Изтрий">🗑️</button></div>';
-  }).join('') + '</div>' : '<div class="s">Няма други разходи</div>') + '<div class="acts"><button onclick="exForm()">➕ Разход</button></div>';
-  return SELM ? '<div class="selm">' + h + '</div>' : h;
+  h += '<div class="ch">💰 Плащания от клиента</div>' + (S.inc.length ? '<div class="xl">' + S.inc.map(incRow).join('') + '</div>' : '<div class="s">Още няма плащания</div>') + '<div class="acts"><button class="ok" onclick="cpForm()">➕ Плащане от клиента</button></div>';
+  h += '<div class="ch">👷 Работници</div>' + (S.ws.length ? S.ws.map(wkHtml).join('') : '<div class="s">Няма добавени работници</div>') + '<div class="acts"><button onclick="wkForm()">➕ Работник</button></div>';
+  h += '<div class="ch">🧾 Други разходи</div>' + (S.ex.length ? '<div class="xl">' + S.ex.map(expRow).join('') + '</div>' : '<div class="s">Няма други разходи</div>') + '<div class="acts"><button onclick="exForm()">➕ Разход</button></div>';
+  return wrap(h);
 }
 var JOBQ = ['Фундамент', 'Монтаж', 'Покрив', 'Изолация', 'Фасада', 'Тераса', 'Навес', 'Ограда', 'Баня', 'Кухня', 'Подове', 'Ел. инсталация', 'ВиК', 'Боядисване'];
 function jobsBox(c){
@@ -1441,7 +1624,7 @@ function jobsBox(c){
   return h + '<button class="jadd" onclick="jobNew()">➕ Нова работа</button></div>';
 }
 function jOpen(id){
-  JSEL[CUR.name] = id; OPENW = null; OPEN.costs = true; drawCard();
+  OPENW = null; OPEN.costs = true; drawCard();
   setTimeout(function(){ var d = document.querySelector('#cdB details[data-k="costs"]'); if (d) d.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 60);
 }
 function jobNew(){
@@ -2009,7 +2192,7 @@ if ('serviceWorker' in navigator) navigator.serviceWorker.addEventListener('mess
   var m = e.data && e.data.crmOpen; if (!m) return; PENDOPEN = { c: m.c || '', w: m.w || '' }; if (D) { pendOpen(D); load(); }
 });
 
-var APP_VER = '3.27';
+var APP_VER = '3.28';
 if ('serviceWorker' in navigator) {
   var swHad = !!navigator.serviceWorker.controller, swDone = false;
   navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).then(function(r){
