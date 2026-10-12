@@ -154,7 +154,14 @@ input,textarea,.notes{-webkit-user-select:text;user-select:text}
 .jc b{flex:1;min-width:0;font-size:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.jc em{font-style:normal;font-weight:800;font-size:15px}.jc i{font-style:normal;color:#94a3b8;font-size:22px;line-height:1}
 .jc small{flex-basis:100%;order:3;color:#64748b;font-size:12.5px}.jc.on{background:#ecfdf5;border-color:#99f6e4;border-left-color:#0f766e}
 .jadd{width:100%;margin-top:6px;border:2px dashed #0f766e;background:#f0fdfa;color:#0f766e;border-radius:12px;padding:13px;font-size:16px;font-weight:700;font-family:inherit}
-.jb{margin:2px 0 10px}.jb button{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.jb{margin:2px 0 10px}
+.fnav{display:flex;align-items:center;gap:8px;margin:12px 16px 4px}.fnav button{border:1px solid #cbd5e1;background:#fff;border-radius:10px;padding:8px 14px;font-size:18px;font-family:inherit}.fnav b{flex:1;text-align:center;font-size:17px;cursor:pointer}.fnav small{display:block;font-size:11.5px;color:#64748b;font-weight:600}
+.fsub{margin:8px 16px 4px;flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:4px}.fsub button{white-space:nowrap}
+.fbig{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:10px 16px}.fbig>div{background:#fff;border-radius:12px;padding:10px;box-shadow:0 1px 3px rgba(0,0,0,.08);min-width:0}.fbig small{display:block;font-size:11px;color:#64748b;font-weight:700;text-transform:uppercase}.fbig b{font-size:16.5px;white-space:nowrap}
+.fl2{background:#fff;margin:0 16px 8px;border-radius:12px;padding:4px 12px;box-shadow:0 1px 3px rgba(0,0,0,.08)}.fl2 .fr{display:flex;align-items:center;gap:8px;padding:10px 0;border-top:1px solid #f1f5f9}.fl2 .fr:first-child{border-top:0}
+.fr .fx{flex:1;min-width:0;display:flex;flex-direction:column}.fr .fx b{font-size:14.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.fr .fx small{color:#64748b;font-size:12px}.fr .fa{font-weight:800;white-space:nowrap}.fr[onclick]{cursor:pointer}
+.fbar{height:6px;border-radius:3px;background:#fecaca;margin-top:4px}.fbar.g{background:#bbf7d0}
+.fadd{display:flex;gap:8px;margin:10px 16px}.fadd button{flex:1;border:0;border-radius:12px;padding:13px 6px;font-size:15.5px;font-weight:700;color:#fff;font-family:inherit}.jb button{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .jh{display:flex;align-items:center;gap:8px;margin:2px 0 8px}.jh span{flex:1;min-width:0;display:flex;flex-direction:column}.jh b{font-size:16px}.jh small{color:#64748b;font-size:12px}.jh button{border:1px solid #cbd5e1;background:#fff;border-radius:10px;padding:7px 10px;font-size:15px}
 .xd[onclick],.xr .ar{cursor:pointer}.xr .ar{color:#94a3b8;font-size:20px;padding:0 2px}
 .cg>div{flex:1;background:#f8fafc;border-radius:10px;padding:8px 10px;min-width:0}
@@ -261,7 +268,7 @@ function fmt(d){ if (!d) return '—'; var p = d.split('-'); return parseInt(p[2
 function rel(d){ if (d < D.today) return 'over'; if (d === D.today) return 'today'; return ''; }
 function whenTxt(d, t){ var r = rel(d); return (r === 'over' ? 'Просрочено · ' : r === 'today' ? 'Днес · ' : '') + fmt(d) + (t ? ' · ' + t : ''); }
 function addD(n){ var p = D.today.split('-'); return new Date(Date.UTC(+p[0], +p[1] - 1, +p[2] + n)).toISOString().slice(0, 10); }
-function eur(n){ return '€' + Math.round(Number(n) || 0).toLocaleString('en-US'); }
+function eur(n){ n = Math.round(Number(n) || 0); return (n < 0 ? '−' : '') + '€' + Math.abs(n).toLocaleString('en-US'); }
 function pill(s){ var c = STC[s] || ['#e2e8f0','#334155']; return s ? '<span class="pill" style="background:' + c[0] + ';color:' + c[1] + '">' + esc(s) + '</span>' : ''; }
 function busy(on){ el('main').style.opacity = on ? .45 : 1; el('main').style.pointerEvents = on ? 'none' : 'auto'; }
 function err(e){ busy(false); toast('Грешка: ' + (e && e.message ? e.message : e), 4500); }
@@ -679,7 +686,17 @@ function listC(){
 }
 
 // ---------- 📊 Отчет ----------
+var RSEG = (function(){ try { return localStorage.getItem('crm_rseg') || 's'; } catch (e) { return 's'; } })();
+function rSeg(k){ RSEG = k; try { localStorage.setItem('crm_rseg', k); } catch (e) {} drawReport(); }
 function drawReport(){
+  if (isAdm()) {
+    var sg = '<div class="tfl"><button class="' + (RSEG === 'f' ? '' : 'on') + '" onclick="rSeg(\'s\')">📊 Продажби</button><button class="' + (RSEG === 'f' ? 'on' : '') + '" onclick="rSeg(\'f\')">🏢 Фирма – пари</button></div>';
+    if (RSEG === 'f') { el('main').innerHTML = sg + '<div id="fin"></div>'; finLoad(); return; }
+    drawReport0(); el('main').innerHTML = sg + el('main').innerHTML; return;
+  }
+  drawReport0();
+}
+function drawReport0(){
   var cs = D.clients.filter(function(c){ return mine(c.r); }), ts = D.tasks.filter(function(x){ return mine(x.rep); });
   var open = cs.filter(function(c){ return c.s && D.closed.indexOf(c.s) < 0; }), won = cs.filter(function(c){ return (WS === 'r' ? ['Сключен договор', 'В процес', 'Завършено'] : ['Сключен договор']).indexOf(c.s) > -1; });
   var sum = function(a){ return a.reduce(function(s, c){ return s + c.b; }, 0); };
@@ -703,6 +720,111 @@ function drawReport(){
   el('main').innerHTML = h;
 }
 
+// ---------- 🏢 Фирма: общи приходи и разходи + всички пари по клиентите ----------
+var FIN = null, FP = '', FV = 'o', FF = 'a';
+var MON = ['Януари', 'Февруари', 'Март', 'Април', 'Май', 'Юни', 'Юли', 'Август', 'Септември', 'Октомври', 'Ноември', 'Декември'];
+function finLoad(force){
+  if (FIN && !force) { drawFin(); return; }
+  if (!FIN) el('fin').innerHTML = '<div class="load">Зареждане…</div>';
+  apiCall('finGet', []).then(function(r){ FIN = r; if (TAB === 'r' && RSEG === 'f' && el('fin')) drawFin(); }, function(e){ if (el('fin')) el('fin').innerHTML = '<div class="empty">⚠️ ' + esc(e.message || e) + '</div>'; });
+}
+function fPer(d){ return FP.length === 4 ? d.slice(0, 4) === FP : d.slice(0, 7) === FP; }
+function fLbl(){ return FP.length === 4 ? 'Цялата ' + FP + ' г.' : MON[+FP.slice(5, 7) - 1] + ' ' + FP.slice(0, 4); }
+function fMove(n){
+  if (FP.length === 4) FP = String(+FP + n);
+  else { var y = +FP.slice(0, 4), m = +FP.slice(5, 7) + n; if (m < 1) { m = 12; y--; } if (m > 12) { m = 1; y++; } FP = y + '-' + ('0' + m).slice(-2); }
+  drawFin();
+}
+function fYear(){ FP = FP.length === 4 ? (FIN.today.slice(0, 4) === FP ? FIN.today.slice(0, 7) : FP + '-12') : FP.slice(0, 4); drawFin(); }
+function fView(v){ FV = v; drawFin(); }
+var FWS = { f: 'Flexi Home', r: 'Ремонти' };
+function drawFin(){
+  var F = FIN; if (!F || !el('fin')) return;
+  if (!FP) FP = F.today.slice(0, 7);
+  var co = F.rows.filter(function(o){ return fPer(o.date); }), cm = F.cm.filter(function(x){ return fPer(x.d); });
+  var sum = function(a, f){ return a.reduce(function(t, x){ return t + f(x); }, 0); };
+  var ci = sum(cm, function(x){ return x.io === 'in' ? x.a : 0; }), cx = sum(cm, function(x){ return x.io === 'out' ? x.a : 0; });
+  var oi = sum(co, function(o){ return o.kind === 'inc' ? o.amount : 0; }), ce = sum(co, function(o){ return o.kind === 'exp' ? o.amount : 0; });
+  var inc = ci + oi, exp = cx + ce, pr = inc - exp;
+  var h = '<div class="fnav"><button onclick="fMove(-1)">‹</button><b onclick="fYear()">' + esc(fLbl()) + '<small>' + (FP.length === 4 ? 'докосни за месец' : 'докосни за цялата година') + '</small></b><button onclick="fMove(1)">›</button></div>';
+  h += '<div class="fbig"><div><small>Приходи</small><b style="color:#15803d">' + eur(inc) + '</b></div><div><small>Разходи</small><b style="color:#b91c1c">' + eur(exp) + '</b></div><div><small>Печалба</small><b style="color:' + (pr >= 0 ? '#15803d' : '#b91c1c') + '">' + eur(pr) + '</b></div></div>';
+  var vb = function(k, l){ return '<button class="' + (FV === k ? 'on' : '') + '" onclick="fView(\'' + k + '\')">' + l + '</button>'; };
+  h += '<div class="chips fsub">' + vb('o', '📊 Общо') + vb('x', '💸 Разходи') + vb('i', '💰 Приходи') + vb('c', '👥 По клиенти') + vb('m', '📅 По месеци') + '</div>';
+  h += '<div class="fadd"><button style="background:#b91c1c" onclick="fForm(\'\',\'exp\')">➖ Фирмен разход</button><button style="background:#15803d" onclick="fForm(\'\',\'inc\')">➕ Друг приход</button></div>';
+  var row = function(ic, t, sub, a, col, on){ return '<div class="fr"' + (on ? ' ' + on : '') + '><span>' + ic + '</span><span class="fx"><b>' + t + '</b>' + (sub ? '<small>' + sub + '</small>' : '') + '</span><span class="fa" style="color:' + col + '">' + a + '</span></div>'; };
+  var coRow = function(o){ return row(o.kind === 'inc' ? '💰' : '🏢', esc(o.cat) + (o.rec ? ' 🔁' : ''), esc([fmt(o.date), o.desc, o.method].filter(Boolean).join(' · ')), (o.kind === 'inc' ? '+' : '−') + eur(o.amount), o.kind === 'inc' ? '#15803d' : '#b91c1c', 'data-id="' + esc(o.id) + '" onclick="fForm(this.dataset.id)"'); };
+  var cmRow = function(x){ return row(x.io === 'in' ? '💰' : (x.k === 'Работници' ? '👷' : '🧱'), esc(x.c), esc([fmt(x.d), x.k + (x.t ? ': ' + x.t : ''), F.reno ? FWS[x.ws] : ''].filter(Boolean).join(' · ')), (x.io === 'in' ? '+' : '−') + eur(x.a), x.io === 'in' ? '#15803d' : '#b91c1c', 'data-n="' + esc(x.c) + '" data-w="' + x.ws + '" onclick="fOpenC(this.dataset.n,this.dataset.w)"'); };
+  if (FV === 'o') {
+    var cat = {}; co.forEach(function(o){ if (o.kind === 'exp') cat[o.cat] = (cat[o.cat] || 0) + o.amount; });
+    var cats = Object.keys(cat).sort(function(a, b){ return cat[b] - cat[a]; }), mx = Math.max.apply(null, cats.map(function(k){ return cat[k]; }).concat([1]));
+    var byWs = function(io, ws){ return sum(cm, function(x){ return x.io === io && x.ws === ws ? x.a : 0; }); };
+    h += '<h2>💰 Приходи<span>' + eur(inc) + '</span></h2><div class="fl2">' +
+      row('👥', 'От клиенти' + (F.reno ? ' – Flexi Home' : ''), '', eur(byWs('in', 'f')), '#15803d') + (F.reno ? row('🔨', 'От клиенти – Ремонти', '', eur(byWs('in', 'r')), '#15803d') : '') + row('💰', 'Други приходи на фирмата', '', eur(oi), '#15803d') + '</div>';
+    h += '<h2>💸 Разходи<span>' + eur(exp) + '</span></h2><div class="fl2">' +
+      row('👷', 'Работници (платено)', '', eur(sum(cm, function(x){ return x.io === 'out' && x.k === 'Работници' ? x.a : 0; })), '#b91c1c') +
+      row('🧱', 'Материали, транспорт… по клиенти', '', eur(sum(cm, function(x){ return x.io === 'out' && x.k !== 'Работници' ? x.a : 0; })), '#b91c1c') +
+      row('🏢', 'Фирмени разходи', '', eur(ce), '#b91c1c') + '</div>';
+    if (cats.length) h += '<h2>🏢 Фирмени разходи по вид<span>' + eur(ce) + '</span></h2><div class="fl2">' + cats.map(function(k){
+      return '<div class="fr" data-c="' + esc(k) + '" onclick="FF=this.dataset.c;fView(\'x\')"><span class="fx"><b>' + esc(k) + '</b><div class="fbar" style="width:' + Math.round(cat[k] / mx * 100) + '%"></div></span><span class="fa">' + eur(cat[k]) + '</span></div>'; }).join('') + '</div>';
+    else h += '<div class="empty">Още няма фирмени разходи за този период. Натисни ➖ Фирмен разход (счетоводство, наем, заплати…).</div>';
+  } else if (FV === 'x') {
+    var cs = []; co.forEach(function(o){ if (o.kind === 'exp' && cs.indexOf(o.cat) < 0) cs.push(o.cat); });
+    if (FF !== 'a' && FF !== 'c' && FF !== 'k' && cs.indexOf(FF) < 0) FF = 'a';
+    var fb = function(k, l){ return '<button class="' + (FF === k ? 'on' : '') + '" data-f="' + esc(k) + '" onclick="FF=this.dataset.f;drawFin()">' + esc(l) + '</button>'; };
+    h += '<div class="chips fsub">' + fb('a', 'Всички') + fb('c', '🏢 Фирмени') + fb('k', '👥 По клиенти') + cs.map(function(c){ return fb(c, c); }).join('') + '</div>';
+    var A = co.filter(function(o){ return o.kind === 'exp' && (FF === 'a' || FF === 'c' || FF === o.cat); }).map(function(o){ return { d: o.date, h: coRow(o), a: o.amount }; });
+    if (FF === 'a' || FF === 'k') A = A.concat(cm.filter(function(x){ return x.io === 'out'; }).map(function(x){ return { d: x.d, h: cmRow(x), a: x.a }; }));
+    A.sort(function(a, b){ return b.d.localeCompare(a.d); });
+    h += '<h2>💸 Разходи<span>' + eur(sum(A, function(x){ return x.a; })) + '</span></h2>' + (A.length ? '<div class="fl2">' + A.map(function(x){ return x.h; }).join('') + '</div>' : '<div class="empty">Няма разходи за този период</div>');
+  } else if (FV === 'i') {
+    var B = co.filter(function(o){ return o.kind === 'inc'; }).map(function(o){ return { d: o.date, h: coRow(o), a: o.amount }; }).concat(cm.filter(function(x){ return x.io === 'in'; }).map(function(x){ return { d: x.d, h: cmRow(x), a: x.a }; }));
+    B.sort(function(a, b){ return b.d.localeCompare(a.d); });
+    h += '<h2>💰 Приходи<span>' + eur(inc) + '</span></h2>' + (B.length ? '<div class="fl2">' + B.map(function(x){ return x.h; }).join('') + '</div>' : '<div class="empty">Няма приходи за този период</div>');
+  } else if (FV === 'c') {
+    var C = {}; cm.forEach(function(x){ var k = x.ws + '|' + x.c; C[k] = C[k] || { c: x.c, ws: x.ws, i: 0, o: 0 }; C[k][x.io === 'in' ? 'i' : 'o'] += x.a; });
+    var L = Object.keys(C).map(function(k){ return C[k]; }).sort(function(a, b){ return (b.i - b.o) - (a.i - a.o); });
+    h += '<h2>👥 По клиенти<span>' + L.length + '</span></h2>' + (L.length ? '<div class="fl2">' + L.map(function(x){
+      return row(x.ws === 'r' ? '🔨' : '🏠', esc(x.c), 'Получено ' + eur(x.i) + ' · Разходи ' + eur(x.o), eur(x.i - x.o), x.i - x.o >= 0 ? '#15803d' : '#b91c1c', 'data-n="' + esc(x.c) + '" data-w="' + x.ws + '" onclick="fOpenC(this.dataset.n,this.dataset.w)"'); }).join('') + '</div><div class="s" style="margin:0 16px">Само реално получени и платени пари за периода (без договорени).</div>' : '<div class="empty">Няма движения по клиенти за този период</div>');
+  } else {
+    var y = FP.slice(0, 4), ms = [];
+    for (var i = 12; i >= 1; i--) { var k = y + '-' + ('0' + i).slice(-2); if (k <= F.today.slice(0, 7)) ms.push(k); }
+    var mv = ms.map(function(k){ var a = function(f){ return sum(F.cm.filter(function(x){ return x.d.slice(0, 7) === k; }), f); }, b = function(f){ return sum(F.rows.filter(function(o){ return o.date.slice(0, 7) === k; }), f); };
+      var I = a(function(x){ return x.io === 'in' ? x.a : 0; }) + b(function(o){ return o.kind === 'inc' ? o.amount : 0; }), E = a(function(x){ return x.io === 'out' ? x.a : 0; }) + b(function(o){ return o.kind === 'exp' ? o.amount : 0; });
+      return { k: k, I: I, E: E }; });
+    var mm = Math.max.apply(null, mv.map(function(x){ return Math.max(x.I, x.E); }).concat([1]));
+    h += '<h2>📅 По месеци – ' + y + '<span>' + eur(sum(mv, function(x){ return x.I - x.E; })) + '</span></h2><div class="fl2">' + mv.map(function(x){
+      return '<div class="fr" data-k="' + x.k + '" onclick="FP=this.dataset.k;fView(\'o\')"><span class="fx"><b>' + MON[+x.k.slice(5, 7) - 1] + '</b><small>Приходи ' + eur(x.I) + ' · Разходи ' + eur(x.E) + '</small><div class="fbar g" style="width:' + Math.round(x.I / mm * 100) + '%"></div><div class="fbar" style="width:' + Math.round(x.E / mm * 100) + '%"></div></span><span class="fa" style="color:' + (x.I - x.E >= 0 ? '#15803d' : '#b91c1c') + '">' + eur(x.I - x.E) + '</span></div>'; }).join('') + '</div>';
+  }
+  h += '<div class="s" style="margin:12px 16px 30px">В таблицата: „🏢 Фирма – приходи и разходи“, „📊 Финанси“ (по месеци и категории) и „📒 Всички движения“ – обновяват се сами.</div>';
+  el('fin').innerHTML = h;
+}
+function fOpenC(n, ws){ if ((ws === 'r' ? 'r' : '') !== (WS || '')) { toast('Клиентът е в „' + FWS[ws] + '“ – смени раздела от горе'); return; } openC(n, 'costs'); }
+function fForm(id, kind){
+  var o = id ? FIN.rows.filter(function(x){ return x.id === id; })[0] : null; if (id && !o) return;
+  kind = o ? o.kind : (kind || 'exp');
+  var list = (kind === 'inc' ? FIN.inc : FIN.exp).slice(); FIN.rows.forEach(function(x){ if (x.kind === kind && list.indexOf(x.cat) < 0) list.push(x.cat); });
+  var cur = o ? o.cat : '';
+  var h = '<form id="frm" onsubmit="return fSend(event)"><input type="hidden" name="id" value="' + esc(o ? o.id : '') + '"><input type="hidden" name="kind" value="' + kind + '"><input type="hidden" name="cat" id="fCat" value="' + esc(cur) + '">';
+  h += fld('Вид *', '<div class="chips" id="fCats">' + list.map(function(c){ return '<button type="button" class="' + (c === cur ? 'on' : '') + '" data-v="' + esc(c) + '" onclick="fCatPick(this)">' + esc(c) + '</button>'; }).join('') + '</div><input id="fCatX" autocomplete="off" placeholder="✍️ друг вид (по желание)" style="margin-top:8px" oninput="if(this.value.trim()){el(\'fCat\').value=this.value.trim();[].forEach.call(el(\'fCats\').children,function(b){b.classList.remove(\'on\')})}">');
+  h += half(fld('Сума (€) *', '<input name="amount" inputmode="decimal" required value="' + (o ? o.amount : '') + '">'), fld('Дата', '<input name="date" type="date" value="' + esc(o ? o.date : FIN.today) + '">'));
+  h += fld('Описание', '<input name="desc" autocomplete="off" placeholder="' + (kind === 'inc' ? 'напр. продаден бус' : 'напр. офис Бургас, счетоводител Иванова') + '" value="' + esc(o ? o.desc : '') + '">');
+  h += half(fld('Начин', '<select name="method">' + opts(['Банка', 'Кеш'], o ? o.method || 'Банка' : 'Банка') + '</select>'), fld('Бележка', '<input name="note" value="' + esc(o ? o.note : '') + '">'));
+  h += '<label class="sw"><input type="checkbox" name="rec" value="1"' + (o && o.rec ? ' checked' : '') + '><span><b>🔁 Всеки месец</b><small>напр. наем, счетоводство – добавя се сам всеки месец на същата дата</small></span></label>';
+  h += '<button class="save" id="sv">💾 Запази</button>' + (o ? '<button type="button" class="more" style="color:#b91c1c" data-id="' + esc(o.id) + '" onclick="fDel(this.dataset.id)">🗑️ Изтрий</button>' : '') + '</form>';
+  openSheet(o ? '✏️ ' + o.cat : kind === 'inc' ? '➕ Друг приход на фирмата' : '➖ Фирмен разход', h);
+}
+function fCatPick(b){ el('fCat').value = b.getAttribute('data-v'); el('fCatX').value = ''; [].forEach.call(b.parentNode.children, function(x){ x.classList.toggle('on', x === b); }); }
+function fSend(e){
+  e.preventDefault(); var d = formData(); d.rec = !!d.rec;
+  if (!d.cat) { toast('Избери вид (напр. 🏬 Наем)'); return false; }
+  var sv = el('sv'); sv.disabled = true; sv.textContent = 'Записване…';
+  apiCall('finSave', [d]).then(function(r){ FIN = r; closeSheet(); toast('✅ Записано'); drawFin(); }, function(er){ sv.disabled = false; sv.textContent = '💾 Запази'; err(er); });
+  return false;
+}
+function fDel(id){
+  if (!confirm('🗑️ Да изтрия ли този запис?')) return;
+  apiCall('finDel', [id]).then(function(r){ FIN = r; closeSheet(); toast('🗑️ Изтрито'); drawFin(); }, err);
+}
 // ---------- 👤 Профил / вход ----------
 // 🆕 Какво ново – след всяка нова версия (веднъж) и от 👤 менюто
 var NEWS_DONE = false;
@@ -1833,7 +1955,7 @@ if ('serviceWorker' in navigator) navigator.serviceWorker.addEventListener('mess
   var m = e.data && e.data.crmOpen; if (!m) return; PENDOPEN = { c: m.c || '', w: m.w || '' }; if (D) { pendOpen(D); load(); }
 });
 
-var APP_VER = '3.24';
+var APP_VER = '3.25';
 if ('serviceWorker' in navigator) {
   var swHad = !!navigator.serviceWorker.controller, swDone = false;
   navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).then(function(r){
