@@ -149,6 +149,11 @@ input,textarea,.notes{-webkit-user-select:text;user-select:text}
 .nw b{display:block;font-size:13px;color:#0f766e;margin-bottom:4px}.nw div{font-size:15px;line-height:1.45;color:#0f172a}
 .cg{display:flex;gap:8px;margin-bottom:6px}
 .oth{display:flex;gap:6px}.oth input{flex:1;min-width:0}.oth button{border:1px solid #cbd5e1;background:#fff;border-radius:10px;padding:0 14px;font-size:17px;font-family:inherit}
+.jobs .jt{font-size:15.5px;font-weight:800;color:#0f172a;margin-bottom:4px;display:flex;align-items:center;gap:8px}.jobs .jt span{background:#e0f2fe;color:#075985;border-radius:10px;padding:1px 8px;font-size:12.5px}
+.jc{display:flex;flex-wrap:wrap;align-items:center;gap:2px 8px;padding:11px 12px;border:1px solid #e2e8f0;border-left:5px solid #0f766e;border-radius:12px;margin:8px 0;background:#f8fafc;cursor:pointer}
+.jc b{flex:1;min-width:0;font-size:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.jc em{font-style:normal;font-weight:800;font-size:15px}.jc i{font-style:normal;color:#94a3b8;font-size:22px;line-height:1}
+.jc small{flex-basis:100%;order:3;color:#64748b;font-size:12.5px}.jc.on{background:#ecfdf5;border-color:#99f6e4;border-left-color:#0f766e}
+.jadd{width:100%;margin-top:6px;border:2px dashed #0f766e;background:#f0fdfa;color:#0f766e;border-radius:12px;padding:13px;font-size:16px;font-weight:700;font-family:inherit}
 .jb{margin:2px 0 10px}.jb button{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .jh{display:flex;align-items:center;gap:8px;margin:2px 0 8px}.jh span{flex:1;min-width:0;display:flex;flex-direction:column}.jh b{font-size:16px}.jh small{color:#64748b;font-size:12px}.jh button{border:1px solid #cbd5e1;background:#fff;border-radius:10px;padding:7px 10px;font-size:15px}
 .xd[onclick],.xr .ar{cursor:pointer}.xr .ar{color:#94a3b8;font-size:20px;padding:0 2px}
@@ -996,7 +1001,7 @@ function whenCard(n, fn){
 }
 function cMenu(n){
   var b = [['👤 Отвори картата', function(){ openC(n); }], ['✏️ Промени данните и името', function(){ openC(n); whenCard(n, editC); }],
-    ['➕ Нова задача', function(){ openForm(n); }], ['🏷️ Смени етапа', function(){ openC(n, 'stage'); }], [fin() ? '💶 Плащания и работници' : '👷 Работници', function(){ openC(n, 'costs'); }]];
+    ['➕ Нова задача', function(){ openForm(n); }]].concat(fin() ? [['📝 Нова работа', function(){ jobNewFor(n); }]] : []).concat([['🏷️ Смени етапа', function(){ openC(n, 'stage'); }], [fin() ? '💶 Плащания и работници' : '👷 Работници', function(){ openC(n, 'costs'); }]]);
   var dc = dcOf(n), sst = dc ? siteSt(dc) : '';
   if (dc && dc.x && sst !== 'done') { b.push([sst === 'pause' ? '▶️ Обектът продължава' : '⏸️ Обектът е на пауза', function(){ siteAct(n, sst === 'pause' ? 'run' : 'pause'); }]); b.push(['✅ Обектът е завършен', function(){ siteAct(n, 'done'); }]); }
   else if (dc && dc.x) b.push(['↩️ Обектът отново е активен', function(){ siteAct(n, 'run'); }]);
@@ -1117,6 +1122,7 @@ function drawCard(){
     '<div class="acts"><button class="ok" data-n="' + esc(c.name) + '" onclick="openForm(this.dataset.n)">➕ Задача</button>' +
     '<label>📸 Снимка<input type="file" accept="image/*" multiple style="display:none" onchange="upC(this)"></label>' +
     '<label>📎 Файл<input type="file" multiple style="display:none" onchange="upF(this)"></label><button onclick="cMenuCur()">⋯ Още</button></div></div>';
+  h += jobsBox(c);
   // 👤 Информация
   var info = [['📞', c.phone], ['📍', c.city], ['🏠', c.model], ['💶', c.budget ? eur(c.budget) : ''], ['🔎', c.src ? 'Източник: ' + c.src : ''],
     ['👤', c.rep], ['🗓️', c.inq ? 'Запитване: ' + fmt(c.inq) : ''], ['☎️', c.last ? 'Последен контакт: ' + fmt(c.last) : '']]
@@ -1256,7 +1262,7 @@ function costsHtml(c){
   var h = J.length ? '<div class="chips jb">' + jb('*', '📊 Общо') + J.map(function(x){ return jb(x.id, '📝 ' + (x.desc || 'Работа')); }).join('') + (gen ? jb('_', '📦 Без работа') : '') + '</div>' : '';
   var S = jSum(k, sel);
   if (sel === '*') {
-    h += (J.length ? '<div class="ch">📊 Общо за клиента (всички работи)</div>' : '') + kGrid(J.length ? (k.dealSum || 0) : (c.budget || 0), k.got || 0, k.cost, k.owed);
+    h += (J.length ? '<div class="ch">📊 Общо за клиента (всички работи)</div>' : '') + kGrid(J.length && k.dealSum ? k.dealSum : (c.budget || 0), k.got || 0, k.cost, k.owed);
     if (J.length) {
       h += '<div class="ch">📝 Работи (' + J.length + ')</div><div class="xl">' + J.map(function(x){
         var s2 = jSum(k, x.id), p = x.agreed - s2.cost;
@@ -1265,7 +1271,7 @@ function costsHtml(c){
       }).join('') + (gen ? (function(){ var g = jSum(k, '_'); return '<div class="xr"><span>📦</span><span class="xd" onclick="jSel(\'_\')"><b>Без работа (общи)</b><small>Получено ' + eur(g.got) + ' · Разходи ' + eur(g.cost) + '</small></span><span class="ar" onclick="jSel(\'_\')">›</span></div>'; })() : '') +
         '</div><div class="s">Вдясно: печалба ≈ по работа. Докосни работа, за да видиш и добавяш само нейните плащания и разходи.</div>';
     }
-    h += '<div class="acts"><button onclick="dealForm()">➕ ' + (J.length ? 'Още една работа' : 'Работа (договор)') + '</button></div>';
+    h += '<div class="acts"><button class="ok" onclick="jobNew()">➕ Нова работа</button></div>';
   } else if (sel === '_') {
     h += '<div class="ch">📦 Без работа – общи записи</div>' + kGrid(0, S.got, S.cost, S.owed);
   } else {
@@ -1284,6 +1290,51 @@ function costsHtml(c){
       '<button data-id="' + esc(x.id) + '" onclick="costEdit(this.dataset.id)" title="Промени">✏️</button><button data-id="' + esc(x.id) + '" onclick="rmCost(this.dataset.id)" title="Изтрий">🗑️</button></div>';
   }).join('') + '</div>' : '<div class="s">Няма други разходи</div>') + '<div class="acts"><button onclick="exForm()">➕ Разход</button></div>';
   return h;
+}
+var JOBQ = ['Фундамент', 'Монтаж', 'Покрив', 'Изолация', 'Фасада', 'Тераса', 'Навес', 'Ограда', 'Баня', 'Кухня', 'Подове', 'Ел. инсталация', 'ВиК', 'Боядисване'];
+function jobsBox(c){
+  var k = c.costs; if (!k || k.nf || !fin()) return '';
+  var J = k.deals || [], sel = JSEL[c.name] || '*';
+  var h = '<div class="box jobs"><div class="jt">📝 Работи' + (J.length ? ' <span>' + J.length + '</span>' : '') + '</div>';
+  if (J.length) h += J.map(function(x){
+    var s = jSum(k, x.id), p = x.agreed ? x.agreed - s.cost : null;
+    return '<div class="jc' + (sel === x.id ? ' on' : '') + '" data-j="' + esc(x.id) + '" onclick="jOpen(this.dataset.j)"><b>' + esc(x.desc || 'Работа') + '</b>' +
+      (p !== null ? '<em style="color:' + (p >= 0 ? '#15803d' : '#b91c1c') + '">' + eur(p) + '</em>' : '') + '<i>›</i>' +
+      '<small>' + (x.agreed ? 'Договор ' + eur(x.agreed) + ' · ' : '') + 'Получено ' + eur(s.got) + ' · Разходи ' + eur(s.cost) + '</small></div>';
+  }).join('');
+  else h += '<div class="s">Правиш няколко работи за този клиент (напр. навес, ограда, баня)? Добави всяка отделно – плащанията и разходите ѝ се смятат отделно.</div>';
+  return h + '<button class="jadd" onclick="jobNew()">➕ Нова работа</button></div>';
+}
+function jOpen(id){
+  JSEL[CUR.name] = id; OPENW = null; OPEN.costs = true; drawCard();
+  setTimeout(function(){ var d = document.querySelector('#cdB details[data-k="costs"]'); if (d) d.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 60);
+}
+function jobNew(){
+  if (!CUR || CUR.stub || !CUR.costs) { toast('⏳ Момент – зареждам картата…'); return; }
+  var used = (CUR.costs.deals || []).map(function(d){ return String(d.desc || '').toLowerCase(); }), seen = {};
+  var q = (WS === 'r' ? D.models : []).concat(JOBQ).filter(function(x){ var k = String(x).toLowerCase(); if (!x || seen[k] || used.indexOf(k) > -1) return false; seen[k] = 1; return true; }).slice(0, 14);
+  var h = '<form id="frm" onsubmit="return sendJobNew(event)"><input type="hidden" name="date" value="' + D.today + '">';
+  h += fld('Каква работа? *', '<input name="desc" id="jnD" required autocomplete="off" placeholder="напр. Навес, Ограда, Баня…">') +
+    '<div class="chips" style="margin-top:8px">' + q.map(function(x){ return '<button type="button" data-v="' + esc(x) + '" onclick="jnPick(this)">' + esc(x) + '</button>'; }).join('') + '</div>';
+  h += fld('Договорена сума (€) <span style="font-weight:400;color:#64748b">– по желание, може и по-късно</span>', '<input name="agreed" id="jnA" inputmode="decimal" placeholder="напр. 4000">');
+  h += '<button class="save" id="sv">➕ Добави работата</button></form>';
+  openSheet('📝 Нова работа – ' + CUR.name, h);
+}
+function jnPick(b){ el('jnD').value = b.getAttribute('data-v'); [].forEach.call(b.parentNode.querySelectorAll('button'), function(x){ x.classList.toggle('on', x === b); }); try { el('jnA').focus(); } catch (e) {} }
+function sendJobNew(e){
+  e.preventDefault();
+  var d = formData(), n = CUR.name, before = (CUR.costs.deals || []).map(function(x){ return x.id; });
+  closeSheet(); toast('⏳ Записва се…', 1500);
+  bg('saveDeal', [n, d], function(c){
+    var nd = ((c && c.costs && c.costs.deals) || []).filter(function(x){ return before.indexOf(x.id) < 0; })[0];
+    if (nd) { JSEL[(c && c.name) || n] = nd.id; OPEN.costs = true; }
+    cardDone(c); toast('📝 „' + d.desc + '“ е добавена. Плащанията и разходите, които добавиш сега, отиват към нея.', 4500); load();
+  }, 'работа');
+  return false;
+}
+function jobNewFor(n){
+  openC(n); var tries = 0;
+  (function go(){ if (!CUR || CUR.name.toLowerCase() !== String(n).toLowerCase() || CUR.stub || !CUR.costs) { if (++tries < 30) return setTimeout(go, 200); toast('⏳ Картата още се зарежда – опитай пак'); return; } jobNew(); })();
 }
 function rmDeal(id){ rmCost(id, 'Да изтрия ли тази работа?\n\nПлащанията и разходите ѝ остават – стават „без работа“.'); }
 function wkKey(w){ return w.name + '|' + (w.jid || ''); }
@@ -1383,7 +1434,7 @@ function dealForm(id){
   var x = id ? ((CUR.costs && CUR.costs.deals) || []).filter(function(d){ return d.id === id; })[0] : null;
   var h = '<form id="frm" onsubmit="return sendDeal(event)"><input type="hidden" name="id" value="' + esc(x ? x.id : '') + '">';
   h += fld('Каква работа', '<input name="desc" required autocomplete="off" placeholder="напр. Фундамент, Монтаж, Баня…" value="' + esc(x ? x.desc : '') + '">');
-  h += half(fld('Договорена сума (€)', '<input name="agreed" inputmode="decimal" required value="' + (x ? x.agreed : '') + '">'), fld('Дата', '<input name="date" type="date" value="' + (x && x.date ? x.date : D.today) + '">'));
+  h += half(fld('Договорена сума (€)', '<input name="agreed" inputmode="decimal" placeholder="по желание" value="' + (x && x.agreed ? x.agreed : '') + '">'), fld('Дата', '<input name="date" type="date" value="' + (x && x.date ? x.date : D.today) + '">'));
   h += fld('Бележка', '<input name="note" placeholder="по желание" value="' + esc(x ? x.note : '') + '">');
   h += '<div class="s" style="margin-top:10px">Бюджетът на клиента става сборът на всички работи.</div><button class="save" id="sv">💾 Запази</button></form>';
   openSheet(x ? '✏️ ' + x.desc : '📝 Нова работа – ' + CUR.name, h);
@@ -1603,7 +1654,7 @@ function siteAct(n, st){
   bg('siteSet', [n, st], function(cc){ cardDone(cc); load(); }, 'обект');
 }
 function siteMenu(n){
-  var c = dcOf(n), st = c ? siteSt(c) : '', b = [['👤 Отвори картата', function(){ openC(n); }], ['➕ Нова задача', function(){ openForm(n); }]];
+  var c = dcOf(n), st = c ? siteSt(c) : '', b = [['👤 Отвори картата', function(){ openC(n); }], ['➕ Нова задача', function(){ openForm(n); }]].concat(fin() ? [['📝 Нова работа', function(){ jobNewFor(n); }]] : []);
   if (st === 'pause') b.push(['▶️ Продължава', function(){ siteAct(n, 'run'); }]); else if (st !== 'done' && c && c.x) b.push(['⏸️ Пауза', function(){ siteAct(n, 'pause'); }]);
   if (st !== 'done' && c && c.x) b.push(['✅ Обектът е завършен', function(){ siteAct(n, 'done'); }]);
   if (st === 'done') b.push(['↩️ Отново активен', function(){ siteAct(n, 'run'); }]);
@@ -1782,7 +1833,7 @@ if ('serviceWorker' in navigator) navigator.serviceWorker.addEventListener('mess
   var m = e.data && e.data.crmOpen; if (!m) return; PENDOPEN = { c: m.c || '', w: m.w || '' }; if (D) { pendOpen(D); load(); }
 });
 
-var APP_VER = '3.23';
+var APP_VER = '3.24';
 if ('serviceWorker' in navigator) {
   var swHad = !!navigator.serviceWorker.controller, swDone = false;
   navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).then(function(r){
