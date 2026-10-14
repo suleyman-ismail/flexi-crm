@@ -1,9 +1,9 @@
 // Flexi CRM – кешира интерфейса, за да се отваря веднага (данните идват от API-то)
-const CACHE = 'flexi-crm-v329';
-const SHELL = ['./', 'index.html', 'manifest.webmanifest', 'icon-180.png', 'icon-192.png', 'icon-512.png'];
+const CACHE = 'flexi-crm-v40';
+const SHELL = ['./', 'index.html', 'f.html', 'manifest.webmanifest', 'icon-180.png', 'icon-192.png', 'icon-512.png'];
 self.addEventListener('install', e => { e.waitUntil(caches.open(CACHE).then(c => c.addAll(SHELL.map(u => new Request(u, { cache: 'reload' }))))); self.skipWaiting(); });
 self.addEventListener('activate', e => {
-  e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k !== CACHE).map(k => caches.delete(k)))).then(() => self.clients.claim()));
+  e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k !== CACHE && k.indexOf('flexi-crm-') === 0).map(k => caches.delete(k)))).then(() => self.clients.claim()));
 });
 self.addEventListener('fetch', e => {
   const u = new URL(e.request.url);
@@ -19,8 +19,9 @@ const API = 'https://script.google.com/macros/s/AKfycbwsUVFw9bRxnsx_NDtJfZDOlU8i
 function tok() {
   return new Promise(res => {
     try {
-      const q = indexedDB.open('crm', 1);
-      q.onupgradeneeded = () => q.result.createObjectStore('kv');
+      // v4.0 · собствена база „flexi-crm“ (Employeetrade на същия адрес ползва „et-crm“)
+      const q = indexedDB.open('flexi-crm', 1);
+      q.onupgradeneeded = () => { const db = q.result; if (!db.objectStoreNames.contains('kv')) db.createObjectStore('kv'); if (!db.objectStoreNames.contains('q')) db.createObjectStore('q', { autoIncrement: true }); };
       q.onsuccess = () => { try { const g = q.result.transaction('kv', 'readonly').objectStore('kv').get('token'); g.onsuccess = () => res(g.result || ''); g.onerror = () => res(''); } catch (e) { res(''); } };
       q.onerror = () => res('');
     } catch (e) { res(''); }
