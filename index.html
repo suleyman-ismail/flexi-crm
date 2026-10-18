@@ -484,9 +484,42 @@ html.dark .db{background:#334155;color:#cbd5e1}html.dark .db.ok{background:#1436
 html.dark .tbl .trw{border-color:#334155}html.dark .tbl .th,html.dark .bwl span{background:#172238;color:#94a3b8}
 html.dark #qbar{background:#0c4a6e;color:#e0f2fe}
 html.dark #csb{background:#0b2545}
+/* ================= v4.1 · работи: отваряне/затваряне + снимки и видео ================= */
+.jcard .jch{cursor:pointer;-webkit-tap-highlight-color:transparent;border-bottom:0;padding-bottom:4px;margin-bottom:0}
+.jcard.op .jch{border-bottom:1px solid #f1f5f9;padding-bottom:8px;margin-bottom:2px}
+.jch .jar{font-style:normal;color:#64748b;font-size:15px;transition:transform .15s;flex:none}.jcard.op .jch .jar{transform:rotate(180deg)}
+.jmore{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;margin-top:6px;border:1px solid #e2e8f0;background:#f8fafc;border-radius:10px;padding:9px 12px;font-family:inherit;font-size:13px;color:#334155}
+.jmore span{color:#64748b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.jmore b{color:#0f766e;flex:none}
+.jmore.up{margin-top:12px;justify-content:center}.jmore.up span{display:none}
+.jph{margin-top:6px}
+html.dark .jcard.op .jch{border-bottom-color:#273449}
+html.dark .jmore{background:#182234;border-color:#3b4a60;color:#cbd5e1}html.dark .jmore span{color:#94a3b8}html.dark .jmore b{color:#5eead4}
+.tsum{display:flex;gap:6px;margin:10px 16px 0;flex-wrap:wrap}.tsum span{flex:1;min-width:0;background:#fff;border-radius:10px;padding:8px 10px;font-size:12.5px;color:#475569;box-shadow:0 1px 2px rgba(0,0,0,.06);white-space:nowrap}
+.tsum b{font-size:16px;color:#0f172a;margin-left:4px}.tsum .o b{color:#b91c1c}.tsum .t b{color:#c2410c}
+.missb{display:flex;flex-direction:column;align-items:flex-start;gap:2px;width:calc(100% - 32px);margin:10px 16px 0;border:1px solid #fde68a;background:#fffbeb;border-radius:12px;padding:11px 13px;font-family:inherit;text-align:left;color:#92400e}
+.missb b{font-size:14.5px}.missb small{font-size:12.5px;color:#b45309;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.mcard{background:#fff;border-radius:12px;padding:12px 14px;margin-top:10px;box-shadow:0 1px 3px rgba(0,0,0,.08)}.mcard .save{margin-top:12px;padding:12px}
+.lrbox{margin-top:4px}select.hint{box-shadow:0 0 0 2px #fbbf24}
+.trw2{display:flex;align-items:center;gap:8px;background:#fff;border-radius:12px;padding:10px 12px;margin-top:8px;box-shadow:0 1px 2px rgba(0,0,0,.06)}
+.trw2>div{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}.trw2 small{font-size:12px;color:#64748b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.trw2 button{border:1px solid #cbd5e1;background:#f8fafc;border-radius:9px;padding:8px 10px;font-family:inherit;font-size:13px}.trw2 button.dg{color:#b91c1c}
+html.dark .tsum span,html.dark .mcard,html.dark .trw2{background:#1e293b;color:#cbd5e1}html.dark .tsum b{color:#e2e8f0}
+html.dark .missb{background:#2a2312;border-color:#78350f;color:#fde68a}html.dark .missb small{color:#fbbf24}
+html.dark .trw2 button{background:#182234;border-color:#3b4a60;color:#e2e8f0}
+/* v4.2 · 🔔 */
+.hr .bell{position:relative;font-size:20px}.hr .bell #bellN{position:absolute;top:-4px;right:-6px;background:#ef4444;color:#fff;border-radius:9px;font-size:10.5px;font-weight:800;padding:1px 5px;display:none;min-width:16px;text-align:center}
+.ntm{background:#fff;margin:10px 16px 0;border-radius:12px;padding:10px 12px;box-shadow:0 1px 2px rgba(0,0,0,.06);border-left:4px solid #cbd5e1}.ntm.act{border-left-color:#f59e0b}.ntm.esc{border-left-color:#ef4444}
+.nth{display:flex;align-items:center;gap:6px;flex-wrap:wrap}.nth b{font-size:14.5px}.nth small{margin-left:auto;color:#94a3b8;font-size:11.5px}
+.ntt{white-space:pre-line;font-size:13px;color:#475569;margin-top:4px;line-height:1.4}.nta{font-size:13px;color:#15803d;margin-top:6px;font-weight:600}
+.ntb{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}.ntb button{border:1px solid #cbd5e1;background:#f8fafc;border-radius:10px;padding:8px 10px;font-size:13px;font-family:inherit;color:#0f172a}
+.ntb button.ok{background:#dcfce7;border-color:#86efac}.ntb button.dg{background:#fee2e2;border-color:#fca5a5}.ntb .s{width:100%}.ntb input[type=date]{width:auto;flex:1;min-width:140px}.ntb textarea{width:100%}
+.ntw{display:flex;align-items:center;gap:8px;padding:8px 0;border-top:1px solid #f1f5f9}.ntw b{min-width:80px}.ntw small{flex:1;color:#64748b;font-size:12px}.ntw input{width:130px;padding:7px}
+.tst{color:#b45309;font-weight:700}
+html.dark .ntm{background:#1e293b}html.dark .ntt{color:#cbd5e1}html.dark .ntb button{background:#182234;border-color:#3b4a60;color:#e2e8f0}html.dark .ntw{border-color:#334155}
+.hr .me{white-space:nowrap}
 </style>
 <script>try{var tm=localStorage.getItem('crm_theme')||'auto';if(tm==='dark'||(tm==='auto'&&window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.classList.add('dark')}catch(e){}</script></head><body>
-<div class="hd"><header><div><h1><img src="icon-192.png" alt=""><span id="ttl">CRM Flexi Home</span></h1><div class="d" id="dt"></div></div><div class="hr"><button class="me" id="meB" onclick="meMenu()">👤</button><button onclick="load(true)" title="Обнови">⟳</button></div></header>
+<div class="hd"><header><div><h1><img src="icon-192.png" alt=""><span id="ttl">CRM Flexi Home</span></h1><div class="d" id="dt"></div></div><div class="hr"><button class="bell" id="bellB" onclick="ntOpen()" title="Известия">🔔<span id="bellN"></span></button><button class="me" id="meB" onclick="meMenu()">👤</button><button onclick="load(true)" title="Обнови">⟳</button></div></header>
 <div class="wsb" id="wsb"><button id="ws_m" onclick="setWS('')">🏠 Flexi Home</button><button id="ws_r" onclick="setWS('r')">🔨 Ремонти и строителство</button></div><div id="sync"></div></div>
 <div class="seg" id="seg"><button id="sg_m" onclick="seg('m')">👤 Мои</button><button id="sg_a" onclick="seg('a')">👥 Всички</button></div>
 <div id="off">📴 Няма интернет – показани са последните данни</div><div id="qbar" onclick="qFlush()"></div><div id="main"><div class="load">Зареждане…</div></div>
@@ -716,6 +749,7 @@ function render(d){
   draw();
   if (!NEWS_DONE && d.news && el('sheet').style.display !== 'block' && el('login').style.display !== 'flex') { NEWS_DONE = true; setTimeout(function(){ showNews(false); }, 600); }
   pendOpen(d);
+  setTimeout(function(){ ntLoad(); }, 1200);
 }
 function tab(t){ TAB = t; try { localStorage.setItem('crm_tab', t); } catch (e) {} draw(); window.scrollTo(0, 0); }
 function seg(s){ SEG = s; try { localStorage.setItem('crm_seg', s); } catch (e) {} draw(); }
@@ -760,7 +794,7 @@ var OPENT = null;
 function togT(row){ OPENT = OPENT === row ? null : row; drawTasks(); }
 function taskCard(x){
   if (x.tmp) return '<div class="ti"><div class="tr"><span class="dt"></span><span class="tx"><b>' + esc(x.client) + '</b><small>' + esc(whenTxt(x.date, x.time)) + ' · ' + esc(x.type) + ' · ⏳ записва се…</small></span></div></div>';
-  var r = rel(x.date), op = OPENT === x.row;
+  var ts0 = tState(x), r = ts0 === 'over' ? 'over' : ts0 === 'today' ? 'today' : '', op = OPENT === x.row;
   var h = '<div class="ti ' + r + (op ? ' op' : '') + '"><div class="tr" data-lp="t" data-row="' + x.row + '" onclick="togT(' + x.row + ')"><span class="dt"></span><span class="tx"><b>' + esc(x.client) + '</b>' +
     '<small>' + esc(whenTxt(x.date, x.time)) + ' · ' + esc(x.type) + (x.rep && (SEG === 'a' || reps(x.rep).length > 1) ? ' · 👤 ' + esc(reps(x.rep).join(', ')) : '') + '</small></span><span class="ar">›</span></div>';
   if (!op) return h + '</div>';
@@ -1077,7 +1111,7 @@ function drawReport0(){
   var mon = D.today.slice(0, 7), neu = cs.filter(function(c){ return c.i && c.i.slice(0, 7) === mon; });
   var k = function(l, v, col){ return '<div class="kpi"><div class="l">' + l + '</div><div class="v" style="color:' + col + '">' + v + '</div></div>'; };
   var h = '<div class="kpis">' + (fin() ? k('💼 Активни оферти', eur(sum(open)), '#1e3a5f') + k('🏆 Спечелени', eur(sum(won)), '#15803d') : k('💼 Активни', open.length, '#1e3a5f') + k('🏆 Спечелени', won.length, '#15803d')) +
-    k('🔔 Задачи днес', ts.filter(function(x){ return x.date === D.today; }).length, '#c2410c') + k('⚠️ Просрочени', ts.filter(function(x){ return x.date < D.today; }).length, '#b91c1c') +
+    k('🔔 Задачи днес', tCnt(ts).today, '#c2410c') + k('⚠️ Просрочени', tCnt(ts).over, '#b91c1c') +
     k('🆕 Нови този месец', neu.length, '#1d4ed8') + k('🕳️ Без задача', noTask().length, '#b45309') + '</div>';
   var st = D.stages.slice(); cs.forEach(function(c){ if (c.s && st.indexOf(c.s) < 0) st.push(c.s); });
   var rows = st.map(function(s){ var a = cs.filter(function(c){ return c.s === s; }); return { s: s, n: a.length, b: sum(a) }; });
@@ -1226,8 +1260,8 @@ thApply();
 function meMenu(){
   openSheet('👤 ' + (D && D.me ? D.me : 'Профил'), '<div class="who"><p style="font-size:15px;color:#334155">Влязъл си като <b>' + esc(D && D.me || '') + '</b>.</p>' +
     (D && D.renoUrl ? '<a class="lnkb" href="' + esc(safeUrl(D.renoUrl)) + '" target="_blank" rel="noopener">📊 Таблицата „Ремонти“</a>' : '') +
-    '<button id="pushB" onclick="closeSheet();pushOn()">🔔 Включи известията</button>' + (isAdm() ? '<button onclick="admOpen()">⚙️ Хора и достъп</button>' : '') +
-    '<button id="thB" onclick="thNext()">Тема: ' + THL[thMode()] + '</button><button onclick="showNews(true)">🆕 Какво ново</button><button onclick="load(true);closeSheet()">⟳ Обнови данните</button><button onclick="askOut()">🚪 Изход</button></div>');
+    '<button onclick="ntSet()">🔔 Известия и Telegram</button><button id="pushB" onclick="closeSheet();pushOn()">🔔 Включи известията</button>' + (isAdm() ? '<button onclick="admOpen()">⚙️ Хора и достъп</button>' : '') +
+    '<button id="thB" onclick="thNext()">Тема: ' + THL[thMode()] + '</button><button onclick="showNews(true)">🆕 Какво ново</button>' + (canDel() || isAdm() ? '<button onclick="trashOpen()">🗑️ Кошче</button>' : '') + '<button onclick="load(true);closeSheet()">⟳ Обнови данните</button><button onclick="askOut()">🚪 Изход</button></div>');
   pushBtn();
 }
 var PIN = '';
@@ -1303,8 +1337,8 @@ function openForm(pre){
     '<input id="fClient" name="client" list="cll" required autocomplete="off" placeholder="Име на клиента…" value="' + esc(pre || '') + '" oninput="onClient()"><datalist id="cll">' + opts(D.clients.map(function(c){ return c.n; })) + '</datalist>');
   h += '<div id="newc" style="display:none">' +
     half(fld('Телефон *', '<input id="fPhone" name="phone" type="tel">'), fld('Град', '<input name="city">')) +
-    half(fld(mLbl(), '<select name="model">' + optsO(blank(D.models), '', 'models') + '</select>'), fin() ? fld('Бюджет (€)', '<input name="budget" inputmode="numeric">') : '') +
-    fld('Източник (откъде дойде)', '<select name="src">' + optsO(blank(D.sources), '', 'sources') + '</select>') + '</div>';
+    half(fld(mLbl() + ' *', '<select name="model">' + optsO(blank(D.models), '', 'models') + '</select>'), fin() ? fld('Бюджет (€, прибл.) *', '<input name="budget" inputmode="numeric">') : '') +
+    fld('Източник (откъде дойде) *', '<select name="src">' + optsO(blank(D.sources), '', 'sources') + '</select>') + '</div>';
   h += fld('Какво', '<select name="type">' + optsO(D.types, '', 'types') + '</select>');
   h += fld('👤 Отговорник <span style="font-weight:400;color:#64748b">(може и двама)</span>', repChips(D.me));
   h += half(fld('Дата *', '<input type="date" name="date" required value="' + D.today + '">'), fld('Час', '<input type="time" name="time" value="10:00">'));
@@ -1341,6 +1375,7 @@ function send(e){
     bg('saveTask', [d], function(){ load(); if (CUR && el('card').style.display === 'block' && CUR.name.toLowerCase() === String(d.client).trim().toLowerCase()) openC(CUR.name); }, 'задача');
     return false;
   }
+  var rq = reqMissing(d); if (rq.length) { toast('⚠️ Нов клиент – попълни: ' + rq.join(', '), 4500); return false; }
   sv.disabled = true; sv.textContent = 'Записване…';
   google.script.run.withSuccessHandler(function(m){
       if (m && m.dup) {
@@ -1378,7 +1413,7 @@ function sendDone(e){
   e.preventDefault();
   var d = formData(), x = DONE, nx = !el('noNx').checked;
   if (nx && (!d.ndate || !d.nremind)) { toast('Попълни дата и 🔔 текст за следващата стъпка (или отметни „Няма следваща стъпка“)', 4000); return false; }
-  var p = { id: x.id || '', note: d.note, stage: d.stage, next: nx ? { type: d.ntype, date: d.ndate, time: d.ntime, remind: d.nremind } : null };
+  var p = { id: x.id || '', note: d.note, stage: d.stage, reason: d.reason || '', lrnote: d.lrnote || '', next: nx ? { type: d.ntype, date: d.ndate, time: d.ntime, remind: d.nremind } : null };
   closeSheet(); D.tasks = D.tasks.filter(function(t){ return t.row !== x.row; }); cardStale(x.client); render(D); toast('✅ Записано');
   bg('completeTask', [x.row, x.client, p], function(r){
     if (r && r.tasks) { ls(dkOf(r), JSON.stringify(r)); render(r); } toast(nx ? '✅ Готово · следващата стъпка е в календара' : '✅ Готово!');
@@ -1538,7 +1573,7 @@ function tMenu(x){
   b.push(['✏️ Промени задачата', function(){ taskEdit(x); }]);
   if (pl) b.push(['👤 Отговорник', function(){ repForm(x); }]);
   if (x.status === 'Отменена') b.push(['↩️ Върни като планирана', function(){ taskEdit(x, true); }]);
-  if (pl) b.push(['❌ Отмени задачата', function(){ tCancel(x); }]);
+  if (pl && isAdm()) b.push(['❌ Отмени задачата', function(){ tCancel(x); }]);
   if (!(CUR && el('card').style.display === 'block' && CUR.name === x.client)) b.push(['👤 Клиент', function(){ openC(x.client); }]);
   if (canDel()) b.push(['🗑️ Изтрий задачата', function(){ tDel(x); }, 'dg']);
   return b;
@@ -1596,7 +1631,7 @@ function costEdit(id){
   if (f.kind === 'exp') h += fld('За какво', '<input name="desc" value="' + esc(x.desc || '') + '">');
   h += half(fld('Сума (€)', '<input name="amount" inputmode="decimal" required value="' + (x.amount || '') + '">'), fld('Дата', '<input name="date" type="date" value="' + esc(x.date || D.today) + '">'));
   if (f.kind === 'inc') h += half(fld('Вид', '<select name="desc">' + opts(['Аванс', 'Плащане', 'Окончателно плащане'], x.desc || 'Плащане') + '</select>'), fld('Начин', meth));
-  else if (f.kind === 'exp') h += half(fld('Вид', '<select name="type">' + opts(EXT, x.type) + '</select>'), fld('Начин', meth));
+  else if (f.kind === 'exp') h += half(fld('Вид', '<select name="type">' + opts(expCats(), x.type) + '</select>'), fld('Начин', meth));
   else h += fld('Начин', meth);
   if (f.kind !== 'pay') h += jobFld(x.jid || '');
   h += fld('Бележка', '<input name="note" value="' + esc(x.note || '') + '">');
@@ -1636,7 +1671,7 @@ function drawCard(){
   h += jobsBox(c);
   // 👤 Информация
   var info = [['📞', c.phone], ['📍', c.city], ['🏠', c.model], ['💶', c.budget ? eur(c.budget) : ''], ['🔎', c.src ? 'Източник: ' + c.src : ''],
-    ['👤', c.rep], ['🗓️', c.inq ? 'Запитване: ' + fmt(c.inq) : ''], ['☎️', c.last ? 'Последен контакт: ' + fmt(c.last) : '']]
+    ['👤', c.rep], ['🗓️', c.inq ? 'Запитване: ' + fmt(c.inq) : ''], ['☎️', c.last ? 'Последен контакт: ' + fmt(c.last) : ''], ['✖️', c.stage === 'Загубен' ? 'Причина за загуба: ' + (c.lostR || '—') : '']]
     .filter(function(r){ return r[1]; }).map(function(r){ return '<div>' + r[0] + ' ' + esc(r[1]) + '</div>'; }).join('');
   h += fold('info', '👤 Информация', esc(c.phone || c.city),
     '<div class="info">' + (info || '<div>—</div>') + '</div><div class="acts"><button onclick="editC()">✏️ Редактирай</button><button onclick="locC()">📌 Запази локация</button></div>');
@@ -1668,7 +1703,7 @@ function drawCard(){
   // 📎 Файлове
   var fl = c.files || [];
   var fh = c.photoErr ? '<div class="s">' + esc(c.photoErr) + '</div>' : (fl.length ? fl.map(function(f){
-    return '<div class="fl"><a class="fn" href="' + esc(safeUrl(f.url)) + '" target="_blank" rel="noopener"><span class="fi">' + fIcon(f) + '</span><span class="fx"><b>' + esc(f.name) + '</b><small>' +
+    return '<div class="fl"><a class="fn" href="' + esc(safeUrl(f.url)) + '" target="_blank" rel="noopener"><span class="fi">' + fIcon(f) + '</span><span class="fx"><b>' + esc(fNm(f.name)) + '</b><small>' +
       [fSize(f.size), f.t ? fmt(dayOf(f.t)) : ''].filter(Boolean).join(' · ') + '</small></span></a>' +
       '<button data-id="' + esc(f.id) + '" onclick="dlF(this.dataset.id)" title="Свали">⬇️</button>' +
       (canShare() ? '<button data-id="' + esc(f.id) + '" data-n="' + esc(f.name) + '" onclick="shareF(this.dataset.id,this.dataset.n)" title="Линк с краен срок">🔗</button>' : '') +
@@ -1693,6 +1728,7 @@ function fIcon(f){
   if (/\.(dwg|dxf|skp|ifc|rvt|3dm|step|stp)$/.test(n)) return '📐';
   if (/^video\//.test(m)) return '🎬';
   if (/^audio\//.test(m)) return '🎧';
+  if (/\.(mp4|mov|m4v|webm|3gp|avi|mkv)$/.test(n)) return '🎬';
   return '📎';
 }
 var MAXMB = 25;
@@ -1732,9 +1768,9 @@ function dlF(id){
     var m = r.data.match(/^data:([^;,]*)[^,]*;base64,([\s\S]*)$/), b = atob(m[2]), u8 = new Uint8Array(b.length);
     for (var k = 0; k < b.length; k++) u8[k] = b.charCodeAt(k);
     var url = URL.createObjectURL(new Blob([u8], { type: m[1] || r.mime })), a = document.createElement('a');
-    a.href = url; a.download = r.name; document.body.appendChild(a); a.click(); a.remove();
+    a.href = url; a.download = fNm(r.name); document.body.appendChild(a); a.click(); a.remove();
     setTimeout(function(){ URL.revokeObjectURL(url); }, 60000);
-    toast('✅ ' + r.name);
+    toast('✅ ' + fNm(r.name));
   }).withFailureHandler(err).getFile(id);
 }
 function delF(id, name){
@@ -1756,7 +1792,7 @@ function jSum(k, jid){
   return { d: d, ws: ws, ex: ex, inc: inc, ag: d ? d.agreed : 0, got: inc.reduce(function(t, x){ return t + x.amount; }, 0), cost: cost, owed: ws.reduce(function(t, w){ return t + (w.rem || 0); }, 0) };
 }
 function kGrid(ag, got, cost, owed){
-  var left = Math.max(0, ag - got), prof = ag ? ag - cost : null;
+  var left = Math.max(0, ag - got), prof = ag && cost ? ag - cost : null;
   return '<div class="cg"><div><small>Договорено</small><b>' + (ag ? eur(ag) : '—') + '</b></div><div><small>Получено</small><b style="color:#15803d">' + eur(got) + '</b></div><div class="' + (left ? 'ow' : '') + '"><small>Остава</small><b>' + (ag ? eur(left) : '—') + '</b></div></div>' +
     '<div class="cg"><div><small>Разходи</small><b>' + eur(cost) + '</b></div><div class="' + (owed ? 'ow' : '') + '"><small>Дължим</small><b>' + eur(owed) + '</b></div><div><small>Печалба ≈</small><b style="color:' + (prof === null ? '#94a3b8' : prof >= 0 ? '#15803d' : '#b91c1c') + '">' + (prof === null ? '—' : eur(prof)) + '</b></div></div>';
 }
@@ -1819,6 +1855,7 @@ function costsHtml(c){
   h += '<div class="ch">💰 Плащания от клиента</div>' + (S.inc.length ? '<div class="xl">' + S.inc.map(incRow).join('') + '</div>' : '<div class="s">Още няма плащания</div>') + '<div class="acts"><button class="ok" onclick="cpForm()">➕ Плащане от клиента</button></div>';
   h += '<div class="ch">👷 Работници</div>' + (S.ws.length ? S.ws.map(wkHtml).join('') : '<div class="s">Няма добавени работници</div>') + '<div class="acts"><button onclick="wkForm()">➕ Работник</button></div>';
   h += '<div class="ch">🧾 Други разходи</div>' + (S.ex.length ? '<div class="xl">' + S.ex.map(expRow).join('') + '</div>' : '<div class="s">Няма други разходи</div>') + '<div class="acts"><button onclick="exForm()">➕ Разход</button></div>';
+  if (sel !== '*' && sel !== '_') h += '<div class="ch">📸 Снимки и видео към работата</div>' + jMediaHtml(c, sel);
   return wrap(h);
 }
 var JOBQ = ['Фундамент', 'Монтаж', 'Покрив', 'Изолация', 'Фасада', 'Тераса', 'Навес', 'Ограда', 'Баня', 'Кухня', 'Подове', 'Ел. инсталация', 'ВиК', 'Боядисване'];
@@ -1827,7 +1864,7 @@ function jobsBox(c){
   var J = k.deals || [], sel = JSEL[c.name] || '*';
   var h = '<div class="box jobs"><div class="jt">📝 Работи' + (J.length ? ' <span>' + J.length + '</span>' : '') + '</div>';
   if (J.length) h += J.map(function(x){
-    var s = jSum(k, x.id), p = x.agreed ? x.agreed - s.cost : null;
+    var s = jSum(k, x.id), p = x.agreed && s.cost ? x.agreed - s.cost : null;
     return '<div class="jc' + (sel === x.id ? ' on' : '') + '" data-j="' + esc(x.id) + '" onclick="jOpen(this.dataset.j)"><b>' + esc(x.desc || 'Работа') + '</b>' +
       (p !== null ? '<em style="color:' + (p >= 0 ? '#15803d' : '#b91c1c') + '">' + eur(p) + '</em>' : '') + '<button type="button" class="je" data-id="' + esc(x.id) + '" onclick="event.stopPropagation();dealForm(this.dataset.id)" title="Преименувай / промени">✏️</button><i>›</i>' +
       '<small>' + (x.agreed ? 'Договор ' + eur(x.agreed) + ' · ' : '') + 'Получено ' + eur(s.got) + ' · Разходи ' + eur(s.cost) + '</small></div>';
@@ -2025,7 +2062,7 @@ function exForm(){
   var h = '<form id="frm" onsubmit="return sendEx(event)">';
   h += fld('За какво', '<input name="desc" placeholder="напр. Бетон, Гориво, Хотел…">');
   h += half(fld('Сума (€)', '<input name="amount" inputmode="decimal" required>'), fld('Дата', '<input name="date" type="date" value="' + D.today + '">'));
-  h += half(fld('Вид', '<select name="type">' + opts(EXT, 'Материали') + '</select>'), fld('Начин', '<select name="method"><option>Кеш</option><option>Банка</option></select>'));
+  h += half(fld('Вид', '<select name="type">' + opts(expCats(), 'Материали') + '</select>'), fld('Начин', '<select name="method"><option>Кеш</option><option>Банка</option></select>'));
   h += jobFld(jCur());
   h += fld('Бележка', '<input name="note">');
   h += '<button class="save" id="sv">💾 Запази разхода</button></form>';
@@ -2040,7 +2077,8 @@ function rmCost(id, ask){
 function rmWk(id, w){ rmCost(id, 'Да изтрия ли ' + w + ' и всичките му плащания по този клиент?'); }
 function cardBusy(on){ el('cdB').style.opacity = on ? .45 : 1; el('cdB').style.pointerEvents = on ? 'none' : 'auto'; }
 function cardErr(e){ cardBusy(false); err(e); }
-function stageC(s, name){
+function stageC(s, name, x){
+  if (s === 'Загубен' && !x) { var nn = name || (CUR && CUR.name); if (!nn) return; lostAsk(nn, function(v){ stageC(s, name, v); }, function(){ if (TAB === 'c' && !(CUR && el('card').style.display === 'block')) draw(); }); return; }
   var inCard = !name || (CUR && CUR.name === name && el('card').style.display === 'block');
   if (inCard && (!CUR || s === CUR.stage)) return;
   var n = inCard ? CUR.name : name, dc = D.clients.filter(function(x){ return x.n === n; })[0];
@@ -2048,7 +2086,7 @@ function stageC(s, name){
   if (dc) dc.s = s; try { ls(dk(), JSON.stringify(D)); } catch (e) {}
   if (inCard) { CUR.stage = s; drawCard(); } else if (TAB === 'c' && CV !== 'k') draw();
   toast('🏷️ ' + n + ' → ' + s);
-  bg('setStage', [n, s], function(c){ cardDone(c); load(); }, 'етап');
+  bg('setStage', [n, s, x || null], function(c){ cardDone(c); load(); }, 'етап');
 }
 var EDO = null;
 function editC(){
@@ -2130,23 +2168,24 @@ function upC(inp){
   var fs = Array.prototype.slice.call(inp.files || []); inp.value = '';
   if (fs.length) upPhotos(CUR.name, fs);
 }
-function upPhotos(n, fs){
+function upPhotos(n, fs, jid, after){
   var queue = fs.slice(), total = fs.length, done = 0, bad = 0, fin = 0;
-  OPEN.photos = true; try { localStorage.setItem('crm_open', JSON.stringify(OPEN)); } catch (e) {}
+  if (!jid) { OPEN.photos = true; try { localStorage.setItem('crm_open', JSON.stringify(OPEN)); } catch (e) {} }
   toast('📸 Качване 0 / ' + total + '… (може да продължиш работа)', 4000); syncOn(1);
   function prog(){ toast('📸 Качени ' + done + ' / ' + total + (bad ? ' · ⚠️ ' + bad : ''), fin < total ? 60000 : 3000); }
   function end(){
     syncOn(-1); prog();
     if (bad) toast('⚠️ ' + bad + ' снимки не се качиха – опитай пак', 6000);
     loadMedia(n, CUR && CUR.name === n && el('card').style.display === 'block' ? OPENSEQ : -1);
+    if (after) after();
   }
   function one(){
     var f = queue.shift(); if (!f) return;
     shrink2(f, function(data, thumb){
-      var tmp = { id: 'tmp-' + newRid(), tmp: true, thumb: thumb || data, name: f.name, t: Date.now() }, rid = newRid();
+      var tmp = { id: 'tmp-' + newRid(), tmp: true, thumb: thumb || data, name: f.name, t: Date.now() }, rid = newRid(); if (jid) tmp.j = jid;
       if (CUR && CUR.name === n && CUR.mediaOk) { CUR.photos = [tmp].concat(CUR.photos || []); drawCard(); }
       (function send(tries){
-        apiCall('uploadPhoto', [n, data, f.name, thumb], { rid: rid }).then(function(){ done++; next(); }, function(){
+        apiCall('uploadPhoto', [n, data, f.name, thumb, jid || ''], { rid: rid }).then(function(){ done++; next(); }, function(){
           if (tries < 2) return setTimeout(function(){ send(tries + 1); }, 1500 * (tries + 1));
           bad++; tmp.bad = true; if (CUR && CUR.name === n) drawCard(); next();
         });
@@ -2247,9 +2286,9 @@ function cForm(pre, site){
   var st = site ? pick(WS === 'r' ? ['В процес', 'Сключен договор'] : ['Сключен договор']) : pick(['Ново запитване']);
   var h = '<form id="frm" onsubmit="return sendCF(event)">';
   h += fld('Име на клиента *', '<input name="name" required autocomplete="off" value="' + esc(pre || '') + '">');
-  h += half(fld('Телефон', '<input name="phone" type="tel">'), fld('Град', '<input name="city">'));
-  h += half(fld(mLbl(), '<select name="model">' + optsO(blank(D.models), '', 'models') + '</select>'), fin() ? fld('Бюджет (€)', '<input name="budget" inputmode="numeric">') : '');
-  h += half(fld('Източник', '<select name="src">' + optsO(blank(D.sources), '', 'sources') + '</select>'), fld('Етап', '<select name="stage">' + opts(D.stages, st) + '</select>'));
+  h += half(fld('Телефон *', '<input name="phone" type="tel">'), fld('Град', '<input name="city">'));
+  h += half(fld(mLbl() + ' *', '<select name="model">' + optsO(blank(D.models), '', 'models') + '</select>'), fin() ? fld('Бюджет (€, прибл.) *', '<input name="budget" inputmode="numeric">') : '');
+  h += half(fld('Източник *', '<select name="src">' + optsO(blank(D.sources), '', 'sources') + '</select>'), fld('Етап', '<select name="stage">' + opts(D.stages, st) + '</select>'));
   h += fld('👤 Отговорник', repChips(D.me));
   h += fld('Бележка / адрес', '<textarea name="notes" rows="3" placeholder="по желание"></textarea>');
   h += '<label class="sw"><input type="checkbox" name="site" value="1"' + (site ? ' checked' : '') + '><span><b>🏗️ Обект (строеж / работа)</b><small>ще се вижда в „Обекти“</small></span></label>';
@@ -2260,6 +2299,7 @@ function sendCF(e){
   e.preventDefault();
   var d = formData(), sv = el('sv'); d.name = String(d.name || '').replace(/\s+/g, ' ').trim(); d.site = !!d.site;
   if (!d.name) return false;
+  var rq = reqMissing(d); if (rq.length) { toast('⚠️ Попълни: ' + rq.join(', '), 4500); return false; }
   if (dcOf(d.name)) { toast('⚠️ Вече има клиент „' + d.name + '“', 3500); return false; }
   var back = function(){ sv.disabled = false; sv.textContent = '💾 Запази'; };
   var go = function(){
@@ -2555,7 +2595,7 @@ function padCopy(){
 window.addEventListener('online', function(){ if (PADDIRTY) padSave(); });
 document.addEventListener('visibilitychange', function(){ if (document.hidden && PADDIRTY) padSave(true); });
 
-var APP_VER = '4.0';
+var APP_VER = '4.2';
 // ================= v4.0 · 👥 Клиенти: ☰ Списък | ▦ Канбан · 🔎 филтри · ☑️ много наведнъж · 🗄️ архив =================
 var CV = ls('crm_cview') === 'k' ? 'k' : 'l';            // изглед: l = списък, k = канбан
 var CSEL = null;                                          // избрани клиенти { име: 1 } (отделно от SELM за разходите)
@@ -2786,6 +2826,7 @@ function bRepGo(){
 }
 function cBulkDo(d){
   var ns = cSelNames(); if (!ns.length) return;
+  if (d.stage === 'Загубен' && !d.reason) { lostAsk(ns.length + ' клиента', function(v){ d.reason = v.reason; d.note = v.note; cBulkDo(d); }); return; }
   ns.forEach(function(n){ var c = dcOf(n); if (!c) return; if (d.stage) c.s = d.stage; if (d.rep) c.r = d.rep; });
   try { ls(dk(), JSON.stringify(D)); } catch (e) {}
   closeSheet(); CSEL = null; cSelBar(); draw(); toast('⏳ ' + ns.length + ' клиента…');
@@ -2912,8 +2953,10 @@ var ANA = null, ANAT = 0, ANAWS = null;
 function anaLoad(force){
   if (ANA && ANAWS === (WS || '') && !force && Date.now() - ANAT < 300000) { anaDraw(); return; }
   var ws = WS || '';
-  if (el('ana')) el('ana').innerHTML = '<h2>📈 Анализ</h2><div class="load">Зареждане…</div>';
-  api('analytics', []).then(function(r){ if ((WS || '') !== ws) return; ANA = r; ANAT = Date.now(); ANAWS = ws; anaDraw(); },
+  // ⚡ първо последния анализ от телефона, после пресен от сървъра
+  if (!ANA || ANAWS !== ws) { try { var c0 = JSON.parse(ls('crm_ana' + (ws ? '_' + ws : '')) || 'null'); if (c0) { ANA = c0; ANAWS = ws; ANAT = 0; } } catch (e) {} }
+  if (ANA && ANAWS === ws) anaDraw(); else if (el('ana')) el('ana').innerHTML = '<h2>📈 Анализ</h2><div class="load">Зареждане…</div>';
+  api('analytics', []).then(function(r){ if ((WS || '') !== ws) return; ANA = r; ANAT = Date.now(); ANAWS = ws; try { ls('crm_ana' + (ws ? '_' + ws : ''), JSON.stringify(r)); } catch (e) {} anaDraw(); },
     function(e){ if (el('ana')) el('ana').innerHTML = '<h2>📈 Анализ</h2><div class="empty">⚠️ ' + esc(e.message) + '</div>'; });
 }
 function anaDraw(){
@@ -2937,10 +2980,341 @@ function anaDraw(){
   h += tb('🏠 Продажби по ' + (WS === 'r' ? 'вид работа' : 'модел'), mLbl(), a.byModel) + tb('🔎 Продажби по източник', 'Източник', a.bySrc);
   if (a.lost.n) {
     var lt = function(t, rows){ return rows.length ? '<div class="lst tbl"><div class="trw th"><span>' + t + '</span><b>загубени</b></div>' + rows.map(function(r){ return '<div class="trw"><span>' + esc(r[0]) + '</span><b>' + r[1] + '</b></div>'; }).join('') + '</div>' : ''; };
-    h += '<h2>✖️ Загубени клиенти<span>' + a.lost.n + '</span></h2>' + lt('На етап', a.lost.byStage) + lt('Източник', a.lost.bySrc) + lt(mLbl(), a.lost.byModel);
+    h += '<h2>✖️ Загубени клиенти<span>' + a.lost.n + '</span></h2>' + lt('Причина', a.lost.byReason || []) + lt('На етап', a.lost.byStage) + lt('Източник', a.lost.bySrc) + lt(mLbl(), a.lost.byModel);
   }
   b.innerHTML = h;
 }
+// ================= v4.1 · 📝 всяка работа се отваря/затваря · 📸🎬 снимки и видео към всяка работа =================
+var JOPEN = {}; try { JOPEN = JSON.parse(ls('crm_jopen') || '{}') || {}; } catch (e) {}
+function jKey(id){ return (WS || '') + '|' + (CUR ? String(CUR.name).toLowerCase() : '') + '|' + (id || '_'); }
+function jIsOpen(id){ return SELM || !!JOPEN[jKey(id)]; }
+function jTog(id){
+  var k = jKey(id); if (JOPEN[k]) delete JOPEN[k]; else JOPEN[k] = 1;
+  ls('crm_jopen', JSON.stringify(JOPEN)); drawCard();
+  if (JOPEN[k]) setTimeout(function(){ var e = document.querySelector('#cdB .jcard[data-j="' + (window.CSS && CSS.escape ? CSS.escape(id) : id) + '"]'); if (e) e.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }, 40);
+}
+function fNm(n){ return String(n || '').replace(/^J-[A-Za-z0-9-]+?--/, ''); }
+function isVid(f){ return /^video\//.test(f.mime || '') || /\.(mp4|mov|m4v|webm|3gp|avi|mkv)$/i.test(f.name || ''); }
+function jMedia(c, jid){ return { ph: ((c && c.photos) || []).filter(function(p){ return p.j === jid; }), vf: ((c && c.files) || []).filter(function(f){ return f.j === jid; }) }; }
+function jMediaHtml(c, jid){
+  if (!c || c.stub || c.mediaOk === false) return '<div class="s">⏳ Зареждане…</div>';
+  if (c.photoErr) return '<div class="s">' + esc(c.photoErr) + '</div>';
+  var m = jMedia(c, jid), h = '';
+  if (m.ph.length) h += '<div class="ph jph">' + m.ph.map(function(p){
+    if (p.tmp) return '<a class="up' + (p.bad ? ' bad' : '') + '">' + (p.thumb ? '<img src="' + esc(safeImg(p.thumb)) + '" alt="">' : '📷') + '</a>';
+    return '<a data-id="' + esc(p.id) + '" onclick="viewPhoto(this.dataset.id)">' + (p.thumb ? '<img src="' + esc(safeImg(p.thumb)) + '" alt="">' : '📷') + '</a>'; }).join('') + '</div>';
+  if (m.vf.length) h += m.vf.map(function(f){
+    return '<div class="fl"><a class="fn" href="' + esc(safeUrl(f.url)) + '" target="_blank" rel="noopener"><span class="fi">' + (isVid(f) ? '🎬' : fIcon(f)) + '</span><span class="fx"><b>' + esc(fNm(f.name)) + '</b><small>' +
+      [fSize(f.size), f.t ? fmt(dayOf(f.t)) : ''].filter(Boolean).join(' · ') + '</small></span></a>' +
+      '<button data-id="' + esc(f.id) + '" onclick="dlF(this.dataset.id)" title="Свали">⬇️</button></div>';
+  }).join('');
+  if (!h) h = '<div class="s">Още няма снимки и видео към тази работа.</div>';
+  if (!SELM) h += '<div class="acts"><label>📸 Снимка / 🎬 Видео<input type="file" accept="image/*,video/*" multiple style="display:none" data-j="' + esc(jid) + '" onchange="upJ(this)"></label></div>';
+  return h;
+}
+jobCard = function(k, x){
+  var id = x ? x.id : '_', s = jSum(k, id), p = x && x.agreed && s.cost ? x.agreed - s.cost : null, op = jIsOpen(id);
+  var med = x ? jMedia(CUR, x.id) : { ph: [], vf: [] }, nMed = med.ph.length + med.vf.length;
+  var sub = [x && x.agreed ? 'Договор ' + eur(x.agreed) : '', 'Получено ' + eur(s.got), 'Разходи ' + eur(s.cost), s.owed ? 'Дължим ' + eur(s.owed) : ''].filter(Boolean).join(' · ');
+  var cnt = [s.inc.length ? '💰 ' + s.inc.length : '', s.ws.length ? '👷 ' + s.ws.length : '', s.ex.length ? '🧾 ' + s.ex.length : '', nMed ? '📸 ' + nMed : ''].filter(Boolean).join('  ');
+  var h = '<div class="jcard' + (x ? '' : ' gen') + (op ? ' op' : '') + '" data-j="' + esc(id) + '"><div class="jch" data-j="' + esc(id) + '" onclick="jTog(this.dataset.j)" role="button" aria-expanded="' + op + '">' +
+    '<span class="jt2"><b>' + (x ? '📝 ' + esc(x.desc || 'Работа') : '📦 Без работа (общи)') + '</b><small>' + sub + '</small></span>' +
+    (p !== null ? '<em style="color:' + (p >= 0 ? '#15803d' : '#b91c1c') + '" title="Печалба ≈">' + eur(p) + '</em>' : '') +
+    (x && !SELM ? '<button class="je" data-id="' + esc(x.id) + '" onclick="event.stopPropagation();dealForm(this.dataset.id)" title="Преименувай / промени">✏️</button>' : '') + '<i class="jar">▾</i></div>';
+  if (!op) return h + '<button class="jmore" data-j="' + esc(id) + '" onclick="jTog(this.dataset.j)">' + (cnt ? '<span>' + cnt + '</span>' : '<span>Няма записи</span>') + '<b>Детайли ▾</b></button></div>';
+  var body = (s.inc.length ? '<div class="jsub">💰 Плащания от клиента</div><div class="xl">' + s.inc.map(incRow).join('') + '</div>' : '') +
+    (s.ws.length ? '<div class="jsub">👷 Работници</div>' + s.ws.map(wkHtml).join('') : '') +
+    (s.ex.length ? '<div class="jsub">🧾 Разходи</div><div class="xl">' + s.ex.map(expRow).join('') + '</div>' : '');
+  h += body || '<div class="s" style="padding:8px 0 0">Още няма записи – добави с бутоните долу.</div>';
+  var jd = ' data-j="' + (x ? esc(x.id) : '') + '"';
+  if (!SELM) h += '<div class="jadds"><button' + jd + ' onclick="addIn(this.dataset.j,cpForm)">➕ 💰 Плащане</button><button' + jd + ' onclick="addIn(this.dataset.j,wkForm)">➕ 👷 Работник</button><button' + jd + ' onclick="addIn(this.dataset.j,exForm)">➕ 🧾 Разход</button></div>';
+  if (x) h += '<div class="jsub">📸 Снимки и видео' + (nMed ? ' (' + nMed + ')' : '') + '</div>' + jMediaHtml(CUR, x.id);
+  if (!SELM) h += '<button class="jmore up" data-j="' + esc(id) + '" onclick="jTog(this.dataset.j)"><span></span><b>Скрий ▴</b></button>';
+  return h + '</div>';
+};
+// качване към работа: снимките – намалени (както досега), видео и други файлове – на части направо в Drive
+function upJ(inp){
+  var fs = Array.prototype.slice.call(inp.files || []), jid = inp.getAttribute('data-j') || ''; inp.value = '';
+  if (!fs.length || !CUR) return;
+  var n = CUR.name, img = fs.filter(function(f){ return /^image\/(jpeg|png|webp|gif)$/.test(f.type); }), big = fs.filter(function(f){ return img.indexOf(f) < 0; });
+  var tooBig = big.filter(function(f){ return f.size > 500 * 1048576; }); big = big.filter(function(f){ return f.size <= 500 * 1048576; });
+  if (tooBig.length) toast('⚠️ Над 500 MB – качи го направо в Drive: ' + tooBig.map(function(f){ return f.name; }).join(', '), 7000);
+  if (img.length) upPhotos(n, img, jid, big.length ? function(){ upBig(n, big, jid); } : null);
+  else if (big.length) upBig(n, big, jid);
+}
+function b64Of(blob){ return new Promise(function(res, rej){ var r = new FileReader(); r.onload = function(){ res(String(r.result).split(',')[1] || ''); }; r.onerror = function(){ rej(new Error('Файлът не може да се прочете')); }; r.readAsDataURL(blob); }); }
+function upBig(n, fs, jid){
+  var i = 0, ok = 0; syncOn(1);
+  var fin = function(){ syncOn(-1); if (ok) toast('🎬 Качени: ' + ok + ' / ' + fs.length, 3500); loadMedia(n, CUR && CUR.name === n && el('card').style.display === 'block' ? OPENSEQ : -1); };
+  var next = function(){
+    if (i >= fs.length) return fin();
+    var f = fs[i++], lbl = (fs.length > 1 ? i + ' / ' + fs.length + ' · ' : '') + f.name;
+    toast('🎬 ' + lbl + ' – 0%', 600000);
+    apiCall('startUpload', [n, f.name, f.type || '', f.size, jid]).then(function(s){
+      var pos = 0;
+      var step = function(){
+        if (pos >= f.size) return null;
+        var end = Math.min(f.size, pos + s.chunk);
+        return b64Of(f.slice(pos, end)).then(function(b){ return apiCall('uploadChunk', [s.id, pos, b]); }).then(function(r){
+          pos = r.done ? f.size : (r.next || end);
+          toast('🎬 ' + lbl + ' – ' + Math.round(pos / f.size * 100) + '%', r.done ? 2500 : 600000);
+          return r.done ? null : step();
+        });
+      };
+      return step();
+    }).then(function(){ ok++; next(); }, function(e){ toast('⚠️ ' + f.name + ': ' + ((e && e.message) || e), 6000); next(); });
+  };
+  next();
+}
+// ================= v4.1 · ⏰ общо броене · 📝 липсващи данни · ✖️ причина за загуба · 🧾 категории · 🗑️ кошче =================
+// ⏰ едно правило за всички екрани: срокът е дата + час (без час → 17:00); минал срок = „Просрочено“
+function tDue(x){ var t = /^\d{1,2}:\d{2}$/.test(String(x.time || '').trim()) ? String(x.time).trim() : '17:00', p = String(x.date || '').split('-'), h = t.split(':'); return new Date(+p[0], +p[1] - 1, +p[2], +h[0], +h[1]).getTime(); }
+function tState(x){ if (!x || !x.date) return 'next'; if (tDue(x) < Date.now()) return 'over'; return x.date === D.today ? 'today' : 'next'; }
+function tCnt(list){ var o = { over: 0, today: 0, next: 0 }; (list || []).forEach(function(x){ if (!x.tmp) o[tState(x)]++; }); return o; }
+function myTasks(){ return D.tasks.filter(function(x){ return mine(x.rep); }); }
+function tSum(){ var c = tCnt(myTasks()); return '<div class="tsum"><span class="o">⚠️ Просрочени <b>' + c.over + '</b></span><span class="t">🔔 Днес <b>' + c.today + '</b></span><span>📅 Предстоящи <b>' + c.next + '</b></span></div>'; }
+
+drawTasks = function(){
+  var all = myTasks(), nS = all.filter(function(x){ return isSiteT(x.type); }).length;
+  var ts = all.filter(function(x){ return TF === 'a' || (TF === 'o' ? isSiteT(x.type) : !isSiteT(x.type)); });
+  var over = ts.filter(function(x){ return tState(x) === 'over'; }), today = ts.filter(function(x){ return tState(x) === 'today'; }), next = ts.filter(function(x){ return tState(x) === 'next'; });
+  var free = TF === 'o' ? [] : noTask(), st = TF === 'o' ? [] : stale(); free = free.filter(function(c){ return st.indexOf(c) < 0; });
+  var fb = function(k, l){ return '<button class="' + (TF === k ? 'on' : '') + '" onclick="tfSet(\'' + k + '\')">' + l + '</button>'; };
+  el('main').innerHTML = srchBox() + '<div id="qres"></div><div id="tbody"><div id="pushAsk"></div>' + missBar() + tSum() +
+    '<div class="tfl">' + fb('s', '💼 Продажби ' + (all.length - nS)) + fb('o', '🏗️ Обекти ' + nS) + fb('a', 'Всички ' + all.length) + '</div>' +
+    '<div class="big"><button onclick="openForm()">➕ Нова задача / клиент</button></div>' +
+    (over.length ? sec('⚠️ Просрочени', over.length, '<div class="lst">' + over.map(taskCard).join('') + '</div>', '') : '') +
+    sec('🔔 Днес', today.length, '<div class="lst">' + today.map(taskCard).join('') + '</div>', over.length ? 'Няма други задачи за днес' : 'Няма задачи за днес 🎉') + (TF === 'o' ? '' : staleSec()) +
+    sec('📅 Следващите 7 дни', next.length, '<div class="lst">' + next.map(taskCard).join('') + '</div>', 'Няма планирани задачи') +
+    (TF === 'o' ? '' : sec('⚠️ Клиенти без задача', free.length, rows(free), 'Всички активни клиенти имат задача ✅')) + '</div>';
+  onQ(); pushAskDraw();
+};
+
+// 📝 „Попълни липсващата информация“ – за отговорника (и за собственика, ако няма отговорник)
+var MISSL = { p: '📞 Телефон', src: '🔎 Източник', m: '🏠 Модел', b: '💶 Бюджет', lr: '✖️ Причина за загуба' };
+function missMine(){ return (D.miss || []).filter(function(x){ var rs = reps(x.r); return D.me ? (rs.indexOf(D.me) > -1 || (!rs.length && isAdm())) : false; }); }
+function missBar(){ var a = missMine(); return a.length ? '<button class="missb" onclick="missOpen()"><b>⚠️ Попълни липсващата информация</b><small>' + a.length + (a.length === 1 ? ' клиент' : ' клиента') + ' · ' + esc(a.slice(0, 3).map(function(x){ return x.n; }).join(', ')) + (a.length > 3 ? '…' : '') + '</small></button>' : ''; }
+function missOpen(){
+  var a = missMine();
+  if (!a.length) { closeSheet(); toast('✅ Всичко е попълнено'); draw(); return; }
+  openSheet('📝 Попълни липсващата информация', '<div style="padding:4px 16px 30px">' + a.map(function(x, i){
+    var f = '<div class="mcard" id="mc' + i + '"><div class="t">' + esc(x.n) + ' <small>' + pill(x.s) + '</small></div><div class="s">' + x.miss.map(function(k){ return MISSL[k]; }).join(' · ') + '</div>';
+    x.miss.forEach(function(k){
+      if (k === 'p') f += fld('📞 Телефон', '<input data-k="phone" type="tel">');
+      if (k === 'src') f += fld('🔎 Източник', '<select data-k="src">' + opts(blank(D.sources), '') + '</select>');
+      if (k === 'm') f += fld('🏠 ' + mLbl(), '<select data-k="model">' + opts(blank(D.models), '') + '</select>');
+      if (k === 'b') f += fld('💶 Бюджет (€, приблизително)', '<input data-k="budget" inputmode="numeric">');
+      if (k === 'lr') f += fld('✖️ Причина за загуба', '<select data-k="reason">' + opts(blank(D.lostR || []), '') + '</select><input data-k="note" placeholder="Бележка (по желание)" style="margin-top:6px">');
+    });
+    return f + '<button class="save" data-i="' + i + '" onclick="missSave(+this.dataset.i)">💾 Запази</button></div>';
+  }).join('') + '</div>');
+}
+function missSave(i){
+  var x = missMine()[i], box = el('mc' + i); if (!x || !box) return;
+  var d = {}; Array.prototype.forEach.call(box.querySelectorAll('[data-k]'), function(e){ d[e.getAttribute('data-k')] = String(e.value || '').trim(); });
+  if (!Object.keys(d).some(function(k){ return d[k] && k !== 'note'; })) { toast('Попълни поне едно поле'); return; }
+  var b = box.querySelector('.save'); b.disabled = true; b.textContent = 'Записване…';
+  api('fillMissing', [x.n, d]).then(function(){
+    var dc = dcOf(x.n); if (dc) { if (d.phone) dc.p = d.phone; if (d.src) dc.src = d.src; if (d.model) dc.m = d.model; if (d.budget) dc.b = Number(String(d.budget).replace(/[^\d.]/g, '')) || dc.b; }
+    var rm = { phone: 'p', src: 'src', model: 'm', budget: 'b', reason: 'lr' };
+    x.miss = x.miss.filter(function(k){ return !Object.keys(rm).some(function(f){ return rm[f] === k && d[f]; }); });
+    if (!x.miss.length) D.miss = (D.miss || []).filter(function(y){ return y !== x; });
+    toast('✅ ' + x.n); missOpen(); load();
+  }, function(e){ b.disabled = false; b.textContent = '💾 Запази'; err(e); });
+}
+// задължителни полета за нов клиент
+function reqMissing(d){
+  var m = [];
+  if (!String(d.phone || '').trim()) m.push('Телефон');
+  if (!String(d.src || '').trim()) m.push('Източник');
+  if (!String(d.model || '').trim()) m.push(mLbl());
+  if (fin() && !(Number(String(d.budget || '').replace(/[^\d.]/g, '')) > 0)) m.push('Бюджет (приблизително)');
+  return m;
+}
+
+// ✖️ причина за загуба (задължителна)
+var LRCB = null;
+function lostAsk(title, ok, cancel){
+  LRCB = { ok: ok, cancel: cancel || null };
+  openSheet('✖️ Загубен – ' + title, '<div class="box"><div class="s" style="margin-bottom:8px">Защо е загубен? <b>(задължително)</b></div><div class="chips" id="lrc">' + (D.lostR || []).map(function(r){ return '<button type="button" data-r="' + esc(r) + '" onclick="lrPick(this)">' + esc(r) + '</button>'; }).join('') + '</div>' +
+    '<textarea id="lrN" rows="2" placeholder="Бележка (по желание)" style="margin-top:10px"></textarea><button class="save" onclick="lrGo()">💾 Запази</button></div>');
+}
+function lrPick(b){ Array.prototype.forEach.call(document.querySelectorAll('#lrc button'), function(x){ x.classList.toggle('on', x === b); }); }
+function lrGo(){
+  var b = document.querySelector('#lrc button.on'); if (!b) { toast('Избери причина'); return; }
+  var cb = LRCB; LRCB = null; el('sheet').style.display = 'none';
+  if (cb) cb.ok({ reason: b.getAttribute('data-r'), note: el('lrN').value.trim() });
+}
+var _closeSheet0 = closeSheet;
+closeSheet = function(){ var cb = LRCB; LRCB = null; _closeSheet0(); if (cb && cb.cancel) cb.cancel(); };
+// в формите (нова задача, „Изпълнена“): при „Загубен“ се появява причината
+function lrFormBox(sel){
+  var f = sel.form; if (!f) return;
+  var bx = f.querySelector('.lrbox');
+  if (sel.value !== 'Загубен') { if (bx) bx.remove(); return; }
+  if (bx) return;
+  bx = document.createElement('div'); bx.className = 'lrbox';
+  bx.innerHTML = fld('✖️ Причина за загуба *', '<select name="reason"><option value="">— избери —</option>' + opts(D.lostR || []) + '</select>') + '<input name="lrnote" placeholder="Бележка към причината (по желание)" style="margin-top:6px">';
+  sel.parentNode.insertBefore(bx, sel.nextSibling);
+}
+document.addEventListener('change', function(e){ var t = e.target; if (t && t.name === 'stage' && t.form && t.form.id === 'frm') lrFormBox(t); }, true);
+document.addEventListener('submit', function(e){
+  var f = e.target; if (!f || f.id !== 'frm') return;
+  var st = f.querySelector('select[name="stage"]'), r = f.querySelector('select[name="reason"]');
+  if (st && st.value === 'Загубен' && (!r || !r.value)) { e.preventDefault(); e.stopPropagation(); if (!r) lrFormBox(st); toast('✖️ Избери причина за загуба'); }
+}, true);
+
+// 🧾 категории разходи + предложение по описанието
+var EXP_DEF = ['Материали', 'Техника/наем', 'Транспорт/гориво', 'Настаняване', 'Храна/дневни', 'Работници (труд)', 'Подизпълнител', 'Комисионна/брокер', 'Фабрика/къща', 'Документи/такси', 'Друго'];
+function expCats(){ return (D && D.expCats) || EXP_DEF; }
+(function(){ var m = { 'Техника/наем': '🚜', 'Транспорт/гориво': '⛽', 'Настаняване': '🛏️', 'Храна/дневни': '🍽️', 'Работници (труд)': '👷', 'Подизпълнител': '🏢', 'Комисионна/брокер': '🤝', 'Фабрика/къща': '🏭', 'Документи/такси': '📑' }; Object.keys(m).forEach(function(k){ EXI[k] = m[k]; }); })();
+var EXP_KW = [[/фабрик|къща от|панел/i, 'Фабрика/къща'], [/храна|обяд|вечеря|закуска|дневни|кафе/i, 'Храна/дневни'], [/хотел|нощувк|квартир|настаняв/i, 'Настаняване'], [/гориво|бензин|дизел|нафта|транспорт|курс|магистрал|винетк/i, 'Транспорт/гориво'],
+  [/багер|кран|наем|техника|миксер|помпа|скеле/i, 'Техника/наем'], [/бетон|арматур|материал|цимент|тухл|летв|дъск|плоскост|куфраж|винт|пирон|битум|изолац/i, 'Материали'],
+  [/комисион|брокер/i, 'Комисионна/брокер'], [/подизпълнит|фирма за/i, 'Подизпълнител'], [/такс|документ|разрешени|нотар|скица|проект/i, 'Документи/такси'], [/труд|надниц|работниц/i, 'Работници (труд)']];
+function expGuess(s){ s = String(s || ''); for (var i = 0; i < EXP_KW.length; i++) if (EXP_KW[i][0].test(s)) return EXP_KW[i][1]; return ''; }
+document.addEventListener('input', function(e){
+  var t = e.target; if (!t || t.name !== 'desc' || !t.form || t.form.id !== 'frm') return;
+  var sel = t.form.querySelector('select[name="type"]'); if (!sel || sel.getAttribute('data-man') || expCats().indexOf(sel.value) < 0 && sel.value) return;
+  var g = expGuess(t.value); if (g && sel.value !== g && Array.prototype.some.call(sel.options, function(o){ return o.value === g || o.text === g; })) { sel.value = g; sel.classList.add('hint'); }
+}, true);
+document.addEventListener('change', function(e){ var t = e.target; if (t && t.name === 'type' && t.form && t.form.id === 'frm') t.setAttribute('data-man', '1'); }, true);
+
+// 🗑️ кошче (връщане до 30 дни; завинаги – само собственикът)
+function trashOpen(){
+  openSheet('🗑️ Кошче', '<div class="load">Зареждане…</div>');
+  api('trashGet', []).then(function(r){
+    var a = r.items || [];
+    el('shB').innerHTML = '<div style="padding:6px 16px 30px"><div class="s" style="margin-bottom:8px">Изтритото стои тук 30 дни и може да се върне.' + (r.adm ? ' „Изтрий завинаги“ – само ти.' : '') + '</div>' + (a.length ? a.map(function(x){
+      return '<div class="trw2"><div><b>' + esc(x.k) + (x.c ? ' · ' + esc(x.c) : '') + '</b><small>' + esc(x.s || '') + '</small><small>' + esc(dayTxt(x.t)) + ' · ' + esc(x.by) + ' · още ' + x.left + ' дни</small></div>' +
+        '<button data-r="' + x.row + '" onclick="trashBack(+this.dataset.r)">↩️ Върни</button>' + (r.adm ? '<button class="dg" data-r="' + x.row + '" onclick="trashKill(+this.dataset.r)">✖</button>' : '') + '</div>';
+    }).join('') : '<div class="empty">Кошчето е празно</div>') + '</div>';
+  }, function(e){ el('shB').innerHTML = '<div class="empty">⚠️ ' + esc(e.message) + '</div>'; });
+}
+function trashBack(row){ api('trashRestore', [row]).then(function(r){ toast('↩️ ' + (r.msg || 'Върнато'), 3500); load(); trashOpen(); }, err); }
+function trashKill(row){ if (!confirm('Да изтрия ли този запис ЗАВИНАГИ? Няма връщане.')) return; api('trashPurge', [row]).then(function(){ toast('Изтрито завинаги'); trashOpen(); }, err); }
+// ================= v4.2 · 🔔 известия: център в приложението + настройки (Telegram, тихи часове) =================
+var NT = null, NTT = 0;
+function ntLoad(force){
+  if (!TOKEN || !D) return;
+  if (!force && NT && Date.now() - NTT < 90000) { ntBadge(); return; }
+  apiCall('ntGet', []).then(function(r){ NT = r; NTT = Date.now(); ntBadge(); if (el('sheet').style.display === 'block' && el('ntc')) ntDraw(); }, function(){});
+}
+function ntAct0(){ return NT ? (NT.items || []).filter(function(x){ return x.act; }) : []; }
+function ntBadge(){ var b = el('bellN'); if (!b) return; var n = ntAct0().length; b.textContent = n ? (n > 9 ? '9+' : n) : ''; b.style.display = n ? 'inline-block' : 'none'; }
+setInterval(function(){ if (document.visibilityState === 'visible') ntLoad(); }, 120000);
+document.addEventListener('visibilitychange', function(){ if (document.visibilityState === 'visible') ntLoad(); });
+var NTSTEP = {};
+function ntOpen(){ openSheet('🔔 Известия', '<div id="ntc"><div class="load">Зареждане…</div></div>'); if (NT) ntDraw(); ntLoad(true); }
+function ntIco(k, lv){ return lv >= 2 ? '🔴' : k === 'reask' ? '❗' : k === 'lead' || k === 'lead-esc' ? '🆕' : k === 'sos' ? '🆘' : k === 'work' ? '📝' : k === 'утро' ? '☀️' : k === 'вечер' ? '🌙' : '⚠️'; }
+function ntDraw(){
+  var c = el('ntc'); if (!c || !NT) return;
+  var a = NT.items || [];
+  var h = (NT.has && !NT.linked ? '<button class="missb" onclick="ntSet()"><b>📲 Свържи Telegram</b><small>Получавай задачите в Telegram и отговаряй с един бутон</small></button>' : '') +
+    (!NT.has && NT.adm ? '<button class="missb" onclick="ntSet()"><b>🤖 Настрой Telegram бота</b><small>Еднократно – после всеки свързва телефона си</small></button>' : '');
+  if (!a.length) h += '<div class="empty">Няма известия за последните 7 дни ✅</div>';
+  h += a.map(function(x, i){
+    var first = String(x.txt || '').split('\n'), when = dayTxt(x.t);
+    var ref = x.ref ? (x.w === 'r' ? 'r:' : 'm:') + String(x.ref).split(':')[1] : '';
+    var b = '<div class="ntm' + (x.act ? ' act' : '') + (x.lv >= 2 ? ' esc' : '') + '"><div class="nth">' + ntIco(x.k, x.lv) + ' <b>' + esc(x.cl || first[0]) + '</b>' + (x.w === 'r' ? ' <span class="badge">🔨 Ремонти</span>' : '') + (x.copy ? ' <span class="badge">копие</span>' : '') + '<small>' + esc(when) + '</small></div>' +
+      '<div class="ntt">' + esc(first.slice(x.cl ? 1 : 1, 8).join('\n')) + '</div>';
+    if (x.ans) b += '<div class="nta">✔️ ' + esc(x.ans) + '</div>';
+    if (x.act && ref) b += '<div class="ntb" id="ntb' + i + '">' + ntBtns(i, ref, x) + '</div>';
+    else if (x.cl) b += '<div class="ntb"><button data-n="' + esc(x.cl) + '" data-w="' + esc(x.w) + '" onclick="ntOpenC(this.dataset.n,this.dataset.w)">📲 Отвори</button></div>';
+    return b + '</div>';
+  }).join('');
+  h += '<div class="acts" style="margin:14px 16px 30px"><button onclick="ntSet()">⚙️ Настройки на известията</button></div>';
+  c.innerHTML = h;
+}
+function ntOpenC(n, w){ closeSheet(); if ((w || '') !== (WS || '')) setWS(w || ''); setTimeout(function(){ openC(n); }, 300); }
+function dIn(n){ var d = new Date(); d.setDate(d.getDate() + n); return d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2); }
+function ntBtns(i, ref, x){
+  var st = NTSTEP[i] || '', q = function(a, arg, l, cls){ return '<button' + (cls ? ' class="' + cls + '"' : '') + ' data-i="' + i + '" data-r="' + esc(ref) + '" data-a="' + a + '" data-g="' + esc(arg == null ? '' : arg) + '" onclick="ntGo(this)">' + l + '</button>'; };
+  var dates = function(a, list){ return list.map(function(o){ return q(a, dIn(o[1]), o[0]); }).join('') + '<input type="date" data-i="' + i + '" data-r="' + esc(ref) + '" data-a="' + a + '" onchange="ntDate(this)">'; };
+  if (st === 'prog') return [25, 50, 75].map(function(n){ return q('prog', n, n + '%'); }).join('') + q('back', '', '←');
+  if (st === 'eta') return '<div class="s">Кога ще е готово?</div>' + dates('eta', [['Днес', 0], ['Утре', 1], ['+3 дни', 3]]);
+  if (st === 'wait') return '<div class="s">Какво чакаме?</div>' + ['Материали', 'Клиент', 'Време/дъжд', 'Работници', 'Плащане', 'Документи', 'Друго'].map(function(r){ return q('wait', r, r); }).join('') + q('back', '', '←');
+  if (st === 'until') return '<div class="s">До кога?</div>' + dates('until', [['Утре', 1], ['+3 дни', 3], ['+1 седмица', 7]]);
+  if (st === 'date') return '<div class="s">Нова дата</div>' + dates('date', [['Утре', 1], ['+2 дни', 2], ['+7 дни', 7]]) + q('back', '', '←');
+  if (st === 'sos') return '<textarea id="nts' + i + '" rows="2" placeholder="Опиши проблема…"></textarea>' + q('sos', '', '🆘 Изпрати на ' + esc((NT && NT.boss) || 'Сюлейман'), 'dg') + q('back', '', '←');
+  if (st === 'reas') return '<div class="s">На кого?</div>' + (D.reps || []).map(function(r){ return q('reas', r, esc(r)); }).join('') + q('back', '', '←');
+  var b = q('done', '', '✅ Готово', 'ok') + q('prog0', '', '🔄 В процес') + q('wait0', '', '⏳ Чакаме') + q('date0', '', '📅 Нова дата') + q('sos0', '', '🆘 Проблем') +
+    (x.cl ? '<button data-n="' + esc(x.cl) + '" data-w="' + esc(x.w) + '" onclick="ntOpenC(this.dataset.n,this.dataset.w)">📲 Отвори</button>' : '');
+  if (x.copy || isAdm()) b += q('seen', '', '👍 Видях') + (isAdm() && /^m:T-|^r:T-/.test(ref) ? q('reas0', '', '🔁 Възложи') : '');
+  return b;
+}
+function ntDate(inp){ if (!inp.value) return; ntRun(+inp.getAttribute('data-i'), inp.getAttribute('data-r'), inp.getAttribute('data-a'), inp.value); }
+function ntGo(b){
+  var i = +b.getAttribute('data-i'), ref = b.getAttribute('data-r'), a = b.getAttribute('data-a'), g = b.getAttribute('data-g');
+  if (a === 'back') { NTSTEP[i] = ''; return ntDraw(); }
+  if (/0$/.test(a)) { NTSTEP[i] = a.slice(0, -1); return ntDraw(); }
+  if (a === 'sos') { g = (el('nts' + i) || {}).value || ''; if (!g.trim()) { toast('Опиши проблема'); return; } }
+  ntRun(i, ref, a, g);
+}
+function ntRun(i, ref, a, g){
+  var box = el('ntb' + i); if (box) box.style.opacity = .5;
+  api('ntAct', [ref, a, g]).then(function(r){
+    toast('✔️ ' + (r.line || 'Записано'));
+    NTSTEP[i] = a === 'prog' ? 'eta' : a === 'wait' ? 'until' : '';
+    if (!NTSTEP[i]) { NT = null; ntLoad(true); load(); } else ntDraw();
+  }, function(e){ if (box) box.style.opacity = 1; err(e); });
+}
+// ⚙️ настройки
+function ntSet(){
+  openSheet('⚙️ Известия – настройки', '<div class="load">Зареждане…</div>');
+  apiCall('ntGet', []).then(function(r){ NT = r; NTT = Date.now(); ntSetDraw(); ntBadge(); }, function(e){ el('shB').innerHTML = '<div class="empty">⚠️ ' + esc(e.message) + '</div>'; });
+}
+function ntSetDraw(){
+  var r = NT, q = r.quiet || {}, h = '<div style="padding:6px 16px 30px">';
+  h += '<div class="box"><div class="t">📲 Telegram</div>' + (!r.has ? '<div class="s">Ботът още не е настроен' + (r.adm ? ' – виж по-долу.' : ' – Сюлейман го настройва.') + '</div>' :
+    r.linked ? '<div class="s">✅ Свързан – получаваш задачите в Telegram (@' + esc(r.bot) + ').</div><div class="acts"><button onclick="ntTest()">🧪 Изпрати тест</button><button onclick="ntUnlink()">Изключи</button></div>' :
+    '<div class="s">Натисни бутона → отваря се Telegram → натисни „Start“. Готово.</div><div class="acts"><button class="ok" onclick="ntLink()">📲 Свържи Telegram</button></div>') + '</div>';
+  h += '<div class="box"><div class="t">🌙 Тихи часове</div><div class="s">По подразбиране – изключени (известията идват винаги). Спешните (🆘, 🔴) идват винаги.</div>' +
+    '<label class="chk" style="margin-top:8px"><input type="checkbox" id="qOn"' + (q.on ? ' checked' : '') + '> Включи</label>' +
+    half(fld('От', '<input type="time" id="qF" value="' + esc(q.from || '22:00') + '">'), fld('До', '<input type="time" id="qT" value="' + esc(q.to || '07:00') + '">')) +
+    '<button class="save" style="padding:11px;margin-top:10px" onclick="ntQuiet()">💾 Запази</button></div>';
+  if (r.adm) {
+    h += '<div class="box"><div class="t">🤖 Telegram бот (само ти)</div><div class="s">1) В Telegram пиши на <b>@BotFather</b> → <b>/newbot</b> → име, напр. „Flexi CRM“.<br>2) Копирай токена, който ти дава, и го постави тук. Пази се само на сървъра (Google), не в приложението.</div>' +
+      '<input id="tgTok" type="password" autocomplete="off" placeholder="' + (r.has ? '✅ настроен (@' + esc(r.bot) + ') – постави нов, за да го смениш' : '123456789:AA…') + '" style="margin-top:8px">' +
+      '<button class="save" style="padding:11px;margin-top:10px" onclick="ntTok()">💾 Свържи бота</button>' +
+      (r.wh ? '<div class="s" style="margin-top:8px">Режим: ' + (r.wh.mode === 'poll' ? '🔁 проверка всяка минута' : '⚡ мигновен (webhook)') + (r.wh.err && r.wh.mode !== 'poll' ? '<br>⚠️ Telegram: ' + esc(r.wh.err) + (r.wh.pend ? ' · чакащи: ' + r.wh.pend : '') : '') + '</div>' +
+        '<div class="acts"><button onclick="ntMode(\'' + (r.wh.mode === 'poll' ? 'hook' : 'poll') + '\')">' + (r.wh.mode === 'poll' ? '⚡ Обратно на мигновен' : '🔁 Превключи на проверка всяка минута') + '</button></div>' : '') + '</div>';
+    h += '<div class="box"><div class="t">👥 Екипът</div>' + (r.team || []).map(function(t){
+      return '<div class="ntw"><b>' + esc(t.n) + '</b><small>' + (t.tg ? '📲 Telegram ✅' : t.mail ? '📧 по имейл' : '📱 само в приложението') + '</small><input type="tel" placeholder="телефон за 📞" value="' + esc(t.ph || '') + '" data-n="' + esc(t.n) + '" onchange="ntPhone(this)"></div>';
+    }).join('') + '<div class="s" style="margin-top:6px">Без Telegram → известията отиват по имейл (имейлът е в „Хора и достъп“) и в 🔔 в приложението.</div></div>';
+  }
+  el('shB').innerHTML = h + '</div>';
+}
+function ntLink(){ api('tgLink', []).then(function(r){ window.open(r.url, '_blank'); toast('📲 Отвори Telegram и натисни „Start“', 6000); setTimeout(function(){ ntSet(); }, 15000); }, err); }
+function ntUnlink(){ if (!confirm('Да спра известията в Telegram?')) return; api('tgUnlink', []).then(function(){ toast('Изключено'); ntSet(); }, err); }
+function ntTest(){ api('ntTest', []).then(function(r){ toast('🧪 Изпратено: ' + r.ch); }, err); }
+function ntQuiet(){ api('ntSetQuiet', [{ on: el('qOn').checked, from: el('qF').value, to: el('qT').value }]).then(function(){ toast('💾 Запазено'); }, err); }
+function ntTok(){ var v = el('tgTok').value.trim(); if (!v && !(NT && NT.has)) { toast('Постави токена от @BotFather'); return; } toast('⏳ Свързвам…', 8000); api('tgSetup', [v]).then(function(r){ el('tgTok').value = ''; toast('✅ Ботът @' + r.bot + ' е свързан', 5000); ntSet(); }, err); }
+function ntMode(m){ api('tgMode', [m]).then(function(r){ toast(r.mode === 'poll' ? '🔁 Проверка всяка минута' : '⚡ Мигновен режим'); ntSet(); }, err); }
+function ntPhone(inp){ api('ntSetPhone', [inp.getAttribute('data-n'), inp.value]).then(function(){ toast('💾 ' + inp.getAttribute('data-n')); }, err); }
+// 🔗 бутоните от имейла: ?n=…&a=a|m|t|T-005|done
+(function(){
+  try {
+    var u = new URL(location.href), a = u.searchParams.get('a'); if (!a) return;
+    history.replaceState(null, '', location.pathname);
+    var p = a.split('|'); if (p[0] !== 'a' || p.length < 5) return;
+    var ref = p[1] + ':' + p[3], act = p[4], arg = p.slice(5).join('|');
+    var go = function(){
+      if (!D || !TOKEN) return setTimeout(go, 700);
+      if (act === 'done' || act === 'seen' || arg) { api('ntAct', [ref, act, arg]).then(function(r){ toast('✔️ ' + r.line, 4000); load(); }, err); return; }
+      ntOpen(); setTimeout(function(){ var it = (NT && NT.items || []).findIndex(function(x){ return x.ref && x.ref.split(':')[1] === p[3]; }); if (it > -1) { NTSTEP[it] = act === 'wait' ? 'wait' : act === 'prog' ? 'prog' : act === 'date' ? 'date' : act === 'sos' ? 'sos' : act === 'reas' ? 'reas' : ''; ntDraw(); } }, 1500);
+    };
+    go();
+  } catch (e) {}
+})();
+// 🏷️ състояние на задачата в списъка
+var _taskCard1 = taskCard;
+taskCard = function(x){
+  var h = _taskCard1(x), b = '';
+  if (x.st === 'Чакаме') b = '⏳ Чакаме' + (x.wr ? ': ' + x.wr : '');
+  else if (x.st === 'В процес') b = '🔄 ' + (x.pg || 0) + '%';
+  if (x.pp >= 2) b += (b ? ' · ' : '') + '📅 ×' + x.pp;
+  return b ? h.replace('</small></span>', ' · <span class="tst">' + esc(b) + '</span></small></span>') : h;
+};
 if ('serviceWorker' in navigator) {
   var swHad = !!navigator.serviceWorker.controller, swDone = false;
   navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).then(function(r){
