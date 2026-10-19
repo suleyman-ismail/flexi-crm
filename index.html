@@ -517,6 +517,81 @@ html.dark .trw2 button{background:#182234;border-color:#3b4a60;color:#e2e8f0}
 .tst{color:#b45309;font-weight:700}
 html.dark .ntm{background:#1e293b}html.dark .ntt{color:#cbd5e1}html.dark .ntb button{background:#182234;border-color:#3b4a60;color:#e2e8f0}html.dark .ntw{border-color:#334155}
 .hr .me{white-space:nowrap}
+/* ================= v4.2.1 · плочки, карти на работите, отделни страници, профилни снимки, комисиони ================= */
+#sub{z-index:11}
+#sub .top button{font-size:16px;font-weight:700;padding:4px 10px 4px 0;white-space:nowrap}
+.subin{background:#fff;margin:12px 16px;border-radius:12px;padding:12px 14px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.subin>.ch:first-child{margin-top:2px}
+#sbB .jsl,#sbB .jsel{display:none}
+/* 🗂️ плочки на картата */
+.sgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:12px 16px 24px}
+@media (min-width:700px){.sgrid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.stile{display:flex;flex-direction:column;align-items:flex-start;gap:3px;min-width:0;text-align:left;background:#fff;border:0;border-radius:14px;padding:13px 12px 12px;box-shadow:0 1px 3px rgba(0,0,0,.08);font-family:inherit;color:#0f172a;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:transform .1s}
+.stile:active{transform:scale(.97)}
+.stile i{font-style:normal;font-size:26px;line-height:1;width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:#eff6ff;margin-bottom:4px}
+.stile b{font-size:14.5px;width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.stile small{font-size:12.5px;color:#64748b;width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.stile small .pill{font-size:11.5px}
+.st-info i{background:#eef2ff}.st-stage i{background:#fef3c7}.st-hist i{background:#f1f5f9}.st-notes i{background:#fefce8}
+.st-costs i{background:#dcfce7}.st-photos i{background:#fce7f3}.st-files i{background:#e0f2fe}.st-mails i{background:#ede9fe}
+/* 📝 карти на работите */
+.jgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:8px 0}
+@media (min-width:700px){.jgrid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.jtile{display:flex;flex-direction:column;min-width:0;padding:0;border:0;border-radius:14px;overflow:hidden;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.12),0 0 0 1px #e2e8f0;text-align:left;font-family:inherit;color:#0f172a;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:transform .1s}
+.jtile:active{transform:scale(.97)}
+.jcov{position:relative;display:block;aspect-ratio:4/3;width:100%;overflow:hidden}
+.jcov img{width:100%;height:100%;object-fit:cover;display:block}
+.jcov i{position:absolute;inset:0;display:grid;place-items:center;font-style:normal;font-size:46px;filter:drop-shadow(0 3px 6px rgba(0,0,0,.25))}
+.jcov:not(.ph):after{content:'';position:absolute;inset:0;background:radial-gradient(circle at 80% 15%,rgba(255,255,255,.28),transparent 55%)}
+.jst{position:absolute;left:6px;top:6px;z-index:1;background:rgba(255,255,255,.94);color:#334155;font-size:11px;font-weight:800;border-radius:8px;padding:2px 6px}
+.jst.ok{background:#dcfce7;color:#15803d}.jst.late{background:#fee2e2;color:#b91c1c}
+.jmn{position:absolute;right:6px;top:6px;z-index:1;background:rgba(15,23,42,.6);color:#fff;font-size:11px;font-weight:700;border-radius:8px;padding:2px 6px}
+.jpa{position:absolute;right:6px;bottom:6px;z-index:1;display:flex}.jpa .av{margin-left:-6px;box-shadow:0 0 0 2px #fff}
+.jinf{display:flex;flex-direction:column;gap:2px;padding:8px 10px 10px;min-width:0}
+.jinf b{font-size:14.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.jinf small{font-size:12px;color:#64748b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.jinf em{font-style:normal;font-size:12px;font-weight:800;color:#64748b}.jinf em.pos{color:#15803d}.jinf em.neg{color:#b91c1c}
+.jbar{display:block;height:5px;border-radius:3px;background:#e2e8f0;overflow:hidden;margin:3px 0 1px}.jbar i{display:block;height:100%;background:#16a34a;border-radius:3px}
+.jtile.done .jcov{filter:saturate(.75)}
+.box.jobs .jgrid{margin-top:4px}
+.jhero{position:relative;height:190px;margin:0;display:block;overflow:hidden;cursor:default}
+.jhero[data-id]{cursor:zoom-in}
+.jhero img{width:100%;height:100%;object-fit:cover;display:block}
+.jhero i{position:absolute;inset:0 0 40px;display:grid;place-items:center;font-style:normal;font-size:76px;filter:drop-shadow(0 4px 10px rgba(0,0,0,.3))}
+.jht{position:absolute;left:0;right:0;bottom:0;padding:26px 16px 12px;background:linear-gradient(transparent,rgba(15,23,42,.72));color:#fff;display:flex;flex-direction:column}
+.jht b{font-size:20px}.jht small{font-size:13px;opacity:.9}
+.jhero .jst{left:12px;top:12px;font-size:12.5px;padding:3px 8px}
+/* 🖼️ профилни снимки */
+.av{display:inline-grid;place-items:center;flex:none;border-radius:50%;overflow:hidden;font-weight:800;width:36px;height:36px;font-size:13px;vertical-align:middle}
+.av img,.cav img{width:100%;height:100%;object-fit:cover;display:block}
+.cav{overflow:hidden}
+.av.xs{width:24px;height:24px;font-size:9.5px}.av.md{width:38px;height:38px;font-size:13px}.av.lg{width:64px;height:64px;font-size:22px}.av.xl{width:132px;height:132px;font-size:44px}
+.av.hd{width:44px;height:44px;font-size:15px}.av.more{background:#334155;color:#fff}
+.avr{gap:11px}.avr>.av{margin-right:2px}
+.avb{position:relative;border:0;background:none;padding:0;cursor:pointer;flex:none;font-family:inherit}
+.avb i{position:absolute;right:-2px;bottom:-2px;font-style:normal;font-size:13px;background:#fff;border-radius:50%;width:22px;height:22px;display:grid;place-items:center;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.avb.sm{margin-right:10px;vertical-align:middle}
+.hero .t{display:flex;align-items:center;flex-wrap:wrap;gap:4px 6px}
+.avh{display:flex;align-items:center;gap:14px;margin:4px 0 12px}.avh b{display:block;font-size:18px}.avh small{display:block;color:#64748b;font-size:13px}
+.ave{padding:16px}.avbig{display:flex;justify-content:center;margin:6px 0 14px}
+/* 🤝 комисиони */
+.kown{font-size:11px;font-weight:700;color:#7c3aed;background:#f5f3ff;border-radius:8px;padding:2px 7px;margin-left:6px;vertical-align:middle}
+.klist{display:flex;flex-direction:column}
+.krow{display:flex;align-items:center;gap:9px;padding:9px 0;border-top:1px solid #f1f5f9;cursor:default}.klist>.krow:first-child{border-top:0}
+.krow[onclick]{cursor:pointer}
+.krow .kx{flex:1;min-width:0;display:flex;flex-direction:column;cursor:pointer}.krow .kx b{font-size:14.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.krow .kx small{font-size:12px;color:#64748b}
+.krow .ka{flex:none;font-size:15px}.krow .ka.due{color:#b45309}.krow.paid .ka{color:#15803d}
+.krow button{flex:none;border:1px solid #cbd5e1;background:#fff;border-radius:9px;padding:6px 8px;font-size:14px;font-family:inherit}
+.krow button.ok{background:#16a34a;border-color:#16a34a;color:#fff}
+.krow .ar{color:#94a3b8;font-size:22px}
+.kpay{text-align:center;margin:8px 0 14px}.kpay b{display:block;font-size:30px;color:#0f172a}.kpay small{color:#64748b}
+/* 🌓 */
+html.dark .subin,html.dark .stile,html.dark .jtile{background:#1e293b;color:#e2e8f0}
+html.dark .jtile{box-shadow:0 0 0 1px #334155}
+html.dark .stile i{background:#172238}html.dark .stile small,html.dark .jinf small,html.dark .krow .kx small{color:#94a3b8}
+html.dark .jbar{background:#334155}html.dark .krow{border-color:#334155}html.dark .krow button{background:#172238;border-color:#3b4a60;color:#e2e8f0}
+html.dark .kpay b{color:#e2e8f0}html.dark .kown{background:#2e1065;color:#ddd6fe}html.dark .avb i{background:#334155}
+#sbB .jh>span{display:none}#sbB .jh{justify-content:flex-end}
 </style>
 <script>try{var tm=localStorage.getItem('crm_theme')||'auto';if(tm==='dark'||(tm==='auto'&&window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.classList.add('dark')}catch(e){}</script></head><body>
 <div class="hd"><header><div><h1><img src="icon-192.png" alt=""><span id="ttl">CRM Flexi Home</span></h1><div class="d" id="dt"></div></div><div class="hr"><button class="bell" id="bellB" onclick="ntOpen()" title="Известия">🔔<span id="bellN"></span></button><button class="me" id="meB" onclick="meMenu()">👤</button><button onclick="load(true)" title="Обнови">⟳</button></div></header>
@@ -524,6 +599,7 @@ html.dark .ntm{background:#1e293b}html.dark .ntt{color:#cbd5e1}html.dark .ntb bu
 <div class="seg" id="seg"><button id="sg_m" onclick="seg('m')">👤 Мои</button><button id="sg_a" onclick="seg('a')">👥 Всички</button></div>
 <div id="off">📴 Няма интернет – показани са последните данни</div><div id="qbar" onclick="qFlush()"></div><div id="main"><div class="load">Зареждане…</div></div>
 <div id="lpm" onclick="if(event.target===this)lpClose()"><div class="bx" id="lpmB"></div></div><div id="card" class="sheet"><div class="top"><button onclick="closeCard()">←</button><b id="cdT"></b></div><div id="cdB"></div></div>
+<div id="sub" class="sheet"><div class="top"><button onclick="subBack()">← Назад</button><b id="sbT"></b></div><div id="sbB"></div></div>
 <div id="sheet" class="sheet"><div class="top"><b id="shT"></b><button onclick="closeSheet()">✕</button></div><div id="shB"></div></div>
 <div id="pv"><button class="c" onclick="closePv()">✕</button><div class="l" id="pvL">Зареждане…</div><img id="pvI" alt=""></div>
 <div id="login"><div class="logo"><img src="icon-192.png" alt=""></div><h1>CRM Flexi Home</h1><p>Въведи своя PIN</p>
@@ -749,7 +825,7 @@ function render(d){
   draw();
   if (!NEWS_DONE && d.news && el('sheet').style.display !== 'block' && el('login').style.display !== 'flex') { NEWS_DONE = true; setTimeout(function(){ showNews(false); }, 600); }
   pendOpen(d);
-  setTimeout(function(){ ntLoad(); }, 1200);
+  setTimeout(function(){ ntLoad(); avLoad(); kLoad(); }, 1200);
 }
 function tab(t){ TAB = t; try { localStorage.setItem('crm_tab', t); } catch (e) {} draw(); window.scrollTo(0, 0); }
 function seg(s){ SEG = s; try { localStorage.setItem('crm_seg', s); } catch (e) {} draw(); }
@@ -886,7 +962,7 @@ function clientRow(c){
   var col = (STC[c.s] || ['#e2e8f0', '#94a3b8']), nx = c.nx && c.nx !== '-' ? c.nx : '';
   var sub = [c.s ? '<span class="cst" style="background:' + col[0] + ';color:' + col[1] + '">' + esc(c.s) + '</span>' : '', c.c ? esc(c.c) : ''].filter(Boolean).join(' · ');
   var right = (fin() && c.b ? '<b>' + eur(c.b) + '</b>' : '') + (nx ? '<small class="' + (nx < D.today ? 'lt' : '') + '">' + fmt(nx) + '</small>' : (D.closed.indexOf(c.s) < 0 && c.s ? '<small class="nt">без задача</small>' : ''));
-  return '<div class="lr cr2" data-lp="c" data-n="' + esc(c.n) + '" onclick="openC(this.dataset.n)"><span class="cav" style="background:' + col[0] + ';color:' + col[1] + '">' + esc(ini(c.n)) + '</span>' +
+  return '<div class="lr cr2" data-lp="c" data-n="' + esc(c.n) + '" onclick="openC(this.dataset.n)">' + avCav(c.n, col) +
     '<span class="cx2"><b>' + esc(c.n) + '</b>' + (sub ? '<small>' + sub + '</small>' : '') + '</span>' + (right ? '<span class="crt">' + right + '</span>' : '') + '</div>';
 }
 function ini(n){ var p = String(n || '').trim().split(/\s+/).filter(function(w){ return /^[\p{L}]/u.test(w); }); return ((p[0] || '?').charAt(0) + (p[1] ? p[1].charAt(0) : '')).toUpperCase(); }
@@ -1260,7 +1336,7 @@ thApply();
 function meMenu(){
   openSheet('👤 ' + (D && D.me ? D.me : 'Профил'), '<div class="who"><p style="font-size:15px;color:#334155">Влязъл си като <b>' + esc(D && D.me || '') + '</b>.</p>' +
     (D && D.renoUrl ? '<a class="lnkb" href="' + esc(safeUrl(D.renoUrl)) + '" target="_blank" rel="noopener">📊 Таблицата „Ремонти“</a>' : '') +
-    '<button onclick="ntSet()">🔔 Известия и Telegram</button><button id="pushB" onclick="closeSheet();pushOn()">🔔 Включи известията</button>' + (isAdm() ? '<button onclick="admOpen()">⚙️ Хора и достъп</button>' : '') +
+    '<button onclick="ntSet()">🔔 Известия и Telegram</button><button id="pushB" onclick="closeSheet();pushOn()">🔔 Включи известията</button>' + (isAdm() ? '<button onclick="kAll()">🤝 Комисиони на партньорите</button><button onclick="admOpen()">⚙️ Хора и достъп</button>' : '') +
     '<button id="thB" onclick="thNext()">Тема: ' + THL[thMode()] + '</button><button onclick="showNews(true)">🆕 Какво ново</button>' + (canDel() || isAdm() ? '<button onclick="trashOpen()">🗑️ Кошче</button>' : '') + '<button onclick="load(true);closeSheet()">⟳ Обнови данните</button><button onclick="askOut()">🚪 Изход</button></div>');
   pushBtn();
 }
@@ -2595,7 +2671,7 @@ function padCopy(){
 window.addEventListener('online', function(){ if (PADDIRTY) padSave(); });
 document.addEventListener('visibilitychange', function(){ if (document.hidden && PADDIRTY) padSave(true); });
 
-var APP_VER = '4.2';
+var APP_VER = '4.2.1';
 // ================= v4.0 · 👥 Клиенти: ☰ Списък | ▦ Канбан · 🔎 филтри · ☑️ много наведнъж · 🗄️ архив =================
 var CV = ls('crm_cview') === 'k' ? 'k' : 'l';            // изглед: l = списък, k = канбан
 var CSEL = null;                                          // избрани клиенти { име: 1 } (отделно от SELM за разходите)
@@ -3315,6 +3391,395 @@ taskCard = function(x){
   if (x.pp >= 2) b += (b ? ' · ' : '') + '📅 ×' + x.pp;
   return b ? h.replace('</small></span>', ' · <span class="tst">' + esc(b) + '</span></small></span>') : h;
 };
+// ================= v4.2.1 · 🗂️ картата на клиента с плочки · 📝 всяка работа – карта със снимка · отделна страница с ← Назад =================
+// Разделите (Информация, Етап, История…) вече не са падащи менюта: всеки е плочка; докосваш → отваря се отделна страница.
+// ← Назад (или бутонът „назад“ на телефона) връща към картата.
+var FOLDS = null, FOLDC = {}, SUBS = [];
+var _fold0 = fold;
+fold = function(k, title, sum, inner){
+  if (FOLDS) { FOLDS.push(k); FOLDC[k] = { t: title, s: sum, h: inner }; return ''; }
+  return _fold0(k, title, sum, inner);
+};
+// 🎨 картинка според вида работа (когато още няма снимка)
+var JVIS = [
+  [/покрив|керемид|улук|битум/, '🛖', '#fb923c', '#c2410c'],
+  [/фундамент|бетон|основ|кофраж|изкоп/, '🏗️', '#94a3b8', '#334155'],
+  [/монтаж|къщ|модул|сглоб|префаб|вила|контейнер|стоманен/, '🏡', '#60a5fa', '#1e40af'],
+  [/изолац|фасад|мазилк|eps|минерал/, '🧱', '#fbbf24', '#b45309'],
+  [/бан|плочк|санитар|тоалет/, '🛁', '#22d3ee', '#0e7490'],
+  [/кухн/, '🍳', '#f87171', '#b91c1c'],
+  [/навес|беседк|пергол|сенник/, '⛱️', '#4ade80', '#15803d'],
+  [/огра|порта|оград/, '🚧', '#facc15', '#a16207'],
+  [/терас|балкон|веранд|двор|градин/, '🌿', '#34d399', '#047857'],
+  [/подов|под |ламинат|паркет|настил|замаз/, '🪵', '#d97706', '#78350f'],
+  [/ел\.|елект|ток|осветл|кабел/, '⚡', '#fde047', '#ca8a04'],
+  [/вик|водопр|канал|отоплен|климат|бойлер/, '🚰', '#38bdf8', '#0369a1'],
+  [/боя|боядис|шпакл|гипсокарт|таван/, '🎨', '#c084fc', '#7e22ce'],
+  [/дограм|прозор|врат|стъкл/, '🪟', '#2dd4bf', '#0f766e'],
+  [/гараж|склад|хале|работилн/, '🏭', '#a1a1aa', '#3f3f46'],
+  [/басейн/, '🏊', '#67e8f9', '#0891b2'],
+  [/ремонт|цялост|основен/, '🛠️', '#818cf8', '#4338ca']
+];
+function jVis(desc){
+  var d = ' ' + String(desc || '').toLowerCase() + ' ';
+  for (var i = 0; i < JVIS.length; i++) if (JVIS[i][0].test(d)) return { e: JVIS[i][1], g: [JVIS[i][2], JVIS[i][3]] };
+  return { e: '📝', g: ['#3b5b85', '#1e3a5f'] };
+}
+function jCover(c, jid){
+  if (!c || !jid || jid === '_') return '';
+  var p = ((c.photos) || []).filter(function(x){ return x.j === jid && x.thumb && !x.bad; })[0];
+  return p ? safeImg(p.thumb) : '';
+}
+function jDeal(id){ return ((CUR && CUR.costs && CUR.costs.deals) || []).filter(function(x){ return x.id === id; })[0]; }
+function jStat(x){
+  if (!x) return '';
+  if (x.done) return '<span class="jst ok">✅ Завършена</span>';
+  if (x.due) return '<span class="jst' + (D && x.due < D.today ? ' late' : '') + '">📅 ' + fmt(x.due) + '</span>';
+  return '';
+}
+function jTile(k, x){
+  var id = x ? x.id : '_', s = jSum(k, id), p = x && x.agreed && s.cost ? x.agreed - s.cost : null;
+  var v = x ? jVis(x.desc) : { e: '📦', g: ['#cbd5e1', '#64748b'] }, cov = x ? jCover(CUR, x.id) : '';
+  var pct = x && x.agreed ? Math.min(100, Math.round(s.got / x.agreed * 100)) : 0;
+  var med = x ? jMedia(CUR, x.id) : { ph: [], vf: [] }, nMed = med.ph.length + med.vf.length;
+  var pa = x && typeof kAv === 'function' ? kAv(CUR.name, x.id) : '';
+  var sub = x ? [x.agreed ? eur(x.agreed) : 'без сума', s.got ? 'получено ' + eur(s.got) : ''].filter(Boolean).join(' · ') : 'Разходи ' + eur(s.cost);
+  return '<button type="button" class="jtile' + (x && x.done ? ' done' : '') + '" data-j="' + esc(id) + '" onclick="jPage(this.dataset.j)">' +
+    '<span class="jcov' + (cov ? ' ph' : '') + '" style="background:linear-gradient(135deg,' + v.g[0] + ',' + v.g[1] + ')">' +
+      (cov ? '<img src="' + esc(cov) + '" alt="" loading="lazy">' : '<i>' + v.e + '</i>') + jStat(x) +
+      (nMed ? '<span class="jmn">📸 ' + nMed + '</span>' : '') + (pa ? '<span class="jpa">' + pa + '</span>' : '') + '</span>' +
+    '<span class="jinf"><b>' + (x ? esc(x.desc || 'Работа') : 'Без работа (общи)') + '</b><small>' + sub + '</small>' +
+      (x && x.agreed ? '<span class="jbar"><i style="width:' + pct + '%"></i></span>' : '') +
+      (p !== null ? '<em class="' + (p >= 0 ? 'pos' : 'neg') + '">Печалба ≈ ' + eur(p) + '</em>' : (s.cost ? '<em>Разходи ' + eur(s.cost) + '</em>' : '')) + '</span></button>';
+}
+function jGrid(c){
+  var k = c.costs, J = (k && k.deals) || [];
+  var gen = k ? k.workers.concat(k.exp, k.inc || []).some(function(x){ return !x.jid; }) : false;
+  return '<div class="jgrid">' + J.map(function(x){ return jTile(k, x); }).join('') + (gen ? jTile(k, null) : '') + '</div>';
+}
+// горе в картата: работите като карти
+jobsBox = function(c){
+  var k = c.costs; if (!k || k.nf || !fin()) return '';
+  var J = k.deals || [];
+  var h = '<div class="box jobs"><div class="jt">📝 Работи' + (J.length ? ' <span>' + J.length + '</span>' : '') + '</div>';
+  h += J.length ? jGrid(c) : '<div class="s">Правиш няколко работи за този клиент (напр. навес, ограда, баня)? Добави всяка отделно – плащанията, разходите и снимките ѝ са отделно.</div>';
+  return h + '<button class="jadd" onclick="jobNew()">➕ Нова работа</button></div>';
+};
+jOpen = function(id){ jPage(id); };
+// 💶 страницата „Плащания и работници“: общо + картите на работите; отделната работа – със своя страница
+var _costsHtml0 = costsHtml;
+costsHtml = function(c){
+  var k = c.costs, sel = JSEL[c.name] || '*';
+  if (k && !k.nf && !SELM && sel === '*' && (k.deals || []).length) {
+    return '<div class="ch">📊 Общо за клиента (всички работи)</div>' + kGrid(k.dealSum ? k.dealSum : (c.budget || 0), k.got || 0, k.cost, k.owed) +
+      '<div class="ch">📝 Работи – докосни за подробности</div>' + jGrid(c) + '<div class="acts"><button class="ok" onclick="jobNew()">➕ Нова работа</button></div>' +
+      (k.workers.concat(k.exp, k.inc || []).length > 1 ? '<div class="acts"><button onclick="selTog(true)">☑️ Избери няколко записа</button></div>' : '');
+  }
+  return _costsHtml0(c);
+};
+function jHero(jid){
+  var x = jDeal(jid), v = x ? jVis(x.desc) : { e: '📦', g: ['#cbd5e1', '#64748b'] }, cov = x ? jCover(CUR, jid) : '';
+  var ph = x ? jMedia(CUR, jid).ph.filter(function(p){ return p.thumb && !p.tmp; })[0] : null;
+  return '<div class="jhero' + (cov ? ' ph' : '') + '" style="background:linear-gradient(135deg,' + v.g[0] + ',' + v.g[1] + ')"' + (ph ? ' data-id="' + esc(ph.id) + '" onclick="viewPhoto(this.dataset.id)"' : '') + '>' +
+    (cov ? '<img src="' + esc(cov) + '" alt="">' : '<i>' + v.e + '</i>') +
+    '<span class="jht"><b>' + (x ? esc(x.desc || 'Работа') : 'Без работа (общи записи)') + '</b>' + (x ? '<small>' + esc(CUR.name) + (x.date ? ' · от ' + fmt(x.date) : '') + '</small>' : '') + '</span>' + jStat(x) + '</div>';
+}
+function jPageHtml(jid){
+  var h = _costsHtml0(CUR);
+  if (jid !== '_' && typeof kSec === 'function') h += kSec(CUR.name, jid);
+  return jHero(jid) + '<div class="subin">' + h + '</div>';
+}
+function jPage(id){ subOpen('j:' + (id || '_')); }
+// ---- отделни страници ----
+function subTop(){ return SUBS[SUBS.length - 1] || ''; }
+function subSync(){ if (!CUR) return; var t = subTop(); JSEL[CUR.name] = t.indexOf('j:') === 0 ? t.slice(2) : '*'; OPENW = null; }
+// история на браузъра: всяка страница е запис {fsub: дълбочина, sid}; „назад“ на телефона връща една страница
+var SID = Date.now();
+function subPush(){ try { history.pushState({ fsub: SUBS.length, sid: SID }, ''); } catch (e) {} }
+function subOpen(k){
+  if (!CUR || !k) return;
+  if (subTop() === k) { subDraw(true); return; }
+  SUBS.push(k); subSync(); subPush();
+  drawCard(); el('sub').scrollTop = 0;
+  if (k === 'mails' && typeof mailRefresh === 'function') mailRefresh();
+}
+function subTo(depth){
+  if (depth >= SUBS.length) return;
+  SUBS.length = Math.max(0, depth); subSync();
+  if (CUR && el('card').style.display === 'block') drawCard(); else subDraw();
+}
+function subBack(){
+  if (!SUBS.length) return;
+  var n = SUBS.length;
+  try { history.back(); } catch (e) {}
+  setTimeout(function(){ if (SUBS.length === n) subTo(n - 1); }, 450);   // ако браузърът не върне „popstate“
+}
+window.addEventListener('popstate', function(e){
+  var st = (e && e.state) || {};
+  if (st.fsub && st.sid !== SID) { try { history.back(); } catch (x) {} return; }   // стар запис от затворена карта → прескачаме
+  subTo(st.sid === SID ? (st.fsub || 0) : 0);
+});
+function subReset(){ SUBS = []; SID++; if (CUR) JSEL[CUR.name] = '*'; subDraw(); }
+function subDraw(reset){
+  var s = el('sub'); if (!s) return;
+  var k = subTop();
+  if (!k || !CUR || el('card').style.display !== 'block') { s.style.display = 'none'; return; }
+  var t = '', h = '';
+  if (k.indexOf('j:') === 0) {
+    var jid = k.slice(2), x = jDeal(jid);
+    if (!x && jid !== '_' && CUR.costs && !CUR.stub) { SUBS.pop(); subSync(); try { history.back(); } catch (e) {} return subDraw(true); }
+    if (!CUR.costs) h = '<div class="load">Зареждане…</div>';
+    else { JSEL[CUR.name] = jid; h = jPageHtml(jid); }
+    t = x ? '📝 ' + esc(x.desc || 'Работа') : '📦 Без работа';
+  } else {
+    var f = FOLDC[k]; if (!f) { s.style.display = 'none'; return; }
+    t = f.t; h = '<div class="subin">' + f.h + '</div>';
+  }
+  el('sbT').innerHTML = t; el('sbB').innerHTML = h; s.style.display = 'block';
+  if (reset) s.scrollTop = 0;
+}
+// 🗂️ плочките на картата
+function subTiles(keys){
+  var h = keys.map(function(k){
+    var f = FOLDC[k], m = /^(\S+)\s+([\s\S]*)$/.exec(String(f.t || '')), ic = m ? m[1] : '📄', tt = m ? m[2] : f.t;
+    return '<button type="button" class="stile st-' + esc(k) + '" data-k="' + esc(k) + '" onclick="subOpen(this.dataset.k)"><i>' + ic + '</i><b>' + tt + '</b>' + (f.s ? '<small>' + f.s + '</small>' : '<small>&nbsp;</small>') + '</button>';
+  }).join('');
+  return '<div class="sgrid">' + h + '</div>';
+}
+var _drawCard0 = drawCard;
+drawCard = function(){
+  if (!CUR) return;
+  var n = CUR.name, keep = JSEL[n];
+  // JSEL е зададен на работа отвън (напр. току-що създадена работа) → отваряме нейната страница
+  if (keep && keep !== '*' && keep !== '_' && subTop() !== 'j:' + keep && !SELM) { SUBS.push('j:' + keep); subPush(); }
+  FOLDS = []; FOLDC = {}; JSEL[n] = '*';
+  var keys;
+  try { _drawCard0(); } finally { keys = FOLDS || []; FOLDS = null; subSync(); }
+  el('cdB').insertAdjacentHTML('beforeend', subTiles(keys));
+  subDraw();
+};
+goSec = function(){ var k = GOTO; GOTO = ''; if (k && CUR) subOpen(k); };
+var _closeCard0 = closeCard;
+closeCard = function(){ subReset(); _closeCard0(); };
+var _openC0 = openC;
+openC = function(n, sec){
+  if (!CUR || String(CUR.name).toLowerCase() !== String(n).toLowerCase() || sec) subReset();
+  return _openC0(n, sec);
+};
+var _cardBusy0 = cardBusy;
+cardBusy = function(on){ _cardBusy0(on); var b = el('sbB'); if (b) { b.style.opacity = on ? .45 : 1; b.style.pointerEvents = on ? 'none' : 'auto'; } };
+// ================= v4.2.1 · 🖼️ профилни снимки · 🤝 партньори с комисиона към всяка работа (само Сюлейман) =================
+// ---- 🖼️ снимки на клиенти, работници и партньори ----
+var AV = {}, AVH = '';
+idbGet('av', function(v){ if (v && v.m && !AVH) { AV = v.m; AVH = v.h || ''; avRefresh(); } });
+function avLoad(){
+  if (!TOKEN) return;
+  apiCall('avAll', [AVH]).then(function(r){ if (r && !r.same && r.m) { AV = r.m; AVH = r.h || ''; idbSet('av', { h: AVH, m: AV }); avRefresh(); } }, function(){});
+}
+function avK(kind, n){ n = String(n || '').trim().replace(/\s+/g, ' ').toLowerCase(); return kind === 'c' ? 'c:' + (WS === 'r' ? 'r' : 'm') + ':' + n : kind + ':' + n; }
+function avCol(n){ var P = [['#dbeafe', '#1d4ed8'], ['#dcfce7', '#15803d'], ['#fef3c7', '#b45309'], ['#fce7f3', '#be185d'], ['#ede9fe', '#6d28d9'], ['#cffafe', '#0e7490'], ['#ffedd5', '#c2410c'], ['#e2e8f0', '#334155']]; var h = 0, s = String(n || ''); for (var i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) >>> 0; return P[h % P.length]; }
+function avIn(kind, n, col){
+  var u = safeImg(AV[avK(kind, n)] || '');
+  return u ? '<img src="' + esc(u) + '" alt="">' : esc(ini(n));
+}
+// <span class="av …"> с атрибут data-av → обновява се сам, когато дойдат снимките
+function avHtml(kind, n, cls, col){
+  col = col || avCol(n); var u = safeImg(AV[avK(kind, n)] || '');
+  return '<span class="av ' + (cls || '') + (u ? ' im' : '') + '" data-av="' + esc(kind + '|' + n) + '" style="background:' + col[0] + ';color:' + col[1] + '">' + avIn(kind, n) + '</span>';
+}
+function avCav(n, col){ var u = safeImg(AV[avK('c', n)] || ''); return '<span class="cav' + (u ? ' im' : '') + '" data-av="c|' + esc(n) + '" style="background:' + col[0] + ';color:' + col[1] + '">' + avIn('c', n) + '</span>'; }
+function avRefresh(){
+  Array.prototype.forEach.call(document.querySelectorAll('[data-av]'), function(e){
+    var a = e.getAttribute('data-av'), i = a.indexOf('|'), kind = a.slice(0, i), n = a.slice(i + 1), u = safeImg(AV[avK(kind, n)] || '');
+    e.innerHTML = avIn(kind, n); e.classList.toggle('im', !!u);
+  });
+}
+var AVT = null;
+function avEdit(kind, n){
+  AVT = { k: kind, n: n };
+  var u = safeImg(AV[avK(kind, n)] || ''), ct = 'contacts' in navigator && 'select' in navigator.contacts;
+  var h = '<div class="ave"><div class="avbig">' + avHtml(kind, n, 'xl') + '</div>' +
+    '<div class="acts"><label class="ok">📷 Снимай / избери<input type="file" accept="image/*" style="display:none" onchange="avPick(this)"></label>' +
+    (ct ? '<button onclick="avContact()">📇 От контактите</button>' : '') + (u ? '<button onclick="avDel()">🗑️ Махни</button>' : '') + '</div>' +
+    '<div class="s" style="margin-top:12px">💡 WhatsApp и Viber не дават снимките на профилите на други приложения (заради поверителността). Ако снимката е в WhatsApp: отвори профила → докосни снимката → ⋯ → Запази / Сподели, после я избери тук с 📷.</div>' +
+    (ct ? '' : '<div class="s" style="margin-top:6px">📇 „От контактите“ работи в Chrome на Android.</div>') + '</div>';
+  openSheet('🖼️ Снимка – ' + n, h);
+}
+function avShrink(blob, cb){
+  var u = URL.createObjectURL(blob), img = new Image();
+  img.onload = function(){
+    var s = Math.min(img.width, img.height), sz = Math.min(256, s), cv = document.createElement('canvas'); cv.width = cv.height = sz;
+    cv.getContext('2d').drawImage(img, (img.width - s) / 2, (img.height - s) / 2, s, s, 0, 0, sz, sz);
+    URL.revokeObjectURL(u);
+    var q = 0.82, d = cv.toDataURL('image/jpeg', q); while (d.length > 55000 && q > 0.4) { q -= 0.1; d = cv.toDataURL('image/jpeg', q); }
+    cb(d);
+  };
+  img.onerror = function(){ URL.revokeObjectURL(u); toast('⚠️ Снимката не може да се отвори'); };
+  img.src = u;
+}
+function avPick(inp){ var f = inp.files && inp.files[0]; inp.value = ''; if (f) avShrink(f, avSave); }
+function avContact(){
+  navigator.contacts.select(['name', 'icon'], { multiple: false }).then(function(cs){
+    var c = cs && cs[0]; if (!c) return;
+    if (!c.icon || !c.icon.length) { toast('Този контакт няма снимка', 3500); return; }
+    avShrink(c.icon[0], avSave);
+  }, function(){ toast('Няма достъп до контактите', 3500); });
+}
+function avSave(d){
+  var t = AVT; if (!t) return;
+  AV[avK(t.k, t.n)] = d; avRefresh(); closeSheet(); toast('🖼️ Снимката е запазена');
+  bg('avSet', [t.k, t.n, d], function(r){ if (r && r.m) { AV = r.m; AVH = r.h || ''; idbSet('av', { h: AVH, m: AV }); avRefresh(); } }, 'снимка');
+}
+function avDel(){
+  var t = AVT; if (!t || !confirm('Да махна ли снимката?')) return;
+  delete AV[avK(t.k, t.n)]; avRefresh(); closeSheet();
+  bg('avSet', [t.k, t.n, ''], function(r){ if (r && r.m) { AV = r.m; AVH = r.h || ''; idbSet('av', { h: AVH, m: AV }); avRefresh(); } }, 'снимка');
+}
+// снимки в списъците на работници и партньори + в профилите им
+var _listW0 = listW;
+listW = function(){ _listW0(); avRows('#wl .tr[data-w]', 'w', 'data-w'); };
+var _listP0 = listP;
+listP = function(){
+  _listP0(); avRows('#pl .tr[data-p]', 'p', 'data-p');
+  if (isAdm() && KD) Array.prototype.forEach.call(document.querySelectorAll('#pl .tr[data-p]'), function(r){
+    var s = kSumOf(r.getAttribute('data-p')); if (s && s.due > 0) r.querySelector('.ar').insertAdjacentHTML('beforebegin', '<span class="due">🤝 ' + eur(s.due) + '</span>');
+  });
+};
+function avRows(sel, kind, at){
+  Array.prototype.forEach.call(document.querySelectorAll(sel), function(r){ r.insertAdjacentHTML('afterbegin', avHtml(kind, r.getAttribute(at), 'md')); r.classList.add('avr'); });
+}
+function avHead(kind, n, sub){
+  return '<div class="avh">' + '<button type="button" class="avb" data-k="' + kind + '" data-n="' + esc(n) + '" onclick="avEdit(this.dataset.k,this.dataset.n)" title="Смени снимката">' + avHtml(kind, n, 'lg') + '<i>📷</i></button>' +
+    '<span><b>' + esc(n) + '</b>' + (sub ? '<small>' + sub + '</small>' : '') + '</span></div>';
+}
+var _openW0 = openW;
+openW = function(n){
+  _openW0(n); var w = (D.workers || []).filter(function(x){ return x.n === n; })[0]; if (!w) return;
+  var b = el('shB').firstElementChild; if (b) b.insertAdjacentHTML('afterbegin', avHead('w', n, esc(splitL(w.sp).slice(0, 2).join(', ') || wJobs(w).slice(0, 2).join(', ') || '')));
+};
+var _openP0 = openP;
+openP = function(n){
+  var p = pBy(n);
+  if (!p && !(isAdm() && kSumOf(n))) return;
+  if (p) _openP0(n); else openSheet('🤝 ' + n, '<div style="padding:12px 16px 30px"><div class="s">Партньорът не е в списъка „🏭 Партньори“ (изтрит или преименуван).</div></div>');
+  var b = el('shB').firstElementChild;
+  if (b) b.insertAdjacentHTML('afterbegin', avHead('p', n, p ? esc([p.t, p.city].filter(Boolean).join(' · ')) : ''));
+  if (isAdm() && b) { b.insertAdjacentHTML('beforeend', '<div id="kprof" data-n="' + esc(n) + '">' + kProfHtml(n) + '</div>'); if (!KD) kLoad(); }
+};
+// снимка в картата на клиента (горе)
+var _drawCard1 = drawCard;
+drawCard = function(){
+  _drawCard1();
+  var t = document.querySelector('#cdB .box.hero .t'); if (!t || !CUR) return;
+  t.insertAdjacentHTML('afterbegin', '<button type="button" class="avb sm" data-n="' + esc(CUR.name) + '" onclick="avEdit(\'c\',this.dataset.n)" title="Снимка на клиента">' + avHtml('c', CUR.name, 'hd') + '</button>');
+};
+
+// ---- 🤝 комисиони (вижда само Сюлейман) ----
+var KD = null;
+if (typeof idbGet === 'function') idbGet('kd', function(v){ if (v && !KD) KD = v; });
+function kLoad(){
+  if (!TOKEN || !isAdm()) return;
+  apiCall('kGet', []).then(kGot, function(){});
+}
+function kGot(r){
+  if (!r || !r.items) return; KD = r; idbSet('kd', r);
+  if (CUR && el('card').style.display === 'block') drawCard();
+  var kp = el('kprof'); if (kp) kp.innerHTML = kProfHtml(kp.getAttribute('data-n') || kpN);
+  if (el('kall')) kAllDraw();
+  if (TAB === 'w' && el('pl')) listP();
+}
+function kWs(){ return WS === 'r' ? 'r' : 'm'; }
+function kFor(client, jid){ if (!KD) return []; var c = String(client).toLowerCase(); return KD.items.filter(function(x){ return x.ws === kWs() && x.client.toLowerCase() === c && x.jid === jid; }); }
+function kSumOf(n){ if (!KD) return null; var k = String(n || '').toLowerCase(); return KD.sum.filter(function(x){ return x.n.toLowerCase() === k; })[0] || null; }
+function kAv(client, jid){
+  if (!isAdm()) return '';
+  var a = kFor(client, jid); if (!a.length) return '';
+  return a.slice(0, 3).map(function(x){ return avHtml('p', x.p, 'xs'); }).join('') + (a.length > 3 ? '<span class="av xs more">+' + (a.length - 3) + '</span>' : '');
+}
+function kRow(x, showJob){
+  var paid = x.st === 'paid';
+  return '<div class="krow' + (paid ? ' paid' : '') + '">' + avHtml('p', x.p, 'md') +
+    (showJob ? '<span class="kx" data-n="' + esc(x.client) + '" data-w="' + esc(x.ws) + '" onclick="kGoC(this.dataset.n,this.dataset.w)">' : '<span class="kx" data-p="' + esc(x.p) + '" onclick="openP(this.dataset.p)">') + '<b>' + esc(showJob ? x.client + (x.job ? ' – ' + x.job : '') : x.p) + '</b><small>' +
+    (paid ? '✅ Платено ' + fmt(x.paid) : '⏳ Дължимо') + (x.note ? ' · ' + esc(x.note) : '') + (showJob ? '' : ' · ' + fmt(x.date)) + '</small></span>' +
+    '<b class="ka">' + eur(x.amt) + '</b>' +
+    (paid ? '<button data-id="' + esc(x.id) + '" onclick="kUnpay(this.dataset.id)" title="Не е платена">↩️</button>'
+          : '<button class="ok" data-id="' + esc(x.id) + '" onclick="kPayAsk([this.dataset.id])" title="Платено">💶</button><button data-id="' + esc(x.id) + '" onclick="kForm(this.dataset.id)" title="Промени">✏️</button><button data-id="' + esc(x.id) + '" onclick="kDel(this.dataset.id)" title="Изтрий">🗑️</button>') + '</div>';
+}
+function kGoC(n, ws){ if (ws !== kWs()) { toast('Клиентът е в „' + (ws === 'r' ? 'Ремонти' : 'Flexi Home') + '“ – смени раздела горе', 4000); return; } closeSheet(); openC(n); }
+function kSec(client, jid){
+  if (!isAdm()) return '';
+  var a = kFor(client, jid), due = a.filter(function(x){ return x.st !== 'paid'; }).reduce(function(t, x){ return t + x.amt; }, 0);
+  var h = '<div class="ch">🤝 Партньори и комисиони <span class="kown">👁️ само ти</span></div>';
+  if (!KD) h += '<div class="s">⏳ Зареждане…</div>';
+  else if (a.length) h += '<div class="klist">' + a.map(function(x){ return kRow(x, false); }).join('') + '</div>' + (due ? '<div class="s">Дължимо по тази работа: <b>' + eur(due) + '</b></div>' : '');
+  else h += '<div class="s">Няма партньори към тази работа. Добави партньор и комисионата му – тя се трупа в профила му, докато я платиш.</div>';
+  return h + '<div class="acts"><button class="ok" data-j="' + esc(jid) + '" onclick="kForm(\'\',this.dataset.j)">➕ Партньор с комисиона</button></div>';
+}
+function kForm(id, jid){
+  var x = id && KD ? KD.items.filter(function(i){ return i.id === id; })[0] : null;
+  jid = x ? x.jid : jid; var d = jDeal(jid);
+  var names = ((D && D.partners) || []).map(function(p){ return p.n; });
+  var h = '<form id="frm" onsubmit="return kSend(event)"><input type="hidden" name="id" value="' + esc(x ? x.id : '') + '"><input type="hidden" name="jid" value="' + esc(jid || '') + '">' +
+    '<div class="s" style="margin-bottom:6px">📝 ' + esc(CUR ? CUR.name : '') + (d ? ' – ' + esc(d.desc) : '') + '</div>';
+  h += fld('Партньор *', '<input name="partner" list="kpl" required autocomplete="off" placeholder="избери или напиши ново име" value="' + esc(x ? x.p : '') + '"><datalist id="kpl">' + names.map(function(n){ return '<option value="' + esc(n) + '">'; }).join('') + '</datalist>');
+  h += half(fld('Комисиона (€) *', '<input name="amount" inputmode="decimal" required placeholder="напр. 500" value="' + (x ? x.amt : '') + '">'), fld('Дата', '<input name="date" type="date" value="' + esc(x ? x.date : D.today) + '">'));
+  h += fld('Бележка', '<input name="note" autocomplete="off" placeholder="напр. плащане в края на месеца" value="' + esc(x ? x.note : '') + '">');
+  h += '<div class="s" style="margin-top:8px">👁️ Вижда само Сюлейман. Нов партньор се добавя сам в „🏭 Партньори“ (скрит за останалите). При „💶 Платено“ комисионата се записва като разход към тази работа.</div>';
+  h += '<button class="save" id="sv">💾 Запази</button></form>';
+  openSheet(x ? '✏️ Комисиона – ' + x.p : '🤝 Партньор към работата', h);
+}
+function kSend(e){
+  e.preventDefault();
+  var d = formData(); d.ws = kWs(); d.client = CUR.name; var j = jDeal(d.jid); d.job = j ? j.desc : '';
+  d.amount = String(d.amount || '').replace(/\s/g, '').replace(',', '.');
+  if (!(Number(d.amount) > 0)) { toast('⚠️ Въведи сума'); return false; }
+  closeSheet(); toast('⏳ Записва се…', 1500);
+  bg('kSave', [d], function(r){ kGot(r); toast('🤝 Записано'); if (!pBy(d.partner)) load(); }, 'комисиона');
+  return false;
+}
+function kDel(id){ if (!confirm('🗑️ Да изтрия ли тази комисиона?')) return; bg('kDel', [id], kGot, 'изтриване'); }
+function kUnpay(id){ if (!confirm('↩️ Комисионата не е платена?\n\nРазходът към работата ще бъде махнат.')) return; bg('kUnpay', [id], function(r){ kGot(r); toast('↩️ Отново дължимо'); load(); }, 'връщане'); }
+function kPayAsk(ids){
+  var a = KD.items.filter(function(x){ return ids.indexOf(x.id) > -1 && x.st !== 'paid'; }); if (!a.length) return;
+  var s = a.reduce(function(t, x){ return t + x.amt; }, 0), who = a.map(function(x){ return x.p; }).filter(function(v, i, z){ return z.indexOf(v) === i; }).join(', ');
+  var h = '<form id="frm" onsubmit="return kPaySend(event)"><input type="hidden" name="ids" value="' + esc(ids.join(',')) + '">' +
+    '<div class="kpay"><b>' + eur(s) + '</b><small>' + esc(who) + ' · ' + a.length + (a.length === 1 ? ' комисиона' : ' комисиони') + '</small></div>' +
+    fld('Дата на плащане', '<input name="date" type="date" value="' + esc(D.today) + '">') +
+    '<div class="s" style="margin-top:8px">Всяка комисиона се записва като разход „Комисионна/брокер“ към своята работа – печалбата се смята вярно.</div>' +
+    '<button class="save" id="sv">💶 Платено</button></form>';
+  openSheet('💶 Плащане на комисиона', h);
+}
+function kPaySend(e){
+  e.preventDefault(); var d = formData(), ids = String(d.ids || '').split(',').filter(Boolean);
+  closeSheet(); toast('⏳ Записва се…', 2000);
+  bg('kPay', [ids, d.date], function(r){ kGot(r); toast('💶 Платено и записано като разход'); load(); }, 'плащане');
+  return false;
+}
+var kpN = '';
+function kProfHtml(n){
+  kpN = n; var s = kSumOf(n), a = KD ? KD.items.filter(function(x){ return x.p.toLowerCase() === String(n).toLowerCase(); }) : [];
+  var due = a.filter(function(x){ return x.st !== 'paid'; }), paid = a.filter(function(x){ return x.st === 'paid'; }).sort(function(x, y){ return y.paid.localeCompare(x.paid); });
+  var h = '<div class="ch">🤝 Комисиони <span class="kown">👁️ само ти</span></div>';
+  if (!KD) return h + '<div class="s">⏳ Зареждане…</div>';
+  h += '<div class="cg"><div class="' + (s && s.due ? 'ow' : '') + '"><small>Дължимо</small><b>' + eur(s ? s.due : 0) + '</b></div><div><small>Платено</small><b style="color:#15803d">' + eur(s ? s.paid : 0) + '</b></div><div><small>Работи</small><b>' + a.length + '</b></div></div>';
+  if (due.length) h += '<div class="jsub">⏳ Дължимо</div><div class="klist">' + due.map(function(x){ return kRow(x, true); }).join('') + '</div>' +
+    (due.length > 1 ? '<div class="acts"><button class="ok" data-ids="' + esc(due.map(function(x){ return x.id; }).join(',')) + '" onclick="kPayAsk(this.dataset.ids.split(\',\'))">💶 Плати всички (' + eur(s.due) + ')</button></div>' : '');
+  if (paid.length) h += '<div class="jsub">✅ Платено</div><div class="klist">' + paid.map(function(x){ return kRow(x, true); }).join('') + '</div>';
+  if (!a.length) h += '<div class="s">Още няма комисиони. Добавят се от картата на клиента → работата → 🤝 Партньори.</div>';
+  return h;
+}
+// 👤 → 🤝 Комисиони: кой колко чака (за края на месеца)
+function kAll(){ openSheet('🤝 Комисиони на партньорите', '<div id="kall" style="padding:12px 16px 30px"></div>'); kAllDraw(); kLoad(); }
+function kAllDraw(){
+  var b = el('kall'); if (!b) return;
+  if (!KD) { b.innerHTML = '<div class="s">⏳ Зареждане…</div>'; return; }
+  var due = KD.sum.filter(function(x){ return x.due > 0; }), tot = due.reduce(function(t, x){ return t + x.due; }, 0);
+  var h = '<div class="cg"><div class="' + (tot ? 'ow' : '') + '"><small>Общо дължимо</small><b>' + eur(tot) + '</b></div><div><small>Партньори</small><b>' + due.length + '</b></div></div>';
+  h += KD.sum.length ? '<div class="klist">' + KD.sum.map(function(x){
+    return '<div class="krow' + (x.due ? '' : ' paid') + '" data-p="' + esc(x.n) + '" onclick="openP(this.dataset.p)">' + avHtml('p', x.n, 'md') + '<span class="kx"><b>' + esc(x.n) + '</b><small>' + x.cnt + (x.cnt === 1 ? ' работа' : ' работи') + ' · платено ' + eur(x.paid) + '</small></span><b class="ka' + (x.due ? ' due' : '') + '">' + (x.due ? eur(x.due) : '✓') + '</b><span class="ar">›</span></div>';
+  }).join('') + '</div>' : '<div class="s">Още няма комисиони. Добавят се от картата на клиента → работата → 🤝 Партньори.</div>';
+  b.innerHTML = h + '<div class="s" style="margin-top:10px">👁️ Вижда само Сюлейман.</div>';
+}
 if ('serviceWorker' in navigator) {
   var swHad = !!navigator.serviceWorker.controller, swDone = false;
   navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).then(function(r){
