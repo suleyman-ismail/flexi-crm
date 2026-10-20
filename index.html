@@ -734,6 +734,30 @@ html.dark .padbk,html.dark .padopen{background:#1e293b;border-color:#3b4a60;colo
 html.dark .mrow{border-color:#273449}html.dark .mrow.un .mx b,html.dark .mrow.un .mx small{color:#f1f5f9}
 html.dark .mbub{background:#1e293b;border-color:#334155}html.dark .mbub.me{background:#14532d;border-color:#166534}html.dark .mbub.me small{color:#86efac}
 html.dark .mday{background:#334155;color:#cbd5e1}html.dark .mcomp{background:#0f172a;border-color:#273449}html.dark .mcomp textarea{background:#1e293b;border-color:#334155}
+/* ================= v4.3.0 · етикети, напомняния, шаблони, история, @ ================= */
+.ktags{display:flex;flex-wrap:wrap;gap:3px;margin:2px 0}.ktags i{font-style:normal;font-size:11px;font-weight:700;color:#6d28d9;background:#f5f3ff;border-radius:7px;padding:1px 6px;white-space:nowrap}
+.ktags.sm i{font-size:10.5px;padding:0 5px}
+.cx2 .ktags{margin:1px 0 0}
+.tgb{margin-top:0}.tgb .tgl{flex:none;align-self:center;font-size:15px}.tgb button{color:#6d28d9}.tgb button.on{background:#ede9fe;border-color:#c4b5fd;color:#5b21b6}
+.htags{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-top:6px}
+.tgadd{border:1px dashed #c4b5fd;background:#faf5ff;color:#6d28d9;border-radius:9px;padding:3px 9px;font-size:12.5px;font-weight:700;font-family:inherit}
+.row1{display:flex;gap:6px}.row1 input{flex:1}.row1 button{flex:none;border:1px solid #cbd5e1;background:#fff;border-radius:10px;padding:0 14px;font-size:16px}
+.rmb{flex:none;font-size:11px;font-weight:700;color:#b45309;background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:1px 6px;white-space:nowrap}
+.rmb.past{color:#64748b;background:#f1f5f9;border-color:#e2e8f0;text-decoration:line-through}
+.pcard .rmb{display:inline-block;margin:0 0 4px}
+.padib{flex:none;border:1px solid #cbd5e1;background:#fff;border-radius:9px;padding:4px 7px;font-size:15px;line-height:1.2;cursor:pointer}
+.tplr{display:flex;gap:8px;align-items:stretch;margin-bottom:8px}
+.tplb{flex:1;display:flex;align-items:center;gap:12px;text-align:left;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:11px 12px;font-family:inherit;color:inherit;cursor:pointer}
+.tplb i{font-style:normal;font-size:26px}.tplb span{display:flex;flex-direction:column;min-width:0}.tplb b{font-size:15px}.tplb small{font-size:12px;color:#64748b}
+.tpld{flex:none;border:1px solid #e2e8f0;background:#fff;border-radius:12px;padding:0 12px;font-size:16px}
+.phl{display:flex;flex-direction:column}.phr{display:flex;gap:10px;padding:8px 0;border-bottom:1px solid #f1f5f9;font-size:13.5px}.phr small{flex:none;width:76px;color:#94a3b8;font-size:11.5px;padding-top:2px}.phr span{flex:1;min-width:0;word-break:break-word}
+.ptr{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #f1f5f9}.ptr span{flex:1;min-width:0;display:flex;flex-direction:column}.ptr b{font-size:14px}.ptr small{font-size:12px;color:#64748b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ptr button{flex:none;border:1px solid #86efac;background:#f0fdf4;color:#15803d;border-radius:10px;padding:7px 10px;font-weight:700;font-family:inherit}
+#atb{position:fixed;left:8px;right:8px;bottom:calc(10px + env(safe-area-inset-bottom));z-index:30;display:none;gap:6px;flex-wrap:wrap;background:#1e293b;border-radius:14px;padding:8px;box-shadow:0 8px 24px rgba(0,0,0,.3)}
+#atb button{border:0;background:#334155;color:#fff;border-radius:10px;padding:8px 12px;font-size:15px;font-weight:700;font-family:inherit}
+html.dark .ktags i{background:#2e1065;color:#ddd6fe}html.dark .tgadd{background:#1e1036;border-color:#5b21b6;color:#c4b5fd}
+html.dark .rmb{background:#3a2a05;border-color:#78350f;color:#fcd34d}html.dark .padib,html.dark .tplb,html.dark .tpld,html.dark .row1 button{background:#1e293b;border-color:#334155;color:#e2e8f0}
+html.dark .phr,html.dark .ptr{border-color:#273449}
 </style>
 <script>try{var tm=localStorage.getItem('crm_theme')||'auto';if(tm==='dark'||(tm==='auto'&&window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.classList.add('dark')}catch(e){}</script></head><body>
 <div class="hd"><header><div><h1><img src="icon-192.png" alt=""><span id="ttl">CRM Flexi Home</span></h1><div class="d" id="dt"></div></div><div class="hr"><button class="msgb" id="msgB" onclick="msgOpen()" title="Съобщения">💬<span id="msgN"></span></button><button class="bell" id="bellB" onclick="ntOpen()" title="Известия">🔔<span id="bellN"></span></button><button class="me" id="meB" onclick="meMenu()">👤</button><button onclick="load(true)" title="Обнови">⟳</button></div></header>
@@ -967,7 +991,7 @@ function render(d){
   draw();
   if (!NEWS_DONE && d.news && el('sheet').style.display !== 'block' && el('login').style.display !== 'flex') { NEWS_DONE = true; setTimeout(function(){ showNews(false); }, 600); }
   pendOpen(d);
-  setTimeout(function(){ ntLoad(); avLoad(); kLoad(); uiLoad(); msgLoad(); }, 1200);
+  setTimeout(function(){ ntLoad(); avLoad(); kLoad(); uiLoad(); msgLoad(); tagLoad(); padSyncAll(); }, 1200);
 }
 function tab(t){ TAB = t; try { localStorage.setItem('crm_tab', t); } catch (e) {} draw(); window.scrollTo(0, 0); }
 function seg(s){ SEG = s; try { localStorage.setItem('crm_seg', s); } catch (e) {} draw(); }
@@ -2814,7 +2838,7 @@ function padCopy(){
 window.addEventListener('online', function(){ if (PADDIRTY) padSave(); });
 document.addEventListener('visibilitychange', function(){ if (document.hidden && PADDIRTY) padSave(true); });
 
-var APP_VER = '4.2.3';
+var APP_VER = '4.3.0';
 // ================= v4.0 · 👥 Клиенти: ☰ Списък | ▦ Канбан · 🔎 филтри · ☑️ много наведнъж · 🗄️ архив =================
 var CV = ls('crm_cview') === 'k' ? 'k' : 'l';            // изглед: l = списък, k = канбан
 var CSEL = null;                                          // избрани клиенти { име: 1 } (отделно от SELM за разходите)
@@ -4577,6 +4601,257 @@ var _closeSheet3 = closeSheet;
 closeSheet = function(){ MCHAT = ''; clearTimeout(MPT); return _closeSheet3.apply(this, arguments); };
 setInterval(function(){ if (!document.hidden && TOKEN && !MCHAT) msgLoad(); }, 45000);
 document.addEventListener('visibilitychange', function(){ if (!document.hidden && TOKEN) { if (MCHAT) msgPull(); else msgLoad(); } });
+// ================= v4.3.0 · 🏷️ етикети · ⏰ напомняния · @ споменаване · 📋 шаблони · 🗑️ кошче и 🕑 история · 📴 работно място без интернет =================
+// ---- 🏷️ етикети (общи за екипа) ----
+var TAGS = { h: '', m: {}, all: [] }, TAGF = [];
+try { TAGF = JSON.parse(ls('crm_tagf' + (WS ? '_' + WS : '')) || '[]') || []; } catch (e) { TAGF = []; }
+function tgCK(){ return 'tg' + (WS ? '_' + WS : ''); }
+idbGet(tgCK(), function(v){ if (v && v.m && !TAGS.h) { TAGS = v; if (D) tgRedraw(); } });
+function tagLoad(){
+  if (!TOKEN) return; var k = tgCK();
+  apiCall('tagAll', [TAGS.h]).then(function(r){ if (r && !r.same && r.m) { TAGS = r; idbSet(k, r); tgRedraw(); } }, function(){});
+}
+function tgRedraw(){ kRedraw(); if (D && TAB === 'c') draw(); }
+function tKeyC(n){ return 'c:' + String(n || '').trim().toLowerCase(); }
+function tKeyJ(client, jid){ return 'j:' + String(client || '').trim().toLowerCase() + '|' + jid; }
+function tagsOf(key){ return TAGS.m[key] || []; }
+function tagsOfClient(n){ var k = tKeyC(n), out = tagsOf(k).slice(), p = 'j:' + String(n || '').trim().toLowerCase() + '|'; Object.keys(TAGS.m).forEach(function(x){ if (x.indexOf(p) === 0) TAGS.m[x].forEach(function(t){ if (out.indexOf(t) < 0) out.push(t); }); }); return out; }
+function tagChips(a, cls){ return a.length ? '<span class="ktags' + (cls ? ' ' + cls : '') + '">' + a.map(function(t){ return '<i>#' + esc(t) + '</i>'; }).join('') + '</span>' : ''; }
+var _fMatch1 = fMatch;
+fMatch = function(c){
+  if (!_fMatch1(c)) return false;
+  if (!TAGF.length) return true;
+  var t = tagsOfClient(c.n).map(function(x){ return x.toLowerCase(); });
+  return TAGF.some(function(x){ return t.indexOf(x.toLowerCase()) > -1; });
+};
+function tagF(t){ var i = TAGF.indexOf(t); if (i > -1) TAGF.splice(i, 1); else TAGF.push(t); ls('crm_tagf' + (WS ? '_' + WS : ''), TAGF.length ? JSON.stringify(TAGF) : null); draw(); }
+var _fBar1 = fBar;
+fBar = function(){
+  var h = _fBar1(), all = (TAGS.all || []).map(function(x){ return x[0]; });
+  TAGF.forEach(function(t){ if (all.indexOf(t) < 0) all.push(t); });
+  if (!all.length) return h;
+  return h + '<div class="cfb tgb"><span class="tgl">🏷️</span>' + all.map(function(t){ return '<button class="' + (TAGF.indexOf(t) > -1 ? 'on' : '') + '" data-t="' + esc(t) + '" onclick="tagF(this.dataset.t)">#' + esc(t) + '</button>'; }).join('') + '</div>';
+};
+var _clientRow2 = clientRow;
+clientRow = function(c){ var t = tagsOfClient(c.n); var h = _clientRow2(c); return t.length ? h.replace(/(<span class="cx2"><b>[\s\S]*?<\/b>)/, '$1' + tagChips(t.slice(0, 3), 'sm')) : h; };
+var _cCard1 = cCard;
+cCard = function(c){ var t = tagsOfClient(c.n); var h = _cCard1(c); return t.length ? h.replace('</b></div>', '</b></div>' + tagChips(t.slice(0, 4), 'sm')) : h; };
+var _jTile1 = jTile;
+jTile = function(k, x){ var h = _jTile1(k, x); if (!x || !CUR) return h; var t = tagsOf(tKeyJ(CUR.name, x.id)); return t.length ? h.replace('<span class="jinf"><b>', '<span class="jinf">' + tagChips(t.slice(0, 3), 'sm') + '<b>') : h; };
+// в картата на клиента – етикетите под името
+var _drawCard3 = drawCard;
+drawCard = function(){
+  _drawCard3(); if (!CUR) return;
+  var s = document.querySelector('#cdB .box.hero > .s'); if (!s) return;
+  var t = tagsOf(tKeyC(CUR.name));
+  s.insertAdjacentHTML('afterend', '<div class="htags">' + tagChips(t) + '<button type="button" class="tgadd" data-k="' + esc(tKeyC(CUR.name)) + '" data-n="' + esc(CUR.name) + '" onclick="tagEdit(this.dataset.k,this.dataset.n)">🏷️ ' + (t.length ? 'Промени' : 'Етикет') + '</button></div>');
+};
+function lpAdd(label, fn){
+  var b = el('lpmB'); if (!b || el('lpm').style.display !== 'flex') return;
+  LPA.push([label, fn]); var i = LPA.length - 1, cx = b.querySelector('button.cx');
+  var x = document.createElement('button'); x.textContent = label; x.setAttribute('onclick', 'lpGo(' + i + ')');
+  b.insertBefore(x, cx);
+}
+var _lpOpen2 = lpOpen;
+lpOpen = function(t){
+  _lpOpen2(t); if (ARR) return;
+  var k = t.getAttribute('data-lp');
+  if (k === 'c') { var n = t.getAttribute('data-n'); lpAdd('🏷️ Етикети', function(){ tagEdit(tKeyC(n), n); }); }
+  if (k === 'jt' && CUR) { var j = t.getAttribute('data-jid'), d = jDeal(j); lpAdd('🏷️ Етикети', function(){ tagEdit(tKeyJ(CUR.name, j), (d && d.desc) || 'Работа'); }); }
+};
+var TGE = null;
+function tagEdit(key, title){
+  TGE = { k: key, sel: tagsOf(key).slice() };
+  var all = (TAGS.all || []).map(function(x){ return x[0]; }); TGE.sel.forEach(function(t){ if (all.indexOf(t) < 0) all.push(t); });
+  ['спешно', 'община', 'сглобяема', 'ремонт', 'фирма', 'частен'].forEach(function(t){ if (all.indexOf(t) < 0) all.push(t); });
+  openSheet('🏷️ ' + title, '<div style="padding:12px 16px 30px"><div class="chips" id="tge">' + all.map(function(t){ return '<button type="button" class="' + (TGE.sel.indexOf(t) > -1 ? 'on' : '') + '" data-t="' + esc(t) + '" onclick="tagTog(this)">#' + esc(t) + '</button>'; }).join('') + '</div>' +
+    fld('Нов етикет', '<div class="row1"><input id="tgN" maxlength="24" autocomplete="off" placeholder="напр. община" onkeydown="if(event.key===\'Enter\'){event.preventDefault();tagNew()}"><button type="button" onclick="tagNew()">➕</button></div>') +
+    '<div class="s" style="margin-top:8px">Етикетите се виждат от целия екип. Филтър: 👥 Клиенти → 🏷️ най-горе.</div><button class="save" onclick="tagSave()">💾 Запази</button></div>');
+}
+function tagTog(b){ var t = b.getAttribute('data-t'), i = TGE.sel.indexOf(t); if (i > -1) TGE.sel.splice(i, 1); else TGE.sel.push(t); b.classList.toggle('on', i < 0); }
+function tagNew(){
+  var v = String(el('tgN').value || '').replace(/^#+/, '').trim().slice(0, 24); if (!v) return;
+  if (TGE.sel.indexOf(v) < 0) TGE.sel.push(v);
+  var c = el('tge'); if (c && !c.querySelector('[data-t="' + (window.CSS && CSS.escape ? CSS.escape(v) : v) + '"]')) c.insertAdjacentHTML('beforeend', '<button type="button" class="on" data-t="' + esc(v) + '" onclick="tagTog(this)">#' + esc(v) + '</button>');
+  el('tgN').value = '';
+}
+function tagSave(){
+  var v = el('tgN') && el('tgN').value.trim(); if (v) tagNew();
+  var k = TGE.k, list = TGE.sel.slice(); if (list.length) TAGS.m[k] = list; else delete TAGS.m[k];
+  closeSheet(); tgRedraw(); toast('🏷️ Записано', 1500);
+  bg('tagSet', [k, list], function(r){ if (r && r.m) { TAGS = r; idbSet(tgCK(), r); tgRedraw(); } }, 'етикети');
+}
+
+// ---- ⏰ напомняне към бележка в работното място ----
+function remTxt(b){ return String(b.title || b.name || String(b.text || '').split('\n')[0] || (PADTY[b.t] || PADTY.note)[1]).slice(0, 120) + (b.title && b.text ? ': ' + String(b.text).slice(0, 200) : ''); }
+function remBadge(b){
+  if (!b.rem || !b.rem.at) return '';
+  var past = b.rem.at < Date.now(), d = new Date(b.rem.at), p = function(x){ return ('0' + x).slice(-2); };
+  return '<span class="rmb' + (past ? ' past' : '') + '">⏰ ' + p(d.getDate()) + '.' + p(d.getMonth() + 1) + ' ' + p(d.getHours()) + ':' + p(d.getMinutes()) + (b.rem.who && b.rem.who !== (D && D.me) ? ' · ' + esc(b.rem.who) : '') + '</span>';
+}
+function remAsk(id){
+  var b = padBlk(id); if (!b) return;
+  var now = new Date(), at = function(days, h, m){ var d = new Date(); d.setDate(d.getDate() + days); d.setHours(h, m || 0, 0, 0); return d.getTime(); };
+  var Q = [['След 1 час', Date.now() + 3600000], ['Днес 18:00', at(0, 18)], ['Утре 9:00', at(1, 9)], ['Утре 14:00', at(1, 14)], ['След 3 дни 9:00', at(3, 9)], ['След седмица 9:00', at(7, 9)]].filter(function(x){ return x[1] > Date.now() + 60000; });
+  var loc = new Date(Date.now() + 86400000 - now.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
+  var team = (D.reps || []).slice(); if (team.indexOf(D.me) < 0) team.unshift(D.me);
+  openSheet('⏰ Напомняне', '<div style="padding:12px 16px 30px"><div class="s" style="margin-bottom:8px">„' + esc(remTxt(b)) + '“</div>' +
+    fld('На кого', '<select id="rmW">' + team.map(function(n){ return '<option' + (n === D.me ? ' selected' : '') + '>' + esc(n) + '</option>'; }).join('') + '</select>') +
+    '<div class="chips" style="margin-top:12px">' + Q.map(function(x){ return '<button type="button" data-t="' + x[1] + '" onclick="remGo(\'' + esc(id) + '\',Number(this.dataset.t))">' + x[0] + '</button>'; }).join('') + '</div>' +
+    fld('Или избери дата и час', '<input type="datetime-local" id="rmT" value="' + loc + '">') +
+    '<button class="save" onclick="remGo(\'' + esc(id) + '\',new Date(el(\'rmT\').value).getTime())">⏰ Напомни</button>' +
+    (b.rem ? '<button class="save sec2" onclick="remOff(\'' + esc(id) + '\')">✖ Махни напомнянето</button>' : '') + '</div>');
+}
+function remGo(id, at){
+  var b = padBlk(id), who = el('rmW') ? el('rmW').value : D.me;
+  if (!b || !(at > Date.now())) { toast('⚠️ Избери час в бъдещето'); return; }
+  var old = b.rem && b.rem.id, n = PADN; closeSheet();
+  apiCall('remSet', [{ id: old || '', client: n, bid: id, at: at, who: who, text: remTxt(b) }]).then(function(r){
+    var x = padBlk(id); if (!x) return; x.rem = { id: r.id || old, at: at, who: who }; padTouch(); padDraw(); toast('⏰ Ще напомня' + (who !== D.me ? ' на ' + who : ''), 2500);
+  }, function(e){ toast('⚠️ ' + e.message, 5000); });
+}
+function remOff(id){
+  var b = padBlk(id); if (!b || !b.rem) return; var rid = b.rem.id; delete b.rem; padTouch(); padDraw(); closeSheet();
+  if (rid) bg('remDel', [rid], null, 'напомняне');
+}
+// бадж ⏰ в блоковете и картите
+var _padBlockK1 = padBlockK;
+padBlockK = function(b){ var h = _padBlockK1(b); return b.rem ? h.replace('<button class="pbm"', remBadge(b) + '<button class="pbm"') : h; };
+padBlock = function(b){ return padBlockK(b); };
+var _padCard1 = padCard;
+padCard = function(b){ var h = _padCard1(b); return b.rem ? h.replace('</b></div>', '</b></div>' + remBadge(b)) : h; };
+// допълнения в менюто ⋯ на блока
+var _padMenu1 = padMenu;
+padMenu = function(id){
+  _padMenu1(id); var b = padBlk(id); if (!b) return;
+  if (b.t !== 'folder' && b.t !== 'file') lpAdd(b.rem ? '⏰ Промени напомнянето' : '⏰ Напомни ми', function(){ remAsk(id); });
+  lpAdd('💾 Запази като шаблон', function(){ tplSaveAsk(id); });
+};
+var _padDel1 = padDel;
+padDel = function(id){ var b = padBlk(id), rid = b && b.rem && b.rem.id && b.rem.at > Date.now() ? b.rem.id : ''; var n0 = (PAD.blocks || []).length; _padDel1(id); if (rid && (PAD.blocks || []).length < n0) bg('remDel', [rid], null, 'напомняне'); };
+
+// ---- 📋 шаблони ----
+var TPL = null;
+function tplOpen(){
+  openSheet('📋 Шаблони', '<div id="tplB" style="padding:10px 16px 30px"><div class="load">Зареждане…</div></div>');
+  apiCall('tplGet', []).then(function(r){ TPL = r.list || []; tplDraw(); }, function(e){ var b = el('tplB'); if (b) b.innerHTML = '<div class="empty">⚠️ ' + esc(e.message) + '</div>'; });
+}
+function tplDraw(){
+  var b = el('tplB'); if (!b) return;
+  b.innerHTML = '<div class="s" style="margin-bottom:10px">Докосни шаблон → добавя се в работното място' + (PADF ? ' (в текущата папка)' : '') + '. Свой шаблон: ⋯ на бележка → 💾 Запази като шаблон.</div>' +
+    TPL.map(function(t, i){
+      var n = (t.blocks || []).length;
+      return '<div class="tplr"><button class="tplb" onclick="tplUse(' + i + ')"><i>' + esc(t.ic || '📋') + '</i><span><b>' + esc(t.name) + '</b><small>' + (t.own ? '👤 ' + esc(t.by) + ' · ' : '⭐ готов · ') + n + (n === 1 ? ' блок' : ' блока') + '</small></span></button>' +
+        (t.own && (t.by === D.me || isAdm()) ? '<button class="tpld" onclick="tplDel(' + i + ')" title="Изтрий">🗑️</button>' : '') + '</div>';
+    }).join('');
+}
+function tplUse(i){
+  var t = TPL[i]; if (!t || !PAD) return;
+  var map = {}, out = (t.blocks || []).map(function(b){ var c = JSON.parse(JSON.stringify(b)); map[b.id] = newRid().slice(0, 12); return c; });
+  out.forEach(function(c, k){ var oid = t.blocks[k].id; c.id = map[oid]; c.f = c.f && map[c.f] ? map[c.f] : PADF; delete c.pin; delete c.rem; delete c.u; });
+  PAD.blocks = (PAD.blocks || []).concat(out); padTouch(); closeSheet(); padDraw(); toast('📋 Добавено: ' + t.name, 2000);
+}
+function tplDel(i){
+  var t = TPL[i]; if (!t || !confirm('🗑️ Да изтрия ли шаблона „' + t.name + '“?')) return;
+  apiCall('tplDel', [t.id]).then(function(r){ TPL = r.list || []; tplDraw(); toast('🗑️ Изтрит'); }, function(e){ toast('⚠️ ' + e.message, 4000); });
+}
+function tplSaveAsk(id){
+  var b = padBlk(id); if (!b) return;
+  var name = prompt('💾 Име на шаблона:', b.title || (PADTY[b.t] || PADTY.note)[1]); if (!name || !name.trim()) return;
+  var pick = [b], add = function(fid){ (PAD.blocks || []).forEach(function(x){ if ((x.f || '') === fid && x.t !== 'file') { pick.push(x); if (x.t === 'folder') add(x.id); } }); };
+  if (b.t === 'folder') add(b.id);
+  var blocks = pick.map(function(x){ var c = JSON.parse(JSON.stringify(x)); delete c.pin; delete c.rem; delete c.u; if (x === b) delete c.f; return c; });
+  blocks.forEach(function(c){ if (c.t === 'check') (c.items || []).forEach(function(it){ it.d = false; }); });
+  apiCall('tplSave', [{ name: name.trim(), ic: (PADTY[b.t] || PADTY.note)[0], blocks: blocks }]).then(function(r){ TPL = r.list; toast('💾 Шаблонът е запазен', 2500); }, function(e){ toast('⚠️ ' + e.message, 5000); });
+}
+
+// ---- 🗑️ кошче и 🕑 история на работното място ----
+var PADM = null;
+function padMeta(cb){
+  var n = PADN; if (PADDIRTY) padSave(true);
+  apiCall('padGet', [n]).then(function(r){ if (PADN !== n) return; PADM = (r && r.d) || {}; cb(PADM); }, function(e){ toast('⚠️ ' + e.message, 4000); });
+}
+var PADACT = { add: '➕ добави', edit: '✏️ промени', del: '🗑️ изтри', move: '📁 премести', restore: '↩️ върна' };
+function padHist(){
+  openSheet('🕑 История – ' + PADN, '<div id="phB" style="padding:10px 16px 30px"><div class="load">Зареждане…</div></div>');
+  padMeta(function(d){
+    var b = el('phB'); if (!b) return; var L = (d.log || []).slice().reverse();
+    b.innerHTML = L.length ? '<div class="phl">' + L.map(function(e){
+      return '<div class="phr"><small>' + msgT(e.t) + '</small><span><b>' + esc(e.w || '—') + '</b> ' + (PADACT[e.a] || e.a) + ' ' + ((PADTY[e.ty] || PADTY.note)[0]) + ' ' + esc(e.x || '') + '</span></div>';
+    }).join('') + '</div>' : '<div class="empty">Още няма история.</div>';
+  });
+}
+function padTrashOpen(){
+  openSheet('🗑️ Кошче – ' + PADN, '<div id="ptB" style="padding:10px 16px 30px"><div class="load">Зареждане…</div></div>');
+  padMeta(function(d){
+    var b = el('ptB'); if (!b) return; var T = (d.trash || []).slice().reverse();
+    b.innerHTML = '<div class="s" style="margin-bottom:8px">Изтритото стои тук 30 дни.</div>' + (T.length ? T.map(function(x){
+      var ty = PADTY[x.b.t] || PADTY.note;
+      return '<div class="ptr"><span><b>' + ty[0] + ' ' + esc(x.b.title || x.b.name || ty[1]) + '</b><small>🗑️ ' + esc(x.w || '') + ' · ' + msgT(x.t) + (x.b.text ? ' · ' + esc(String(x.b.text).slice(0, 60)) : '') + '</small></span><button data-id="' + esc(x.b.id) + '" onclick="padRest(this.dataset.id)">↩️ Върни</button></div>';
+    }).join('') : '<div class="empty">Кошчето е празно.</div>');
+  });
+}
+function padRest(id){
+  apiCall('padRestore', [PADN, id]).then(function(r){
+    if (r && r.d) { PADSNAP = padSnapOf(r.d); PAD.blocks = r.d.blocks.slice(); PAD.u = r.d.u; try { ls(padKey(PADN), JSON.stringify(PAD)); } catch (e) {} }
+    closeSheet(); padDraw(); toast('↩️ Върнато', 2000);
+  }, function(e){ toast('⚠️ ' + e.message, 4000); });
+}
+// бутони в лентата на работното място + „📋 От шаблон“ в „Добави“
+var _padDraw2 = padDraw;
+padDraw = function(){
+  _padDraw2(); if (!PAD || PADE) return;
+  var tb = el('wspB').querySelector('.padtb');
+  if (tb) tb.insertAdjacentHTML('beforeend', '<button class="padib" onclick="padHist()" title="История">🕑</button><button class="padib" onclick="padTrashOpen()" title="Кошче">🗑️</button>');
+  var ag = el('wspB').querySelector('.padag');
+  if (ag) ag.insertAdjacentHTML('beforeend', '<button onclick="tplOpen()"><i>📋</i><b>От шаблон</b><small>Готов списък за оглед, ремонт, предаване…</small></button>');
+};
+
+// ---- @ споменаване: подсказка с имената ----
+var ATB = null;
+document.addEventListener('input', function(e){
+  var t = e.target; if (!t || !/^(TEXTAREA|INPUT)$/.test(t.tagName) || !t.closest || !t.closest('#wspB,#shB')) { atHide(); return; }
+  if (t.type && /^(date|datetime-local|number|file|checkbox)$/.test(t.type)) return;
+  var v = t.value.slice(0, t.selectionStart || 0), m = /(^|\s)@([^\s@]*)$/.exec(v);
+  if (!m) { atHide(); return; }
+  var q = m[2].toLowerCase(), names = (D && D.reps || []).filter(function(n){ return n !== D.me && n.toLowerCase().indexOf(q) === 0; });
+  if (!names.length) { atHide(); return; }
+  if (!ATB) { ATB = document.createElement('div'); ATB.id = 'atb'; document.body.appendChild(ATB); }
+  ATB.innerHTML = names.map(function(n){ return '<button type="button" data-n="' + esc(n) + '">@' + esc(n) + '</button>'; }).join('');
+  ATB.style.display = 'flex'; ATB._t = t; ATB._q = m[2].length;
+}, true);
+function atHide(){ if (ATB) ATB.style.display = 'none'; }
+document.addEventListener('mousedown', function(e){ if (ATB && e.target.closest && e.target.closest('#atb')) e.preventDefault(); }, true);
+document.addEventListener('click', function(e){
+  var b = e.target.closest && e.target.closest('#atb button'); if (!b || !ATB || !ATB._t) return;
+  var t = ATB._t, pos = t.selectionStart || t.value.length, n = b.getAttribute('data-n');
+  t.value = t.value.slice(0, pos - ATB._q) + n + ' ' + t.value.slice(pos);
+  var np = pos - ATB._q + n.length + 1; try { t.focus(); t.setSelectionRange(np, np); } catch (x) {}
+  t.dispatchEvent(new Event('input', { bubbles: true })); atHide();
+}, true);
+document.addEventListener('focusout', function(){ setTimeout(function(){ var a = document.activeElement; if (!a || !/^(TEXTAREA|INPUT)$/.test(a.tagName)) atHide(); }, 150); });
+
+// ---- 📴 работното място без интернет: промените се пазят и се изпращат при връзка ----
+function pqGet(){ try { return JSON.parse(ls('crm_padq') || '{}') || {}; } catch (e) { return {}; } }
+function pqSet(q){ ls('crm_padq', Object.keys(q).length ? JSON.stringify(q) : null); }
+var _padTouch1 = padTouch;
+padTouch = function(){ _padTouch1(); if (PADN) { var q = pqGet(); q[padKey(PADN)] = { n: PADN, ws: WS || '' }; pqSet(q); } };
+var _padAdopt1 = padAdopt;
+padAdopt = function(d, sent){ _padAdopt1(d, sent); if (d && !PADDIRTY && PADN) { var q = pqGet(); delete q[padKey(PADN)]; pqSet(q); } };
+function padSyncAll(){
+  if (!TOKEN || navigator.onLine === false) return;
+  var q = pqGet();
+  Object.keys(q).forEach(function(k){
+    var it = q[k]; if ((it.ws || '') !== (WS || '') || (PADN === it.n && el('wsp') && el('wsp').style.display === 'block')) return;
+    var loc = null; try { loc = JSON.parse(ls(k) || 'null'); } catch (e) {} if (!loc) { delete q[k]; pqSet(q); return; }
+    apiCall('padGet', [it.n]).then(function(r){
+      var srv = (r && r.d) || { blocks: [] }, sm = padSnapOf(srv), t = Date.now();
+      (loc.blocks || []).forEach(function(b){ if (!padPending(b) && sm[b.id] !== padSig(b)) b.u = t; });
+      return apiCall('padSave', [it.n, { v: 2, u: t, blocks: (loc.blocks || []).filter(function(b){ return !padPending(b); }) }]);
+    }).then(function(r){ if (r && r.d) { try { ls(k, JSON.stringify({ v: 2, u: r.d.u, blocks: r.d.blocks })); } catch (e) {} } var q2 = pqGet(); delete q2[k]; pqSet(q2); }, function(){});
+  });
+}
+window.addEventListener('online', function(){ setTimeout(padSyncAll, 1500); });
 if ('serviceWorker' in navigator) {
   var swHad = !!navigator.serviceWorker.controller, swDone = false;
   navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).then(function(r){
