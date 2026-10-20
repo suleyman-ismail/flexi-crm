@@ -592,9 +592,151 @@ html.dark .stile i{background:#172238}html.dark .stile small,html.dark .jinf sma
 html.dark .jbar{background:#334155}html.dark .krow{border-color:#334155}html.dark .krow button{background:#172238;border-color:#3b4a60;color:#e2e8f0}
 html.dark .kpay b{color:#e2e8f0}html.dark .kown{background:#2e1065;color:#ddd6fe}html.dark .avb i{background:#334155}
 #sbB .jh>span{display:none}#sbB .jh{justify-content:flex-end}
+/* ================= v4.2.2 · Keep: по-малки карти, 🎨 цветове, 📌, ✋ подреждане, ☰/▦, 📝 бележки, 🧠 папки и файлове ================= */
+/* 🎨 палитра (като Google Keep) */
+.kc-red{--kb:#faafa8;--kd:#77172e}.kc-orange{--kb:#f39f76;--kd:#692b17}.kc-yellow{--kb:#fff8b8;--kd:#7c4a03}.kc-green{--kb:#e2f6d3;--kd:#264d3b}
+.kc-teal{--kb:#b4ddd3;--kd:#0c625d}.kc-blue{--kb:#d4e4ed;--kd:#256377}.kc-navy{--kb:#aeccdc;--kd:#284255}.kc-purple{--kb:#d3bfdb;--kd:#472e5b}
+.kc-pink{--kb:#f6e2dd;--kd:#6c394f}.kc-brown{--kb:#e9e3d4;--kd:#4b443a}.kc-gray{--kb:#efeff1;--kd:#232427}
+.stile[class*="kc-"],.ccard[class*="kc-"],.pcard[class*="kc-"],.pblk[class*="kc-"],.cr2[class*="kc-"]{background:var(--kb)!important;border-color:transparent}
+.jtile[class*="kc-"] .jinf{background:var(--kb)}.jtile[class*="kc-"]{box-shadow:0 1px 3px rgba(0,0,0,.12),0 0 0 2px var(--kb)}
+.stile[class*="kc-"] i{background:rgba(255,255,255,.55)}
+html.dark .stile[class*="kc-"],html.dark .ccard[class*="kc-"],html.dark .pcard[class*="kc-"],html.dark .pblk[class*="kc-"],html.dark .cr2[class*="kc-"]{background:var(--kd)!important}
+html.dark .jtile[class*="kc-"] .jinf{background:var(--kd)}html.dark .jtile[class*="kc-"]{box-shadow:0 0 0 2px var(--kd)}
+html.dark .stile[class*="kc-"] i{background:rgba(0,0,0,.25)}
+/* 📌 */
+.stile,.jtile,.ccard,.pcard,.cr2{position:relative}
+.pinned:after{content:'📌';position:absolute;top:4px;right:5px;font-size:13px;line-height:1;z-index:2;filter:drop-shadow(0 1px 1px rgba(0,0,0,.25))}
+.cr2.pinned:after{top:auto;right:auto;left:38px;bottom:5px;font-size:12px}
+.pblk.pinned:after{top:-6px;right:10px}
+/* меню при задържане: цветове */
+.kpal{display:flex;flex-wrap:wrap;gap:9px;padding:4px 2px 12px;justify-content:flex-start}
+#lpm .kpal button.kdot{width:36px;height:36px;min-width:0;flex:none;margin:0;padding:0;border-radius:50%;display:grid;place-items:center;text-align:center;background:var(--kb);border:2px solid transparent;box-shadow:inset 0 0 0 1px rgba(0,0,0,.14)}
+#lpm .kpal button.kdot.k0{background:#fff;box-shadow:inset 0 0 0 2px #cbd5e1}#lpm .kpal button.kdot.on{border-color:#fff;box-shadow:0 0 0 3px #7c3aed}
+html.dark #lpm .kpal button.kdot{background:var(--kd)}html.dark #lpm .kpal button.kdot.k0{background:#1e293b}
+.kdot{width:34px;height:34px;border-radius:50%;border:2px solid transparent;background:var(--kb);box-shadow:inset 0 0 0 1px rgba(0,0,0,.12);padding:0;cursor:pointer}
+.kdot.k0{background:#fff;box-shadow:inset 0 0 0 2px #cbd5e1}.kdot.k0:after{content:'⊘';color:#94a3b8;font-size:16px}
+.kdot.on{border-color:#7c3aed;box-shadow:0 0 0 2px #fff,0 0 0 4px #7c3aed}
+html.dark .kdot{background:var(--kd)}html.dark .kdot.k0{background:#1e293b}
+#lpmB button.del{color:#b91c1c}
+/* ☰/▦ и ✋ бутони */
+.kvw{display:inline-flex;background:#e2e8f0;border-radius:9px;padding:2px;flex:none}
+.kvw button{border:0;background:none;padding:4px 9px;border-radius:7px;font-size:15px;line-height:1.2;color:#475569;font-family:inherit;cursor:pointer}
+.kvw button.on{background:#fff;color:#0f172a;box-shadow:0 1px 2px rgba(0,0,0,.12)}
+.arrb{flex:none;border:1px solid #cbd5e1;background:#fff;border-radius:9px;padding:4px 9px;font-size:12.5px;font-weight:700;color:#334155;font-family:inherit;cursor:pointer;margin-left:6px}
+.arrb.on{background:#7c3aed;border-color:#7c3aed;color:#fff}
+h2 .arrb{margin-left:auto;font-size:12px}
+.ktb{display:flex;align-items:center;gap:6px;margin:14px 16px 0}.ktb b{flex:1;font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:#64748b}
+.box.jobs .jt{display:flex;align-items:center;gap:6px}.ktools{margin-left:auto;display:flex;align-items:center}
+html.dark .kvw{background:#172238}html.dark .kvw button{color:#94a3b8}html.dark .kvw button.on{background:#334155;color:#fff}
+html.dark .arrb{background:#1e293b;border-color:#3b4a60;color:#e2e8f0}html.dark .arrb.on{background:#7c3aed;border-color:#7c3aed}
+/* ✋ режим на подреждане */
+#arrbar{position:fixed;left:12px;right:12px;bottom:calc(14px + env(safe-area-inset-bottom));z-index:24;display:none;align-items:center;gap:10px;background:#4c1d95;color:#fff;border-radius:14px;padding:10px 12px;box-shadow:0 8px 24px rgba(0,0,0,.3);font-size:13.5px;font-weight:600}
+#arrbar span{flex:1}#arrbar button{border:0;background:#fff;color:#4c1d95;border-radius:10px;padding:8px 12px;font-weight:800;font-family:inherit;font-size:14px}
+.arr>[data-dk]{touch-action:none;cursor:grab;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;animation:kwig .35s ease-in-out infinite alternate}
+.arr>[data-dk] *{pointer-events:none}
+.arr>[data-dk]:nth-child(2n){animation-delay:.12s}
+@keyframes kwig{from{transform:rotate(-.6deg)}to{transform:rotate(.6deg)}}
+.arr>.dragging{opacity:.25;animation:none}
+.kg{animation:none!important;position:fixed!important;left:0!important;top:0!important;margin:0!important;z-index:40!important}
+.dropin{outline:3px dashed #7c3aed;outline-offset:2px}
+/* 🗂️ по-малки плочки и карти в картата на клиента */
+.sgrid{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:8px 16px 24px}
+@media (min-width:700px){.sgrid{grid-template-columns:repeat(5,minmax(0,1fr))}}
+.stile{padding:9px 9px 8px;border-radius:12px;gap:1px}
+.stile i{font-size:19px;width:32px;height:32px;border-radius:9px;margin-bottom:3px}
+.stile b{font-size:13px}.stile small{font-size:11.5px}
+.sgrid.sl{grid-template-columns:1fr;gap:6px}
+.sgrid.sl .stile{flex-direction:row;align-items:center;gap:10px;padding:8px 10px}.sgrid.sl .stile i{margin:0}.sgrid.sl .stile b{width:auto;flex:none;max-width:45%}.sgrid.sl .stile small{flex:1;text-align:right}
+.jgrid{gap:8px}
+@media (min-width:700px){.jgrid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.jcov{aspect-ratio:16/10}.jcov i{font-size:34px}
+.jinf{padding:6px 8px 8px}.jinf b{font-size:13.5px}.jinf small,.jinf em{font-size:11.5px}
+.jgrid.jl{grid-template-columns:1fr;gap:6px}
+.jgrid.jl .jtile{flex-direction:row;align-items:stretch}
+.jgrid.jl .jcov{width:76px;flex:none;aspect-ratio:auto;min-height:64px}.jgrid.jl .jcov i{font-size:26px}
+.jgrid.jl .jinf{flex:1;justify-content:center}.jgrid.jl .jst{font-size:10px;padding:1px 4px;left:3px;top:3px}.jgrid.jl .jmn,.jgrid.jl .jpa{display:none}
+.jhero{height:150px}.jhero i{font-size:58px}
+/* 👥 клиенти: по-компактен списък + ▦ карти */
+.cr2{padding:8px 12px!important;gap:10px}.cr2 .cav{width:34px;height:34px;font-size:12px}
+.cgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:0 16px 12px}
+@media (min-width:700px){.cgrid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.ccard{background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:9px 10px;display:flex;flex-direction:column;gap:4px;min-width:0;cursor:pointer;box-shadow:0 1px 2px rgba(0,0,0,.05);-webkit-tap-highlight-color:transparent}
+.ccard:active{transform:scale(.98)}
+.cch{display:flex;align-items:center;gap:8px;min-width:0;padding-right:12px}.cch .cav{width:30px;height:30px;font-size:11px;flex:none}
+.cch b{font-size:13.5px;line-height:1.25;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;word-break:break-word}
+.ccard .cst{align-self:flex-start;font-size:11px;font-weight:700;border-radius:7px;padding:2px 6px;max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ccard small{font-size:11.5px;color:#64748b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ccard .cnx{font-weight:700;color:#1d4ed8}.ccard .cnx.lt{color:#b91c1c}.ccard .cnx.nt{color:#b45309;font-weight:600}
+.khint{margin:0 16px 10px}
+html.dark .ccard{background:#1e293b;border-color:#334155;color:#e2e8f0}html.dark .ccard small{color:#94a3b8}
+/* 📝 бележки под снимки и файлове */
+.ph a{position:relative}
+.ph a .pnt{position:absolute;left:0;right:0;bottom:0;background:linear-gradient(transparent,rgba(15,23,42,.82));color:#fff;font-size:10.5px;line-height:1.25;text-align:left;padding:12px 5px 4px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.ph a .pne{position:absolute;top:3px;right:3px;font-style:normal;font-size:12px;background:rgba(255,255,255,.88);border-radius:7px;width:24px;height:24px;display:grid;place-items:center;box-shadow:0 1px 2px rgba(0,0,0,.2)}
+.fl{flex-wrap:wrap}
+.fnt{flex-basis:100%;font-size:12.5px;color:#334155;background:#fefce8;border-radius:8px;padding:6px 9px;margin:2px 0 0 36px;cursor:pointer;white-space:pre-wrap;word-break:break-word}
+.fnt.e{background:none;color:#94a3b8;padding:2px 9px}
+html.dark .fnt{background:#3a3410;color:#fef9c3}html.dark .fnt.e{background:none;color:#64748b}
+.ntimg{display:block;max-width:100%;max-height:220px;border-radius:10px;margin:0 auto 10px}
+#pvN{position:absolute;left:0;right:0;bottom:0;display:none;align-items:flex-end;gap:10px;padding:26px 14px calc(14px + env(safe-area-inset-bottom));background:linear-gradient(transparent,rgba(0,0,0,.85));color:#fff;font-size:14.5px}
+#pvN span{flex:1;white-space:pre-wrap;max-height:30vh;overflow:auto}#pvN i{opacity:.6}
+#pvN button{flex:none;border:0;background:rgba(255,255,255,.18);color:#fff;border-radius:10px;width:42px;height:42px;font-size:18px}
+/* 🧠 работно място: ☰/▦, папки, файлове */
+.padtb{display:flex;align-items:center;gap:8px;margin:0 0 12px}
+.padfn{flex:1;min-width:0;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.padbk{border:1px solid #cbd5e1;background:#fff;border-radius:9px;padding:6px 10px;font-weight:700;font-family:inherit;font-size:13.5px}
+.padsec{font-size:11.5px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:#64748b;margin:6px 2px 8px}
+.padbl.grid{column-count:2;column-gap:10px}
+@media (min-width:700px){.padbl.grid{column-count:3}}
+.padbl.grid.one{column-count:1}
+.pcard{break-inside:avoid;display:block;background:#fff;border:1px solid #e5e9f0;border-radius:12px;padding:10px 11px;margin:0 0 10px;cursor:pointer;overflow:hidden;box-shadow:0 1px 2px rgba(15,23,42,.05)}
+.pchd{display:flex;align-items:center;gap:6px;margin-bottom:4px;padding-right:14px}.pchd i{font-style:normal;font-size:15px}.pchd b{font-size:14px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pcpv{font-size:13px;line-height:1.45;color:#334155;white-space:pre-wrap;word-break:break-word;display:-webkit-box;-webkit-line-clamp:9;-webkit-box-orient:vertical;overflow:hidden}
+.pcpv.ck div.d{text-decoration:line-through;color:#94a3b8}
+.pcfd{display:flex;flex-wrap:wrap;gap:4px}.pcfd span{font-size:11.5px;background:rgba(15,23,42,.06);border-radius:7px;padding:2px 6px;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pcfd span[class*="kc-"]{background:var(--kb)}
+.pfile{display:flex;align-items:center;gap:9px;min-width:0;cursor:pointer;margin:4px 0}
+.pfile img{width:52px;height:52px;object-fit:cover;border-radius:8px;flex:none}.pfile i{font-style:normal;font-size:28px;flex:none;width:40px;text-align:center}
+.pfile span{min-width:0;display:flex;flex-direction:column}.pfile b{font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.pfile small{font-size:11.5px;color:#64748b}
+.pcard .pfile{flex-direction:column;align-items:stretch}.pcard .pfile img{width:100%;height:auto;max-height:180px}.pcard .pfile i{width:auto;font-size:34px;text-align:left}
+.pfile.big img{width:84px;height:84px}
+.pfu{font-weight:700;color:#7c3aed}.pfu.bad{color:#b91c1c}
+.pb-file textarea{min-height:44px!important;border-top:1px dashed #e2e8f0!important;margin-top:6px}
+.padopen{width:100%;margin-top:4px;border:1px dashed #94a3b8;background:rgba(255,255,255,.5);border-radius:10px;padding:9px;font-family:inherit;font-weight:700;font-size:14px;color:#334155;text-align:left;display:flex;justify-content:space-between}
+.padopen small{font-weight:500;color:#64748b}
+.pede .pblk{min-height:40vh}
+.padok{width:100%;margin-top:4px;background:#1e3a5f;color:#fff;border:0;border-radius:12px;padding:12px;font-weight:800;font-size:15px}
+html.dark .pcard{background:#1e293b;border-color:#2c3a52;color:#e2e8f0}html.dark .pcpv{color:#cbd5e1}html.dark .pcfd span{background:rgba(255,255,255,.08)}
+html.dark .padbk,html.dark .padopen{background:#1e293b;border-color:#3b4a60;color:#e2e8f0}html.dark .pcfd span[class*="kc-"]{background:var(--kd)}
+/* горната лента не излиза извън екрана на тесни телефони */
+.hd header{min-width:0}.hd header>div:first-child{min-width:0;flex:1 1 auto;overflow:hidden}
+.hd h1{min-width:0}#ttl{display:inline-block;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;vertical-align:bottom}
+.hr{flex:none;gap:6px}.hr .me{max-width:118px;overflow:hidden;text-overflow:ellipsis}
+.pcard .pfile b{display:none}
+/* ================= v4.2.3 · 💬 съобщения ================= */
+.hr .msgb{position:relative;font-size:20px}.hr .msgb #msgN{position:absolute;top:-4px;right:-6px;background:#22c55e;color:#fff;border-radius:9px;font-size:10.5px;font-weight:800;padding:1px 5px;display:none;min-width:16px;text-align:center}
+.mlist{padding:4px 0 30px}.mhint{margin:8px 16px 10px}
+.mrow{display:flex;align-items:center;gap:11px;padding:11px 16px;border-bottom:1px solid #f1f5f9;cursor:pointer}
+.mrow .mx{flex:1;min-width:0;display:flex;flex-direction:column}.mrow .mx b{font-size:15px}.mrow .mx small{font-size:13px;color:#64748b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mrow.un .mx b,.mrow.un .mx small{color:#0f172a;font-weight:700}
+.mrow .mt{flex:none;display:flex;flex-direction:column;align-items:flex-end;gap:4px}.mrow .mt small{font-size:11.5px;color:#94a3b8}
+.mrow .mt i{font-style:normal;background:#22c55e;color:#fff;border-radius:10px;font-size:11.5px;font-weight:800;padding:1px 7px}
+.mback{border:0;background:none;color:#1d4ed8;font-weight:700;font-size:14px;padding:10px 16px 0;font-family:inherit}
+.mchat{display:flex;flex-direction:column;gap:6px;padding:10px 12px 96px;min-height:50vh}
+.mday{align-self:center;font-size:11.5px;color:#64748b;background:#e2e8f0;border-radius:9px;padding:2px 9px;margin:8px 0 2px}
+.mbub{max-width:82%;align-self:flex-start;background:#fff;border:1px solid #e2e8f0;border-radius:16px 16px 16px 4px;padding:8px 11px 5px;box-shadow:0 1px 1px rgba(0,0,0,.04)}
+.mbub span{display:block;font-size:15px;line-height:1.38;white-space:pre-wrap;word-break:break-word;-webkit-user-select:text;user-select:text}
+.mbub small{display:block;text-align:right;font-size:10.5px;color:#94a3b8;margin-top:2px}
+.mbub.me{align-self:flex-end;background:#dcf8c6;border-color:#c7ecb0;border-radius:16px 16px 4px 16px}.mbub.me small{color:#5b7a4a}.mbub.tmp{opacity:.6}
+.mcomp{position:fixed;left:0;right:0;bottom:0;z-index:13;display:flex;gap:8px;align-items:flex-end;background:#f8fafc;border-top:1px solid #e2e8f0;padding:8px 10px calc(8px + env(safe-area-inset-bottom))}
+.mcomp textarea{flex:1;resize:none;border:1px solid #cbd5e1;border-radius:20px;padding:10px 14px;font:16px/1.3 inherit;font-family:inherit;max-height:140px;background:#fff;color:inherit}
+.mcomp button{flex:none;width:46px;height:46px;border-radius:50%;border:0;background:#16a34a;color:#fff;font-size:20px}
+html.dark .mrow{border-color:#273449}html.dark .mrow.un .mx b,html.dark .mrow.un .mx small{color:#f1f5f9}
+html.dark .mbub{background:#1e293b;border-color:#334155}html.dark .mbub.me{background:#14532d;border-color:#166534}html.dark .mbub.me small{color:#86efac}
+html.dark .mday{background:#334155;color:#cbd5e1}html.dark .mcomp{background:#0f172a;border-color:#273449}html.dark .mcomp textarea{background:#1e293b;border-color:#334155}
 </style>
 <script>try{var tm=localStorage.getItem('crm_theme')||'auto';if(tm==='dark'||(tm==='auto'&&window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.classList.add('dark')}catch(e){}</script></head><body>
-<div class="hd"><header><div><h1><img src="icon-192.png" alt=""><span id="ttl">CRM Flexi Home</span></h1><div class="d" id="dt"></div></div><div class="hr"><button class="bell" id="bellB" onclick="ntOpen()" title="Известия">🔔<span id="bellN"></span></button><button class="me" id="meB" onclick="meMenu()">👤</button><button onclick="load(true)" title="Обнови">⟳</button></div></header>
+<div class="hd"><header><div><h1><img src="icon-192.png" alt=""><span id="ttl">CRM Flexi Home</span></h1><div class="d" id="dt"></div></div><div class="hr"><button class="msgb" id="msgB" onclick="msgOpen()" title="Съобщения">💬<span id="msgN"></span></button><button class="bell" id="bellB" onclick="ntOpen()" title="Известия">🔔<span id="bellN"></span></button><button class="me" id="meB" onclick="meMenu()">👤</button><button onclick="load(true)" title="Обнови">⟳</button></div></header>
 <div class="wsb" id="wsb"><button id="ws_m" onclick="setWS('')">🏠 Flexi Home</button><button id="ws_r" onclick="setWS('r')">🔨 Ремонти и строителство</button></div><div id="sync"></div></div>
 <div class="seg" id="seg"><button id="sg_m" onclick="seg('m')">👤 Мои</button><button id="sg_a" onclick="seg('a')">👥 Всички</button></div>
 <div id="off">📴 Няма интернет – показани са последните данни</div><div id="qbar" onclick="qFlush()"></div><div id="main"><div class="load">Зареждане…</div></div>
@@ -825,7 +967,7 @@ function render(d){
   draw();
   if (!NEWS_DONE && d.news && el('sheet').style.display !== 'block' && el('login').style.display !== 'flex') { NEWS_DONE = true; setTimeout(function(){ showNews(false); }, 600); }
   pendOpen(d);
-  setTimeout(function(){ ntLoad(); avLoad(); kLoad(); }, 1200);
+  setTimeout(function(){ ntLoad(); avLoad(); kLoad(); uiLoad(); msgLoad(); }, 1200);
 }
 function tab(t){ TAB = t; try { localStorage.setItem('crm_tab', t); } catch (e) {} draw(); window.scrollTo(0, 0); }
 function seg(s){ SEG = s; try { localStorage.setItem('crm_seg', s); } catch (e) {} draw(); }
@@ -2404,7 +2546,7 @@ function admOpen(){
 }
 function admTags(p){
   if (p.a) return '👑 Админ – вижда и прави всичко';
-  return [p.o ? '👀 само своите клиенти' : '👀 всички клиенти', p.f ? '💶 вижда парите' : '🙈 без пари', p.d ? '🗑️ може да трие' : '', p.r && ADMD.reno ? '🔨 Ремонти' : ''].filter(Boolean).join(' · ');
+  return [p.o ? '👀 само своите клиенти' : '👀 всички клиенти', p.f ? '💶 вижда парите' : '🙈 без пари', p.k ? '🧮 разчети' : '', p.d ? '🗑️ може да трие' : '', p.r && ADMD.reno ? '🔨 Ремонти' : ''].filter(Boolean).join(' · ');
 }
 function admDraw(){
   var h = '<div style="padding:6px 16px 30px"><div class="s" style="margin:6px 0 10px">Докосни човек → права, PIN, блокиране. Промените важат веднага.</div><div class="lst" style="margin:0">' + ADMD.people.map(function(p, i){
@@ -2422,6 +2564,7 @@ function admP(i){
   h += '<div class="sws">' + admSwH(p, 'a', '👑 Администратор', 'Вижда и прави всичко + тези настройки', me) + '<div id="admX">' +
     admSwH(p, 'o', '👀 Само своите клиенти', 'Вижда само клиентите, където е отговорник или има задача') +
     admSwH(p, 'f', '💶 Вижда парите', 'Бюджет, договор, плащания, разходи, печалба, отчет') +
+    admSwH(p, 'k', '🧮 Разчети в работното място', 'Вижда цените, надценката и печалбата в 🧠 Работно място') +
     admSwH(p, 'd', '🗑️ Може да изтрива', 'Клиенти, задачи, снимки и файлове') +
     (ADMD.reno ? admSwH(p, 'r', '🔨 Раздел „Ремонти“', 'Вижда „Ремонти и строителство“') : '') + '</div></div>';
   h += fld('📧 Имейл (по желание – задачите влизат и в неговия Google Календар)', '<input name="mail" type="email" autocomplete="off" value="' + esc(p.mail || '') + '">');
@@ -2435,7 +2578,7 @@ function admP(i){
 function admSw(){ var a = el('as_a'), x = el('admX'); if (!a || !x) return; x.style.opacity = a.checked ? .4 : 1; x.style.pointerEvents = a.checked ? 'none' : 'auto'; }
 function admVal(k){ var e = el('as_' + k); return !!(e && e.checked); }
 function admSend(e, i){
-  e.preventDefault(); var d = formData(), p = { a: admVal('a'), o: admVal('o'), f: admVal('f'), d: admVal('d'), r: admVal('r'), mail: d.mail || '' };
+  e.preventDefault(); var d = formData(), p = { a: admVal('a'), o: admVal('o'), f: admVal('f'), d: admVal('d'), r: admVal('r'), k: admVal('k'), mail: d.mail || '' };
   if (i >= 0 && ADMD.people[i].n === ADMD.me) p.a = true;
   el('sv').disabled = true; syncOn(1);
   apiCall(i < 0 ? 'admAdd' : 'admSave', i < 0 ? [d.n, p] : [ADMD.people[i].n, p]).then(function(r){
@@ -2671,7 +2814,7 @@ function padCopy(){
 window.addEventListener('online', function(){ if (PADDIRTY) padSave(); });
 document.addEventListener('visibilitychange', function(){ if (document.hidden && PADDIRTY) padSave(true); });
 
-var APP_VER = '4.2.1';
+var APP_VER = '4.2.3';
 // ================= v4.0 · 👥 Клиенти: ☰ Списък | ▦ Канбан · 🔎 филтри · ☑️ много наведнъж · 🗄️ архив =================
 var CV = ls('crm_cview') === 'k' ? 'k' : 'l';            // изглед: l = списък, k = канбан
 var CSEL = null;                                          // избрани клиенти { име: 1 } (отделно от SELM за разходите)
@@ -3493,9 +3636,10 @@ function jPage(id){ subOpen('j:' + (id || '_')); }
 // ---- отделни страници ----
 function subTop(){ return SUBS[SUBS.length - 1] || ''; }
 function subSync(){ if (!CUR) return; var t = subTop(); JSEL[CUR.name] = t.indexOf('j:') === 0 ? t.slice(2) : '*'; OPENW = null; }
-// история на браузъра: всяка страница е запис {fsub: дълбочина, sid}; „назад“ на телефона връща една страница
-var SID = Date.now();
-function subPush(){ try { history.pushState({ fsub: SUBS.length, sid: SID }, ''); } catch (e) {} }
+// история на браузъра: един „пазач“ запис, докато е отворена страница → бутонът „назад“ на телефона връща една страница
+var ARMED = false, SKIPPOP = 0;
+function subPush(){ if (ARMED) return; try { history.pushState({ fsub: 1 }, ''); ARMED = true; } catch (e) {} }
+function subDisarm(){ if (!ARMED) return; ARMED = false; SKIPPOP++; try { history.back(); } catch (e) { SKIPPOP--; } }
 function subOpen(k){
   if (!CUR || !k) return;
   if (subTop() === k) { subDraw(true); return; }
@@ -3508,18 +3652,13 @@ function subTo(depth){
   SUBS.length = Math.max(0, depth); subSync();
   if (CUR && el('card').style.display === 'block') drawCard(); else subDraw();
 }
-function subBack(){
-  if (!SUBS.length) return;
-  var n = SUBS.length;
-  try { history.back(); } catch (e) {}
-  setTimeout(function(){ if (SUBS.length === n) subTo(n - 1); }, 450);   // ако браузърът не върне „popstate“
-}
-window.addEventListener('popstate', function(e){
-  var st = (e && e.state) || {};
-  if (st.fsub && st.sid !== SID) { try { history.back(); } catch (x) {} return; }   // стар запис от затворена карта → прескачаме
-  subTo(st.sid === SID ? (st.fsub || 0) : 0);
+function subBack(){ if (!SUBS.length) return; subTo(SUBS.length - 1); if (!SUBS.length) subDisarm(); }
+window.addEventListener('popstate', function(){
+  if (SKIPPOP > 0) { SKIPPOP--; return; }
+  ARMED = false;
+  if (SUBS.length) { subTo(SUBS.length - 1); if (SUBS.length) subPush(); }
 });
-function subReset(){ SUBS = []; SID++; if (CUR) JSEL[CUR.name] = '*'; subDraw(); }
+function subReset(){ SUBS = []; if (CUR) JSEL[CUR.name] = '*'; subDisarm(); subDraw(); }
 function subDraw(reset){
   var s = el('sub'); if (!s) return;
   var k = subTop();
@@ -3527,7 +3666,7 @@ function subDraw(reset){
   var t = '', h = '';
   if (k.indexOf('j:') === 0) {
     var jid = k.slice(2), x = jDeal(jid);
-    if (!x && jid !== '_' && CUR.costs && !CUR.stub) { SUBS.pop(); subSync(); try { history.back(); } catch (e) {} return subDraw(true); }
+    if (!x && jid !== '_' && CUR.costs && !CUR.stub) { SUBS.pop(); subSync(); if (!SUBS.length) subDisarm(); return subDraw(true); }
     if (!CUR.costs) h = '<div class="load">Зареждане…</div>';
     else { JSEL[CUR.name] = jid; h = jPageHtml(jid); }
     t = x ? '📝 ' + esc(x.desc || 'Работа') : '📦 Без работа';
@@ -3780,6 +3919,664 @@ function kAllDraw(){
   }).join('') + '</div>' : '<div class="s">Още няма комисиони. Добавят се от картата на клиента → работата → 🤝 Партньори.</div>';
   b.innerHTML = h + '<div class="s" style="margin-top:10px">👁️ Вижда само Сюлейман.</div>';
 }
+// ================= v4.2.2 · 📌 като Google Keep: закачени, 🎨 цветове, ☰/▦ изглед, ✋ подреждане с пръст · 📝 бележки към файлове · 📎 документи към работа =================
+// Подредбата е ЛИЧНА (всеки човек има своя) – пази се в телефона и на сървъра (uiGet / uiSave).
+var UI = { u: 0, pin: {}, col: {}, ord: {}, view: {} };
+function uiNorm(d){ d = d || {}; return { u: Number(d.u) || 0, pin: d.pin || {}, col: d.col || {}, ord: d.ord || {}, view: d.view || {} }; }
+idbGet('ui', function(v){ if (v && (v.u || 0) > UI.u) { UI = uiNorm(v); if (D) kRedraw(); } });
+function uiLoad(){
+  if (!TOKEN) return;
+  apiCall('uiGet', []).then(function(r){
+    var d = r && r.d;
+    if (d && (d.u || 0) > UI.u) { UI = uiNorm(d); idbSet('ui', UI); kRedraw(); }
+    else if (UI.u && (!d || (d.u || 0) < UI.u)) uiPush();
+  }, function(){});
+}
+var UIT = null;
+function uiTouch(){ UI.u = Date.now(); idbSet('ui', UI); clearTimeout(UIT); UIT = setTimeout(uiPush, 1500); }
+function uiPush(){
+  clearTimeout(UIT); if (!TOKEN) return;
+  apiCall('uiSave', [UI]).then(function(r){ if (r && r.stale && r.d) { UI = uiNorm(r.d); idbSet('ui', UI); kRedraw(); } }, function(){ clearTimeout(UIT); UIT = setTimeout(uiPush, 20000); });
+}
+document.addEventListener('visibilitychange', function(){ if (document.hidden && UIT) uiPush(); });
+function wsK(){ return WS === 'r' ? 'r' : 'm'; }
+function cKey(n){ return 'c:' + wsK() + ':' + String(n || '').trim().toLowerCase(); }
+function jScope(){ return 'J:' + wsK() + ':' + (CUR ? String(CUR.name).toLowerCase() : ''); }
+function jK(jid){ return 'j:' + wsK() + ':' + (CUR ? String(CUR.name).toLowerCase() : '') + '|' + jid; }
+function kCol(key){ return UI.col[key] || ''; }
+function kCls(key){ return (kCol(key) ? ' kc-' + kCol(key) : '') + (UI.pin[key] ? ' pinned' : ''); }
+function uiPin(key, scope){
+  if (UI.pin[key]) { delete UI.pin[key]; toast('📌 Откачено', 1500); }
+  else {
+    UI.pin[key] = Date.now();
+    if (scope) { var o = (UI.ord[scope] || []).filter(function(k){ return k !== key; }); o.unshift(key); UI.ord[scope] = o; }
+    toast('📌 Закачено най-горе', 1500);
+  }
+  uiTouch(); kRedraw();
+}
+function uiCol(key, c){ if (c) UI.col[key] = c; else delete UI.col[key]; uiTouch(); kRedraw(); }
+// закачените – първи; после по ръчно подредения ред; новите – по стария ред
+function kSort(arr, kf, scope){
+  var idx = {}; (UI.ord[scope] || []).forEach(function(k, i){ idx[k] = i; });
+  return arr.map(function(x, i){ return { x: x, k: kf(x), i: i }; }).sort(function(a, b){
+    var pa = !!UI.pin[a.k], pb = !!UI.pin[b.k]; if (pa !== pb) return pa ? -1 : 1;
+    var ia = a.k in idx ? idx[a.k] : 1e6 + a.i, ib = b.k in idx ? idx[b.k] : 1e6 + b.i; return ia - ib;
+  }).map(function(z){ return z.x; });
+}
+function kView(s, v){ UI.view[s] = v; uiTouch(); kRedraw(); }
+function viewBtns(s, def){
+  var v = UI.view[s] || def || 'g';
+  return '<span class="kvw"><button type="button" class="' + (v === 'g' ? 'on' : '') + '" onclick="event.stopPropagation();kView(\'' + s + '\',\'g\')" title="Карти">▦</button><button type="button" class="' + (v === 'l' ? 'on' : '') + '" onclick="event.stopPropagation();kView(\'' + s + '\',\'l\')" title="Списък">☰</button></span>';
+}
+function arrBtn(sc){ return '<button type="button" class="arrb' + (ARR === sc ? ' on' : '') + '" data-sc="' + esc(sc) + '" onclick="event.stopPropagation();arrTog(this.dataset.sc)">' + (ARR === sc ? '✓ Готово' : '✋ Подреди') + '</button>'; }
+function kRedraw(){
+  try { if (el('wsp') && el('wsp').style.display === 'block' && PAD) padDraw(); } catch (e) {}
+  if (CUR && el('card').style.display === 'block') drawCard();
+  if (!D) return;
+  if (TAB === 'c' && el('cl')) listC(); else if (!CUR || el('card').style.display !== 'block') draw();
+}
+// ---- 🎨 цветове (като Google Keep) + меню при задържане ----
+var KCOLS = [['', 'Без цвят'], ['red', 'Червен'], ['orange', 'Оранжев'], ['yellow', 'Жълт'], ['green', 'Зелен'], ['teal', 'Тюркоаз'], ['blue', 'Син'], ['navy', 'Тъмносин'], ['purple', 'Лилав'], ['pink', 'Розов'], ['brown', 'Кафяв'], ['gray', 'Сив']];
+var KCOLCB = null;
+function kMenu(title, col, onCol, btns){
+  LPT = Date.now(); LPA = btns; KCOLCB = onCol;
+  var pal = onCol ? '<div class="kpal">' + KCOLS.map(function(c){ return '<button type="button" class="kdot' + (c[0] ? ' kc-' + c[0] : ' k0') + ((col || '') === c[0] ? ' on' : '') + '" title="' + c[1] + '" aria-label="' + c[1] + '" data-c="' + c[0] + '" onclick="kColPick(this.dataset.c)"></button>'; }).join('') + '</div>' : '';
+  el('lpmB').innerHTML = '<h4>' + esc(title) + '</h4>' + pal + btns.map(function(x, i){ return '<button class="' + esc(x[2] || '') + '" onclick="lpGo(' + i + ')">' + esc(x[0]) + '</button>'; }).join('') + '<button class="cx" onclick="lpClose()">Затвори</button>';
+  el('lpm').style.display = 'flex';
+}
+function kColPick(c){ var f = KCOLCB; lpClose(); if (f) f(c); }
+var _lpOpen0 = lpOpen;
+lpOpen = function(t){
+  if (ARR) return;
+  var k = t.getAttribute('data-lp');
+  if (k === 'c') {
+    var n = t.getAttribute('data-n'), key = cKey(n), sc = 'CP:' + wsK(), base = [];
+    try { base = cMenu(n) || []; } catch (e) {}
+    kMenu('👤 ' + n, kCol(key), function(c){ uiCol(key, c); }, [[UI.pin[key] ? '📌 Откачи' : '📌 Закачи най-горе', function(){ uiPin(key, sc); }]].concat(base));
+    return;
+  }
+  if (k === 'jt' && CUR) {
+    var jid = t.getAttribute('data-jid'), jk = jK(jid), d = jDeal(jid);
+    kMenu('📝 ' + (d ? d.desc || 'Работа' : 'Работа'), kCol(jk), function(c){ uiCol(jk, c); }, [
+      [UI.pin[jk] ? '📌 Откачи' : '📌 Закачи най-горе', function(){ uiPin(jk, jScope()); }],
+      ['📂 Отвори', function(){ jPage(jid); }],
+      ['✏️ Име и сума', function(){ dealForm(jid); }],
+      ['✋ Подреди работите', function(){ arrTog(jScope()); }]]);
+    return;
+  }
+  if (k === 'st') {
+    var sk = t.getAttribute('data-k'), key2 = 's:' + sk, f = FOLDC[sk] || {};
+    kMenu(String(f.t || '').replace(/<[^>]+>/g, ''), kCol(key2), function(c){ uiCol(key2, c); }, [
+      [UI.pin[key2] ? '📌 Откачи' : '📌 Закачи най-горе', function(){ uiPin(key2, 'S'); }],
+      ['✋ Подреди плочките', function(){ arrTog('S'); }]]);
+    return;
+  }
+  if (k === 'pb' && typeof padMenu === 'function') { padMenu(t.getAttribute('data-id')); return; }
+  return _lpOpen0(t);
+};
+
+// ---- ✋ подреждане с пръст / мишка (drag & drop) ----
+var ARR = null, DD = null;
+function arrTog(sc){
+  ARR = ARR === sc || !sc ? null : sc;
+  document.body.classList.toggle('arrm', !!ARR);
+  var b = el('arrbar');
+  if (!b) { b = document.createElement('div'); b.id = 'arrbar'; document.body.appendChild(b); }
+  b.innerHTML = '<span>✋ Влачи картите, за да ги подредиш' + (ARR === 'PAD' ? ' · пусни върху 📁 папка, за да я сложиш вътре' : '') + '</span><button onclick="arrTog()">✓ Готово</button>';
+  b.style.display = ARR ? 'flex' : 'none';
+  kRedraw();
+}
+var ARRCB = {};
+function arrDone(sc, keys, into, dragged){
+  if (sc === 'PAD') { if (typeof padReorder === 'function') padReorder(keys, into, dragged); return; }
+  UI.ord[sc] = keys; uiTouch(); kRedraw();
+}
+function ddScroller(n){
+  for (var e = n; e && e !== document.body; e = e.parentElement) { var s = getComputedStyle(e); if (/(auto|scroll)/.test(s.overflowY) && e.scrollHeight > e.clientHeight + 4) return e; }
+  return document.scrollingElement || document.documentElement;
+}
+document.addEventListener('pointerdown', function(e){
+  if (!ARR || (e.button !== undefined && e.button > 0)) return;
+  var it = e.target.closest && e.target.closest('[data-dc].arr > [data-dk]'); if (!it) return;
+  var c = it.parentElement, r = it.getBoundingClientRect();
+  DD = { it: it, c: c, x: e.clientX, y: e.clientY, dx: e.clientX - r.left, dy: e.clientY - r.top, on: false, into: null, sc: ddScroller(c) };
+  e.preventDefault();
+}, true);
+function ddTick(){
+  if (!DD || !DD.on) return;
+  var y = DD.cy, h = window.innerHeight, sp = y < 90 ? -14 : y > h - 110 ? 14 : 0;
+  if (sp) { DD.sc.scrollTop += sp; ddPlace(DD.cx, DD.cy); }
+  requestAnimationFrame(ddTick);
+}
+function ddPlace(x, y){
+  var t = document.elementFromPoint(x, y), tg = t && t.closest && t.closest('[data-dk]');
+  if (DD.into) { DD.into.classList.remove('dropin'); DD.into = null; }
+  if (!tg || tg === DD.it || tg.parentElement !== DD.c) return;
+  var r = tg.getBoundingClientRect();
+  if (tg.hasAttribute('data-fold') && !DD.it.hasAttribute('data-fold')) { DD.into = tg; tg.classList.add('dropin'); return; }   // върху папка → влиза в нея
+  var grid = getComputedStyle(DD.c).display === 'grid';
+  var before = grid ? (y < r.top ? true : y > r.bottom ? false : x < r.left + r.width / 2) : y < r.top + r.height / 2;
+  DD.c.insertBefore(DD.it, before ? tg : tg.nextSibling);
+}
+document.addEventListener('pointermove', function(e){
+  if (!DD) return;
+  DD.cx = e.clientX; DD.cy = e.clientY;
+  if (!DD.on) {
+    if (Math.abs(e.clientX - DD.x) + Math.abs(e.clientY - DD.y) < 6) return;
+    var r = DD.it.getBoundingClientRect(), g = DD.it.cloneNode(true);
+    g.classList.add('kg'); g.classList.remove('dropin'); g.style.width = r.width + 'px'; g.style.height = r.height + 'px'; document.body.appendChild(g);
+    DD.g = g; DD.it.classList.add('dragging'); DD.on = true; try { if (navigator.vibrate) navigator.vibrate(15); } catch (x) {}
+    requestAnimationFrame(ddTick);
+  }
+  e.preventDefault();
+  DD.g.style.transform = 'translate(' + (e.clientX - DD.dx) + 'px,' + (e.clientY - DD.dy) + 'px) rotate(2deg)';
+  ddPlace(e.clientX, e.clientY);
+}, { passive: false });
+function ddEnd(){
+  if (!DD) return; var d = DD; DD = null;
+  if (!d.on) return;
+  if (d.g) d.g.remove(); d.it.classList.remove('dragging'); if (d.into) d.into.classList.remove('dropin');
+  var keys = Array.prototype.map.call(d.c.querySelectorAll(':scope > [data-dk]'), function(n){ return n.getAttribute('data-dk'); });
+  arrDone(d.c.getAttribute('data-dc'), keys, d.into ? d.into.getAttribute('data-dk') : null, d.it.getAttribute('data-dk'));
+  ARRCLK = Date.now();
+}
+var ARRCLK = 0;
+document.addEventListener('pointerup', ddEnd); document.addEventListener('pointercancel', ddEnd);
+document.addEventListener('click', function(e){
+  if (!ARR) return;
+  if (e.target.closest && e.target.closest('[data-dc].arr > [data-dk]')) { e.stopPropagation(); e.preventDefault(); }
+}, true);
+
+// ---- 👥 Клиенти: ☰ Списък | ▦ Карти | ▥ Канбан · 📌 закачени най-горе · 🎨 цвят ----
+var CVG = ls('crm_cview') === 'g';
+var _cView0 = cView;
+cView = function(v){ if (v === 'g') { CVG = true; CV = 'l'; ls('crm_cview', 'g'); draw(); return; } CVG = false; _cView0(v); };
+var _drawClients0 = drawClients;
+drawClients = function(){
+  _drawClients0();
+  var v = el('main').querySelector('.vsw');
+  if (v) v.innerHTML = '<button class="' + (CV === 'l' && !CVG ? 'on' : '') + '" onclick="cView(\'l\')">☰ Списък</button><button class="' + (CVG && CV === 'l' ? 'on' : '') + '" onclick="cView(\'g\')">▦ Карти</button><button class="' + (CV === 'k' ? 'on' : '') + '" onclick="cView(\'k\')">▥ Канбан</button>';
+};
+var _clientRow0 = clientRow;
+clientRow = function(c){
+  var key = cKey(c.n);
+  return _clientRow0(c).replace('<div class="lr cr2"', '<div class="lr cr2' + kCls(key) + '" data-dk="' + esc(key) + '"');
+};
+function cCard(c){
+  var key = cKey(c.n), col = (STC[c.s] || ['#e2e8f0', '#94a3b8']), nx = c.nx && c.nx !== '-' ? c.nx : '';
+  var sub = [c.c ? esc(c.c) : '', fin() && c.b ? eur(c.b) : ''].filter(Boolean).join(' · ');
+  return '<div class="ccard' + kCls(key) + '" data-lp="c" data-n="' + esc(c.n) + '" data-dk="' + esc(key) + '" onclick="openC(this.dataset.n)">' +
+    '<div class="cch">' + (typeof avCav === 'function' ? avCav(c.n, col) : '') + '<b>' + esc(c.n) + '</b></div>' +
+    (c.s ? '<span class="cst" style="background:' + col[0] + ';color:' + col[1] + '">' + esc(c.s) + '</span>' : '') +
+    (sub ? '<small>' + sub + '</small>' : '') +
+    (nx ? '<small class="cnx' + (nx < D.today ? ' lt' : '') + '">📅 ' + fmt(nx) + '</small>' : (D.closed.indexOf(c.s) < 0 && c.s ? '<small class="cnx nt">без задача</small>' : '')) + '</div>';
+}
+var _listC0 = listC;
+listC = function(){
+  var c = el('cl'); if (!c) return;
+  if (ARCH || CV === 'k' || Q.trim()) return _listC0();
+  var a = D.clients.filter(function(x){ return mine(x.r) && fMatch(x); }).sort(cmpC);
+  var sc = 'CP:' + wsK(), kf = function(x){ return cKey(x.n); };
+  var pins = kSort(a.filter(function(x){ return UI.pin[kf(x)]; }), kf, sc), rest = a.filter(function(x){ return !UI.pin[kf(x)]; });
+  var g = CVG && !CSEL;
+  var box = function(list, dc){
+    if (g) return '<div class="cgrid' + (dc && ARR === dc ? ' arr' : '') + '"' + (dc ? ' data-dc="' + dc + '"' : '') + '>' + list.map(cCard).join('') + '</div>';
+    var h = rows(list); return dc ? h.replace('<div class="lst">', '<div class="lst' + (ARR === dc ? ' arr' : '') + '" data-dc="' + dc + '">') : h;
+  };
+  var h = '';
+  if (pins.length) h += '<h2>📌 Закачени<span>' + pins.length + '</span>' + (pins.length > 1 && !CSEL ? arrBtn(sc) : '') + '</h2>' + box(pins, sc);
+  h += '<h2>' + (fCount() ? '🔎 Филтрирани' : (pins.length ? 'Други клиенти' : 'Клиенти')) + '<span>' + rest.length + '</span></h2>' +
+    (rest.length ? box(rest) : '<div class="empty">' + (fCount() ? 'Няма клиенти с тези филтри' : pins.length ? 'Всички са закачени' : 'Няма клиенти') + '</div>');
+  if (!pins.length && a.length && !ls('crm_pinhint')) h += '<div class="s khint">💡 Задръж пръст върху клиент → 📌 закачи най-горе или 🎨 избери цвят.</div>';
+  c.innerHTML = h + (D.archN && !CSEL ? '<div class="qnew"><button onclick="archOpen()">🗄️ Архив: ' + D.archN + ' загубени / завършени клиенти</button></div>' : '');
+  cSelBar();
+};
+
+// ---- 🗂️ картата на клиента: плочки и работи с 📌 🎨 ✋ ☰/▦ ----
+var _subTiles0 = subTiles;
+subTiles = function(keys){
+  var ks = kSort(keys, function(k){ return 's:' + k; }, 'S'), lv = UI.view.s === 'l';
+  var h = _subTiles0(ks).replace(/<button type="button" class="stile st-([\w-]+)" data-k="([^"]+)"/g, function(m, a, k){
+    return '<button type="button" class="stile st-' + a + kCls('s:' + k) + '" data-k="' + k + '" data-dk="s:' + k + '" data-lp="st"';
+  });
+  return h.replace('<div class="sgrid">', '<div class="ktb"><b>Раздели</b>' + viewBtns('s') + arrBtn('S') + '</div><div class="sgrid' + (lv ? ' sl' : '') + (ARR === 'S' ? ' arr' : '') + '" data-dc="S">');
+};
+var _jTile0 = jTile;
+jTile = function(k, x){
+  var h = _jTile0(k, x); if (!x) return h;
+  var key = jK(x.id);
+  return h.replace('<button type="button" class="jtile', '<button type="button" data-dk="' + esc(key) + '" data-lp="jt" data-jid="' + esc(x.id) + '" class="jtile' + kCls(key));
+};
+jGrid = function(c){
+  var k = c.costs, J = (k && k.deals) || [], sc = jScope();
+  var gen = k ? k.workers.concat(k.exp, k.inc || []).some(function(x){ return !x.jid; }) : false;
+  var Js = kSort(J, function(x){ return jK(x.id); }, sc), lv = UI.view.j === 'l';
+  return '<div class="jgrid' + (lv ? ' jl' : '') + (ARR === sc ? ' arr' : '') + '" data-dc="' + esc(sc) + '">' + Js.map(function(x){ return jTile(k, x); }).join('') + (gen ? jTile(k, null) : '') + '</div>';
+};
+var _jobsBox0 = jobsBox;
+jobsBox = function(c){
+  var h = _jobsBox0(c), J = (c.costs && c.costs.deals) || [];
+  if (!h || !J.length) return h;
+  return h.replace(/(<div class="jt">[\s\S]*?)<\/div>/, '$1<span class="ktools">' + viewBtns('j') + (J.length > 1 ? arrBtn(jScope()) : '') + '</span></div>');
+};
+var _closeCard1 = closeCard;
+closeCard = function(){ if (ARR && ARR !== 'PAD') { ARR = null; document.body.classList.remove('arrm'); var b = el('arrbar'); if (b) b.style.display = 'none'; } _closeCard1(); };
+
+// ---- 📝 бележка под всяка снимка / видео / документ ----
+function mFind(id){ if (!CUR) return null; return (CUR.photos || []).concat(CUR.files || []).filter(function(x){ return x.id === id; })[0] || null; }
+function ntDecor(root){
+  if (!root || !CUR) return;
+  Array.prototype.forEach.call(root.querySelectorAll('.ph a[data-id]'), function(a){
+    if (a.getAttribute('data-ntd')) return; a.setAttribute('data-ntd', '1');
+    var p = mFind(a.getAttribute('data-id')), t = p && p.nt;
+    a.insertAdjacentHTML('beforeend', (t ? '<span class="pnt">' + esc(t) + '</span>' : '') + '<i class="pne" data-id="' + esc(a.getAttribute('data-id')) + '" onclick="event.stopPropagation();noteEdit(this.dataset.id)" title="Бележка">📝</i>');
+  });
+  Array.prototype.forEach.call(root.querySelectorAll('.fl'), function(r){
+    var b = r.querySelector('button[data-id]'); if (!b || r.getAttribute('data-ntd')) return; r.setAttribute('data-ntd', '1');
+    var id = b.getAttribute('data-id'), f = mFind(id); if (!f) return;
+    r.insertAdjacentHTML('beforeend', '<div class="fnt' + (f.nt ? '' : ' e') + '" data-id="' + esc(id) + '" onclick="noteEdit(this.dataset.id)">' + (f.nt ? '📝 ' + esc(f.nt) : '📝 Добави бележка') + '</div>');
+  });
+}
+var _drawCard2 = drawCard;
+drawCard = function(){ _drawCard2(); ntDecor(el('cdB')); };
+var _subDraw0 = subDraw;
+subDraw = function(reset){ _subDraw0(reset); if (el('sub').style.display === 'block') ntDecor(el('sbB')); };
+function noteEdit(id){
+  var f = mFind(id); if (!f || !CUR) return;
+  var img = f.thumb && !f.mime ? '<img class="ntimg" src="' + esc(safeImg(f.thumb)) + '" alt="">' : '<div class="s" style="margin-bottom:8px">' + (isVid(f) ? '🎬' : fIcon(f)) + ' ' + esc(fNm(f.name)) + '</div>';
+  openSheet('📝 Бележка', '<form id="frm" onsubmit="return noteSend(event)"><input type="hidden" name="id" value="' + esc(id) + '">' + img +
+    fld('Бележка (вижда я екипът)', '<textarea name="nt" rows="4" maxlength="1000" placeholder="напр. южна фасада преди изолацията, подписан договор, размери…">' + esc(f.nt || '') + '</textarea>') +
+    '<button class="save" id="sv">💾 Запази</button></form>');
+  setTimeout(function(){ var t = document.querySelector('#frm textarea'); if (t) { t.focus(); try { t.setSelectionRange(t.value.length, t.value.length); } catch (e) {} } }, 200);
+}
+function noteSend(e){
+  e.preventDefault();
+  var d = formData(), f = mFind(d.id), n = CUR.name, t = String(d.nt || '').trim();
+  if (f) { if (t) f.nt = t; else delete f.nt; }
+  var m = MEDIA[mk(n)]; if (m) { m.h = ''; idbSet('m:' + mk(n), m); }
+  closeSheet(); drawCard(); pvNote();
+  bg('fileNote', [n, d.id, t], function(){ toast(t ? '📝 Бележката е записана' : '📝 Бележката е махната', 2000); }, 'бележка');
+  return false;
+}
+// бележката се вижда и при отворена снимка
+var PVID = '';
+var _viewPhoto0 = viewPhoto;
+viewPhoto = function(id){ PVID = id; _viewPhoto0(id); pvNote(); };
+function pvNote(){
+  var pv = el('pv'); if (!pv || pv.style.display !== 'flex' || !PVID) return;
+  var b = el('pvN'); if (!b) { b = document.createElement('div'); b.id = 'pvN'; pv.appendChild(b); }
+  var f = mFind(PVID);
+  b.style.display = f ? 'flex' : 'none';
+  if (f) b.innerHTML = '<span>' + (f.nt ? esc(f.nt) : '<i>Без бележка</i>') + '</span><button data-id="' + esc(PVID) + '" onclick="noteEdit(this.dataset.id)">📝</button>';
+}
+var _closePv0 = closePv;
+closePv = function(){ PVID = ''; var b = el('pvN'); if (b) b.style.display = 'none'; _closePv0(); };
+
+// ---- 📎 документи към всяка работа (освен снимки и видео) ----
+jMediaHtml = function(c, jid){
+  if (!c || c.stub || c.mediaOk === false) return '<div class="s">⏳ Зареждане…</div>';
+  if (c.photoErr) return '<div class="s">' + esc(c.photoErr) + '</div>';
+  var m = jMedia(c, jid), vids = m.vf.filter(isVid), docs = m.vf.filter(function(f){ return !isVid(f); }), h = '';
+  var fl = function(f){
+    return '<div class="fl"><a class="fn" href="' + esc(safeUrl(f.url)) + '" target="_blank" rel="noopener"><span class="fi">' + (isVid(f) ? '🎬' : fIcon(f)) + '</span><span class="fx"><b>' + esc(fNm(f.name)) + '</b><small>' +
+      [fSize(f.size), f.t ? fmt(dayOf(f.t)) : ''].filter(Boolean).join(' · ') + '</small></span></a>' +
+      '<button data-id="' + esc(f.id) + '" onclick="dlF(this.dataset.id)" title="Свали">⬇️</button>' +
+      (canDel() ? '<button data-id="' + esc(f.id) + '" data-n="' + esc(f.name) + '" onclick="delF(this.dataset.id,this.dataset.n)" title="Изтрий">🗑️</button>' : '') + '</div>';
+  };
+  if (m.ph.length) h += '<div class="ph jph">' + m.ph.map(function(p){
+    if (p.tmp) return '<a class="up' + (p.bad ? ' bad' : '') + '">' + (p.thumb ? '<img src="' + esc(safeImg(p.thumb)) + '" alt="">' : '📷') + '</a>';
+    return '<a data-id="' + esc(p.id) + '" onclick="viewPhoto(this.dataset.id)">' + (p.thumb ? '<img src="' + esc(safeImg(p.thumb)) + '" alt="">' : '📷') + '</a>'; }).join('') + '</div>';
+  h += vids.map(fl).join('');
+  if (!m.ph.length && !vids.length) h += '<div class="s">Още няма снимки и видео към тази работа.</div>';
+  if (!SELM) h += '<div class="acts"><label>📸 Снимка / 🎬 Видео<input type="file" accept="image/*,video/*" multiple style="display:none" data-j="' + esc(jid) + '" onchange="upJ(this)"></label></div>';
+  h += '<div class="jsub" style="margin-top:14px">📎 Документи' + (docs.length ? ' (' + docs.length + ')' : '') + '</div>' + (docs.length ? docs.map(fl).join('') : '<div class="s">Оферта, договор, чертеж, фактура… – PDF, Word, Excel, DWG, до 500 MB.</div>');
+  if (!SELM) h += '<div class="acts"><label>📎 Добави документ<input type="file" multiple style="display:none" data-j="' + esc(jid) + '" onchange="upJ(this)"></label></div>';
+  return h;
+};
+// ================= v4.2.2 · 🧠 Работно място като Google Keep: 📁 папки, 📎 файлове, 📌 закачени, 🎨 цветове, ☰/▦ изглед, ✋ подреждане =================
+PADTY.folder = ['📁', 'Папка', 'Събери бележки и файлове заедно'];
+PADTY.file = ['📎', 'Файл', 'Снимка, видео, документ – от телефона'];
+var PADF = '', PADE = '';
+var _padOpen1 = padOpen;
+padOpen = function(){ PADF = ''; PADE = ''; if (ARR === 'PAD') arrTog(); _padOpen1(); };
+var _wspClose0 = wspClose;
+wspClose = function(){ if (ARR === 'PAD') arrTog(); PADE = ''; _wspClose0(); };
+function padIsAnc(id, t){ for (var x = padBlk(t), n = 0; x && n < 30; x = padBlk(x.f), n++) if (x.id === id) return true; return false; }
+function padKids(id){ return (PAD.blocks || []).filter(function(b){ return (b.f || '') === id; }); }
+function padGridV(){ return (PAD.view || 'l') === 'g'; }
+function padViewSet(v){ PAD.view = v; PADE = ''; padTouch(); padDraw(); }
+var _padBlock0 = padBlock;
+function padBlockK(b){
+  var id = esc(b.id), html;
+  if (b.t === 'folder') {
+    var k = padKids(b.id).length;
+    html = '<div class="pblk pb-folder" data-id="' + id + '"><div class="pbh"><span class="pbi">📁</span><input class="pbt" placeholder="Име на папката" value="' + esc(b.title) + '" oninput="padSet(\'' + id + '\',\'title\',this.value)">' +
+      '<button class="pbm" onclick="padMenu(\'' + id + '\')" aria-label="Още">⋯</button></div><button class="padopen" data-id="' + id + '" onclick="padOpenF(this.dataset.id)">Отвори папката › <small>' + k + (k === 1 ? ' елемент' : ' елемента') + '</small></button></div>';
+  } else if (b.t === 'file') {
+    html = '<div class="pblk pb-file" data-id="' + id + '"><div class="pbh"><span class="pbi">📎</span><input class="pbt" placeholder="Име" value="' + esc(b.title || b.name || '') + '" oninput="padSet(\'' + id + '\',\'title\',this.value)">' +
+      '<button class="pbm" onclick="padMenu(\'' + id + '\')" aria-label="Още">⋯</button></div>' + padFileBody(b, true) +
+      '<textarea placeholder="Бележка към файла…" oninput="padSet(\'' + id + '\',\'note\',this.value);padGrow(this)">' + esc(b.note || '') + '</textarea></div>';
+  } else html = _padBlock0(b);
+  return html.replace('<div class="pblk ', '<div data-dk="' + id + '"' + (b.t === 'folder' ? ' data-fold="1"' : '') + ' class="pblk' + (b.col ? ' kc-' + b.col : '') + (b.pin ? ' pinned' : '') + ' ');
+}
+padBlock = function(b){ return padBlockK(b); };
+function padFileIc(b){ var m = String(b.mime || ''), n = String(b.name || '').toLowerCase(); return /^video\//.test(m) ? '🎬' : /^image\//.test(m) ? '🖼️' : /pdf/.test(m) || /\.pdf$/.test(n) ? '📄' : /sheet|excel|csv/.test(m) || /\.(xlsx?|csv)$/.test(n) ? '📊' : /word|document/.test(m) || /\.docx?$/.test(n) ? '📝' : /\.dwg$/.test(n) ? '📐' : '📎'; }
+function padFileBody(b, big){
+  var st = b.up !== undefined ? '<span class="pfu" id="pup_' + esc(b.id) + '">⏳ ' + (b.up || 0) + '%</span>' : b.err ? '<span class="pfu bad">⚠️ ' + esc(b.err) + '</span>' : '';
+  return '<div class="pfile' + (big ? ' big' : '') + '" data-id="' + esc(b.id) + '" onclick="event.stopPropagation();padFileOpen(this.dataset.id)">' +
+    (b.th ? '<img src="' + esc(safeImg(b.th)) + '" alt="">' : '<i>' + padFileIc(b) + '</i>') +
+    '<span><b>' + esc(b.name || 'Файл') + '</b><small>' + [fSize(b.size), st].filter(Boolean).join(' · ') + '</small></span></div>';
+}
+// ▦ карта (преглед) – докосни → редакция
+function padCard(b){
+  var ty = PADTY[b.t] || PADTY.note, id = esc(b.id), t = b.title || (b.t === 'file' ? b.name : '') || '', pv = '';
+  if (b.t === 'file') pv = padFileBody(b) + (b.note ? '<div class="pcpv">' + esc(b.note) + '</div>' : '');
+  else if (b.t === 'folder') { var ks = padKids(b.id); pv = '<div class="pcfd">' + (ks.length ? ks.slice(0, 6).map(function(x){ return '<span class="' + (x.col ? 'kc-' + x.col : '') + '">' + (PADTY[x.t] || PADTY.note)[0] + ' ' + esc((x.title || x.name || (PADTY[x.t] || PADTY.note)[1]).slice(0, 26)) + '</span>'; }).join('') + (ks.length > 6 ? '<span>+' + (ks.length - 6) + '</span>' : '') : '<span>Празна папка</span>') + '</div>'; }
+  else if (b.t === 'check') { var it = (b.items || []).filter(function(x){ return x.x; }); pv = '<div class="pcpv ck">' + it.slice(0, 7).map(function(x){ return '<div class="' + (x.d ? 'd' : '') + '">' + (x.d ? '☑' : '☐') + ' ' + esc(x.x) + '</div>'; }).join('') + (it.length > 7 ? '<div>… +' + (it.length - 7) + '</div>' : '') + '</div>'; }
+  else if (b.t === 'cost') { var tot = padCostTot(b), m = padNum(b.m); pv = '<div class="pcpv">Разходи <b>' + eur(tot) + '</b><br>Цена за клиента <b>' + eur(tot * (1 + m / 100)) + '</b></div>'; }
+  else if (b.t === 'link') { var u = String(b.url || ''); pv = '<div class="pcpv">' + (u ? '🔗 ' + esc(u.replace(/^https?:\/\/(www\.)?/, '').slice(0, 60)) + '<br>' : '') + esc(String(b.text || '').slice(0, 300)) + '</div>'; }
+  else pv = '<div class="pcpv">' + (b.text ? esc(String(b.text).slice(0, 500)) : '<i>Празно</i>') + '</div>';
+  return '<div class="pcard' + (b.col ? ' kc-' + b.col : '') + (b.pin ? ' pinned' : '') + '" data-dk="' + id + '" data-lp="pb" data-id="' + id + '"' + (b.t === 'folder' ? ' data-fold="1"' : '') + ' onclick="padCardTap(this.dataset.id)">' +
+    '<div class="pchd"><i>' + ty[0] + '</i><b>' + esc(t || ty[1]) + '</b></div>' + pv + '</div>';
+}
+function padCardTap(id){
+  if (ARR) return; var b = padBlk(id); if (!b) return;
+  if (b.t === 'folder') { padOpenF(id); return; }
+  if (b.t === 'file' && !padGridV()) { padFileOpen(id); return; }
+  PADE = id; padDraw(); el('wsp').scrollTop = 0;
+}
+function padOpenF(id){ PADF = id; PADE = ''; padDraw(); el('wsp').scrollTop = 0; }
+function padUp(){ var f = padBlk(PADF); PADF = f ? (f.f || '') : ''; PADE = ''; padDraw(); }
+function padEdDone(){ PADE = ''; padDraw(); }
+padDraw = function(){
+  if (!PAD) return;
+  if (PADF && !padBlk(PADF)) PADF = '';
+  if (PADE && !padBlk(PADE)) PADE = '';
+  var g = padGridV(), arr = ARR === 'PAD', vis = (PAD.blocks || []).filter(function(b){ return (b.f || '') === PADF; });
+  var pins = vis.filter(function(b){ return b.pin; }), rest = vis.filter(function(b){ return !b.pin; }), fo = padBlk(PADF);
+  var h = '<div class="padw' + (g ? ' pg' : '') + '">';
+  h += '<div class="padh">' + PADI.lock + ' Виждаш го само ти. Не се показва на екипа и не е в таблицата.</div>';
+  h += '<div class="padtb">' + (PADF ? '<button class="padbk" onclick="padUp()">← Назад</button><b class="padfn">📁 ' + esc(fo.title || 'Папка') + '</b>' : '<b class="padfn">' + (PADE ? '' : 'Всичко') + '</b>') +
+    '<span class="kvw"><button class="' + (g ? 'on' : '') + '" onclick="padViewSet(\'g\')" title="Карти">▦</button><button class="' + (g ? '' : 'on') + '" onclick="padViewSet(\'l\')" title="Списък">☰</button></span>' +
+    (vis.length > 1 && !PADE ? arrBtn('PAD') : '') + '</div>';
+  if (PADE) {
+    var be = padBlk(PADE);
+    h += '<div class="pede">' + padBlockK(be) + '</div><button class="padln padok" onclick="padEdDone()">✓ Готово</button>';
+    el('wspB').innerHTML = h + '</div>'; [].forEach.call(el('wspB').querySelectorAll('textarea'), padGrow); return;
+  }
+  var box = function(list){ return '<div class="padbl' + (g || arr ? ' grid' : '') + (arr ? ' arr' : '') + (arr && !g ? ' one' : '') + '" data-dc="PAD">' + list.map(function(b){ return g || arr ? padCard(b) : padBlockK(b); }).join('') + '</div>'; };
+  if (!vis.length) h += '<div class="pade"><b>' + (PADF ? 'Празна папка' : 'Празно работно място') + '</b><span>' + (PADF ? 'Добави тук бележки и файлове – или ги премести от ⋯ → 📁 Премести в папка.' : 'Събирай тук всичко за офертата: проучване, идеи, разходи, файлове, папки.') + '</span></div>';
+  if (pins.length) h += '<div class="padsec">📌 Закачени</div>' + box(pins);
+  if (rest.length) h += (pins.length ? '<div class="padsec">Други</div>' : '') + box(rest);
+  h += '<div class="padadd"><div class="padal">Добави' + (PADF ? ' в „' + esc(fo.title || 'Папка') + '“' : '') + '</div><div class="padag">' + Object.keys(PADTY).map(function(k){
+    return '<button onclick="padAdd(\'' + k + '\')"><i>' + PADTY[k][0] + '</i><b>' + PADTY[k][1] + '</b><small>' + PADTY[k][2] + '</small></button>'; }).join('') + '</div>' +
+    '<input type="file" id="padFI" multiple style="display:none" onchange="padPick(this)"></div>';
+  if ((PAD.blocks || []).length && !PADF) h += '<div class="padft"><button onclick="padCopy()">📋 Копирай всичко като текст</button></div>';
+  el('wspB').innerHTML = h + '</div>';
+  [].forEach.call(el('wspB').querySelectorAll('textarea'), padGrow);
+};
+var _padAdd0 = padAdd;
+padAdd = function(t){
+  if (t === 'file') { el('padFI').click(); return; }
+  var n0 = (PAD.blocks || []).length;
+  if (padGridV()) { var b = padNew(t); b.f = PADF; PAD.blocks.push(b); padTouch(); PADE = t === 'folder' ? '' : b.id; padDraw(); if (PADE) setTimeout(function(){ var f = el('wspB').querySelector('.pede textarea,.pede .pcx,.pede .pcr:not(.pchd) input,.pede .plk input,.pede .pbt'); if (f) padFoc(f); }, 200); return; }
+  _padAdd0(t);
+  if ((PAD.blocks || []).length > n0) { PAD.blocks[PAD.blocks.length - 1].f = PADF; padTouch(); if (PADF) padDraw(); }
+};
+// 📌 🎨 📁 меню
+padMenu = function(id){
+  var b = padBlk(id); if (!b) return;
+  var ty = PADTY[b.t] || PADTY.note, vis = (PAD.blocks || []).filter(function(x){ return (x.f || '') === (b.f || ''); }), i = vis.indexOf(b);
+  var fs = (PAD.blocks || []).filter(function(x){ return x.t === 'folder' && x.id !== b.f && !padIsAnc(b.id, x.id); });
+  var X = function(fn){ return function(){ var x = padBlk(id); if (x) fn(x); }; };
+  var bt = [[b.pin ? '📌 Откачи' : '📌 Закачи най-горе', X(function(b){ if (b.pin) delete b.pin; else b.pin = Date.now(); padTouch(); padDraw(); })]];
+  if (fs.length) bt.push(['📁 Премести в папка…', function(){ padMoveAsk(id); }]);
+  if (b.f) bt.push(['⬆️ Извади от папката', X(function(b){ var p = padBlk(b.f); b.f = p ? (p.f || '') : ''; padTouch(); padDraw(); toast('Извадено от папката'); })]);
+  if (!padGridV()) { if (i > 0) bt.push(['⬆️ Нагоре', function(){ padMv(id, -1); }]); if (i < vis.length - 1) bt.push(['⬇️ Надолу', function(){ padMv(id, 1); }]); }
+  if (b.t !== 'file' && b.t !== 'folder') bt.push(['📄 Дублирай', X(function(b){ var c = JSON.parse(JSON.stringify(b)); c.id = newRid().slice(0, 12); c.title = (c.title || '') + ' (копие)'; delete c.pin; PAD.blocks.splice(PAD.blocks.indexOf(b) + 1, 0, c); padTouch(); padDraw(); })]);
+  bt.push(['🗑️ Изтрий', function(){ padDel(id); }, 'dg']);
+  kMenu(ty[0] + ' ' + (b.title || b.name || ty[1]), b.col || '', function(c){ var b = padBlk(id); if (!b) return; if (c) b.col = c; else delete b.col; padTouch(); padDraw(); }, bt);
+};
+function padMv(id, d){
+  var b = padBlk(id), vis = (PAD.blocks || []).filter(function(x){ return (x.f || '') === (b.f || ''); }), i = vis.indexOf(b), o = vis[i + d]; if (!o) return;
+  var A = PAD.blocks, ia = A.indexOf(b), ib = A.indexOf(o); A[ia] = o; A[ib] = b; padTouch(); padDraw();
+}
+function padMoveAsk(id){
+  var b = padBlk(id), fs = (PAD.blocks || []).filter(function(x){ return x.t === 'folder' && x.id !== b.f && !padIsAnc(b.id, x.id); });
+  lpShow('📁 Премести „' + (b.title || b.name || (PADTY[b.t] || PADTY.note)[1]) + '“ в…', fs.map(function(f){ return ['📁 ' + (f.title || 'Папка'), function(){ var b = padBlk(id); if (!b) return; b.f = f.id; padTouch(); padDraw(); toast('📁 Преместено в „' + (f.title || 'Папка') + '“'); }]; })
+    .concat(b.f ? [['🏠 Най-горе (без папка)', function(){ var b = padBlk(id); if (b) b.f = ''; padTouch(); padDraw(); }]] : []));
+}
+function padDel(id){
+  var b = padBlk(id); if (!b) return;
+  var kids = b.t === 'folder' ? padKids(id) : [];
+  if (!confirm(b.t === 'folder' ? '🗑️ Да изтрия ли папката?' + (kids.length ? '\n\nСъдържанието ѝ (' + kids.length + ') остава – мести се една папка нагоре.' : '') : b.t === 'file' ? '🗑️ Да изтрия ли файла?\n\nОтива в кошчето на Google Drive (30 дни).' : 'Да изтрия ли този блок?')) return;
+  kids.forEach(function(k){ k.f = b.f || ''; });
+  if (b.t === 'file' && b.fid) bg('padTrash', [b.fid], null, 'файл');
+  PAD.blocks.splice(PAD.blocks.indexOf(b), 1); if (PADE === id) PADE = ''; padTouch(); padDraw(); toast('🗑️ Изтрито');
+}
+// ✋ подреждане: нов ред в текущата папка; пуснат върху папка → влиза в нея
+function padReorder(keys, into, dragged){
+  var b = padBlk(dragged), f = into ? padBlk(into) : null;
+  if (b && f && f.t === 'folder' && f.id !== b.id && !padIsAnc(b.id, f.id)) { b.f = f.id; padTouch(); padDraw(); toast('📁 Преместено в „' + (f.title || 'Папка') + '“'); return; }
+  var A = PAD.blocks, pos = [];
+  A.forEach(function(x, i){ if (keys.indexOf(x.id) > -1) pos.push(i); });
+  var objs = keys.map(padBlk).filter(Boolean); if (objs.length !== pos.length) { padDraw(); return; }
+  pos.forEach(function(p, i){ A[p] = objs[i]; });
+  padTouch(); padDraw();
+}
+// 📎 файлове: качване на части в личната папка в Drive
+function padPick(inp){ var fs = Array.prototype.slice.call(inp.files || []); inp.value = ''; fs.forEach(padUp1); }
+function padUp1(file){
+  if (file.size > 500 * 1048576) { toast('⚠️ ' + file.name + ' е над 500 MB', 5000); return; }
+  var P = PAD, n = PADN, b = padNew('file'); b.name = file.name; b.mime = file.type || ''; b.size = file.size; b.note = ''; b.up = 0; b.f = PADF;
+  P.blocks.push(b); padTouch(); padDraw();
+  var keep = function(){ if (PAD === P) { padTouch(); padDraw(); } else { P.u = Date.now(); ls(padKey(n), JSON.stringify(P)); apiCall('padSave', [n, P]).catch(function(){}); } };
+  var go = function(){
+    syncOn(1);
+    apiCall('padUpStart', [n, file.name, file.type || '', file.size]).then(function(s){
+      var pos = 0, res = null;
+      var step = function(){
+        if (pos >= file.size) return res;
+        var end = Math.min(file.size, pos + s.chunk);
+        return b64Of(file.slice(pos, end)).then(function(x){ return apiCall('uploadChunk', [s.id, pos, x]); }).then(function(r){
+          pos = r.done ? file.size : (r.next || end); res = r; b.up = Math.round(pos / file.size * 100);
+          var e = el('pup_' + b.id); if (e) e.textContent = '⏳ ' + b.up + '%';
+          return r.done ? r : step();
+        });
+      };
+      return step();
+    }).then(function(r){
+      syncOn(-1); delete b.up; delete b.err;
+      if (r && r.id) { b.fid = r.id; b.url = 'https://drive.google.com/file/d/' + r.id + '/view'; }
+      keep(); toast('📎 Качено: ' + file.name, 2500);
+    }, function(e){ syncOn(-1); delete b.up; b.err = (e && e.message) || 'Не се качи'; keep(); toast('⚠️ ' + file.name + ': ' + b.err, 6000); });
+  };
+  if (/^image\/(jpeg|png|webp|gif)$/.test(file.type)) {
+    var u = URL.createObjectURL(file), img = new Image();
+    img.onload = function(){ try { b.th = shrinkTo(img, 320, .7); } catch (e) {} URL.revokeObjectURL(u); keep(); go(); };
+    img.onerror = function(){ URL.revokeObjectURL(u); go(); };
+    img.src = u;
+  } else go();
+}
+function padFileOpen(id){
+  var b = padBlk(id); if (!b) return;
+  if (b.up !== undefined) { toast('⏳ Още се качва – ' + (b.up || 0) + '%'); return; }
+  if (!b.fid) { toast('⚠️ Файлът не е качен – изтрий го и опитай пак', 4000); return; }
+  if (/^image\//.test(b.mime || '')) {
+    PVID = ''; var nb = el('pvN'); if (nb) nb.style.display = 'none';
+    el('pvI').removeAttribute('src'); el('pvL').textContent = 'Зареждане…'; el('pvL').style.display = 'block'; el('pv').style.display = 'flex';
+    apiCall('padFileGet', [b.fid]).then(function(r){ if (r && r.data) { el('pvL').style.display = 'none'; el('pvI').src = r.data; } else { closePv(); window.open(b.url, '_blank', 'noopener'); } }, function(e){ el('pvL').textContent = 'Грешка: ' + e.message; });
+    return;
+  }
+  window.open(b.url, '_blank', 'noopener');
+}
+// ================= v4.2.3 · 🧠 общо работно място за екипа (сливане по блокове) · 🧮 разчети само с право =================
+var PADK = false, PADSNAP = {}, PADLATER = false;
+function padCan(){ return !!(PADK || isAdm() || (D && D.perm && D.perm.k)); }
+var _padCheck0 = padCheck;
+padCheck = function(){
+  if (!TOKEN) return;
+  apiCall('padMe', []).then(function(r){
+    var ok = !!(r && r.ok); PADK = !!(r && r.k);
+    if (ok !== PADOK) { PADOK = ok; ls('crm_padok', ok ? '1' : null); if (CUR && el('card').style.display === 'block') drawCard(); }
+  }, function(){});
+};
+// изгледът ☰/▦ е личен (не се пази в общото място)
+padGridV = function(){ return (UI.view.pad || (PAD && PAD.view) || 'l') === 'g'; };
+padViewSet = function(v){ UI.view.pad = v; uiTouch(); PADE = ''; padDraw(); };
+function padSig(b){ var c = {}; for (var k in b) if (k !== 'u' && k !== 'up') c[k] = b[k]; return JSON.stringify(c); }
+function padSnapOf(d){ var m = {}; ((d && d.blocks) || []).forEach(function(b){ m[b.id] = padSig(b); }); return m; }
+function padPending(b){ return b.up !== undefined && !b.fid; }
+var _padDraw1 = padDraw;
+padDraw = function(){
+  if (!PAD) return;
+  var keep = PADTY.cost, sc = el('wsp') ? el('wsp').scrollTop : 0;
+  if (!padCan()) delete PADTY.cost;
+  try { _padDraw1(); } finally { if (keep) PADTY.cost = keep; }
+  var h = el('wspB').querySelector('.padh');
+  if (h) h.innerHTML = '👥 Общо за екипа – вижда го и го допълва всеки с достъп до клиента.' + (padCan() ? '' : ' Разчетите на цени не се виждат.');
+  if (el('wsp')) el('wsp').scrollTop = sc;
+  PADLATER = false;
+};
+function padEditing(){ var a = document.activeElement; return !!(a && el('wspB') && el('wspB').contains(a) && /^(INPUT|TEXTAREA)$/.test(a.tagName)); }
+function padRedrawSafe(){ if (padEditing()) PADLATER = true; else padDraw(); }
+document.addEventListener('focusout', function(){ setTimeout(function(){ if (PADLATER && !padEditing() && el('wsp') && el('wsp').style.display === 'block') padDraw(); }, 50); });
+// отговорът от сървъра (сляно с промените на другите) – пазим локалните промени, направени междувременно
+function padAdopt(d, sent){
+  if (!d || !PAD) return;
+  var local = {}, out = [], ids = {};
+  (PAD.blocks || []).forEach(function(b){ local[b.id] = b; });
+  (d.blocks || []).forEach(function(sb){
+    var lb = local[sb.id];
+    if (!lb) { if (sent && (sb.id in sent)) return; out.push(sb); }                  // изтрит тук след изпращането → не го връщаме
+    else if (padPending(lb) || (sent && (sb.id in sent) && padSig(lb) !== sent[sb.id])) out.push(lb);   // променен тук междувременно
+    else if (padSig(lb) === padSig(sb)) { lb.u = sb.u; out.push(lb); }        // същото – пазим същия обект
+    else out.push(sb);
+    ids[sb.id] = 1;
+  });
+  (PAD.blocks || []).forEach(function(b){ if (!ids[b.id] && (padPending(b) || (sent && !(b.id in sent)))) out.push(b); });
+  var changed = JSON.stringify(out) !== JSON.stringify(PAD.blocks || []);
+  PAD.blocks = out; PAD.u = d.u || PAD.u; PADSNAP = padSnapOf(d);
+  try { ls(padKey(PADN), JSON.stringify(PAD)); } catch (e) {}
+  if (changed) padRedrawSafe();
+}
+padSave = function(now){
+  clearTimeout(PADT); if (!PAD || !PADN) return;
+  var n = PADN, t = Date.now(), gone = {}, cur = {};
+  (PAD.blocks || []).forEach(function(b){ cur[b.id] = 1; if (!padPending(b) && PADSNAP[b.id] !== padSig(b)) b.u = t; });
+  Object.keys(PADSNAP).forEach(function(id){ if (!cur[id]) gone[id] = t; });
+  var body = { v: 2, u: t, blocks: (PAD.blocks || []).filter(function(b){ return !padPending(b); }).map(function(b){ return JSON.parse(JSON.stringify(b)); }), gone: gone };
+  var sent = {}; body.blocks.forEach(function(b){ sent[b.id] = padSig(b); });
+  PADDIRTY = false; padStat('Записва се…');
+  apiCall('padSave', [n, body]).then(function(r){
+    if (PADN !== n) return;
+    padAdopt(r && r.d, sent);
+    if (!PADDIRTY) padStat('✓ Записано');
+  }, function(e){ PADDIRTY = true; padStat(/интернет/.test(e.message) ? 'Офлайн – ще се запише' : '⚠️ Не се записа', 1); clearTimeout(PADT); PADT = setTimeout(function(){ padSave(); }, 15000); });
+};
+function padOpen2(){
+  if (!CUR) return; PADN = CUR.name; PAD = null; PADSNAP = {};
+  el('wspT').textContent = PADN; padStat('');
+  el('wsp').style.display = 'block'; el('wsp').scrollTop = 0;
+  var c = ls(padKey(PADN)), loc = null; if (c) { try { loc = JSON.parse(c); } catch (e) {} }
+  PAD = loc; if (PAD) padDraw(); else el('wspB').innerHTML = '<div class="load">Зареждане…</div>';
+  var n = PADN;
+  apiCall('padGet', [n]).then(function(r){
+    if (PADN !== n) return;
+    var srv = (r && r.d) || { v: 2, u: 0, blocks: [] };
+    PADSNAP = padSnapOf(srv);
+    var mine = loc && (loc.u || 0) > (srv.u || 0) && (loc.blocks || []).some(function(b){ return PADSNAP[b.id] !== padSig(b); });
+    if (mine || PADDIRTY) {                                                   // офлайн промени от този телефон → сливаме (без да трием новото на другите)
+      PAD = PAD || loc; var have = {}; (PAD.blocks || []).forEach(function(b){ have[b.id] = 1; });
+      (srv.blocks || []).forEach(function(b){ if (!have[b.id]) PAD.blocks.push(b); });
+      padSave(true);
+    }
+    else { PAD = { v: 2, u: srv.u || 0, blocks: (srv.blocks || []).slice() }; try { ls(padKey(n), JSON.stringify(PAD)); } catch (e) {} }
+    padDraw();
+  }, function(e){ if (!PAD) { PAD = { v: 2, u: 0, blocks: [] }; padDraw(); } padStat(/интернет/.test(e.message) ? 'Офлайн' : '⚠️ ' + e.message, 1); });
+}
+padOpen = function(){ PADF = ''; PADE = ''; if (ARR === 'PAD') arrTog(); padOpen2(); };
+// докато работното място е отворено – на всеки 15 сек. виждаме промените на другите
+setInterval(function(){
+  if (!TOKEN || document.hidden || !PAD || !PADN || PADDIRTY || !el('wsp') || el('wsp').style.display !== 'block') return;
+  var n = PADN;
+  apiCall('padGet', [n]).then(function(r){ if (PADN === n && !PADDIRTY && r && r.d && r.d.u !== PAD.u) padAdopt(r.d, null); }, function(){});
+}, 15000);
+// ================= v4.2.3 · 💬 лични съобщения между хората от екипа (вижда ги само получателят) =================
+var MSG = null, MCHAT = '', MCI = [], MPT = null;
+function msgLoad(){
+  if (!TOKEN) return;
+  apiCall('msgList', []).then(function(r){ MSG = r; msgBadge(); if (el('mlist') && el('sheet').style.display === 'block') msgDrawList(); }, function(){});
+}
+function msgBadge(){ var b = el('msgN'); if (!b) return; var n = MSG ? MSG.un : 0; b.textContent = n > 9 ? '9+' : (n || ''); b.style.display = n ? 'block' : 'none'; }
+function msgT(t){
+  if (!t) return ''; var d = new Date(t), now = new Date(), p = function(x){ return ('0' + x).slice(-2); };
+  if (d.toDateString() === now.toDateString()) return p(d.getHours()) + ':' + p(d.getMinutes());
+  var y = new Date(now); y.setDate(now.getDate() - 1); if (d.toDateString() === y.toDateString()) return 'вчера ' + p(d.getHours()) + ':' + p(d.getMinutes());
+  return p(d.getDate()) + '.' + p(d.getMonth() + 1) + ' ' + p(d.getHours()) + ':' + p(d.getMinutes());
+}
+function msgOpen(){
+  MCHAT = ''; clearTimeout(MPT);
+  openSheet('💬 Съобщения', '<div id="mlist" class="mlist"><div class="load">Зареждане…</div></div>');
+  if (MSG) msgDrawList(); msgLoad();
+}
+function msgDrawList(){
+  var b = el('mlist'); if (!b || !MSG) return;
+  var conv = {}; MSG.conv.forEach(function(c){ conv[c.n] = c; });
+  var names = MSG.conv.map(function(c){ return c.n; }).filter(function(n){ return MSG.team.indexOf(n) > -1; })
+    .concat(MSG.team.filter(function(n){ return !conv[n]; }));
+  b.innerHTML = '<div class="s mhint">🔒 Съобщението вижда само човекът, на когото пишеш.</div>' + (names.length ? names.map(function(n){
+    var c = conv[n];
+    return '<div class="mrow' + (c && c.un ? ' un' : '') + '" data-n="' + esc(n) + '" onclick="msgChat(this.dataset.n)">' + avHtml('u', n, 'md') +
+      '<span class="mx"><b>' + esc(n) + '</b><small>' + (c ? (c.mine ? 'Ти: ' : '') + esc(c.x) : 'Напиши съобщение') + '</small></span>' +
+      (c ? '<span class="mt"><small>' + msgT(c.t) + '</small>' + (c.un ? '<i>' + c.un + '</i>' : '') + '</span>' : '') + '</div>';
+  }).join('') : '<div class="empty">Няма други хора в екипа.</div>');
+}
+function msgChat(n){
+  MCHAT = n; MCI = [];
+  openSheet('💬 ' + n, '<button class="mback" onclick="msgOpen()">← Всички разговори</button><div id="mchat" class="mchat"><div class="load">Зареждане…</div></div>' +
+    '<form class="mcomp" onsubmit="return msgSendF(event)"><textarea id="mtx" rows="1" maxlength="2000" placeholder="Съобщение до ' + esc(n) + '…" oninput="msgGrow(this)" onkeydown="msgKey(event)"></textarea><button id="msb" aria-label="Изпрати">➤</button></form>');
+  msgPull();
+}
+function msgGrow(t){ t.style.height = 'auto'; t.style.height = Math.min(140, t.scrollHeight + 2) + 'px'; }
+function msgKey(e){ if (e.key === 'Enter' && !e.shiftKey && !('ontouchstart' in window)) { e.preventDefault(); msgSendF(e); } }
+function msgPull(){
+  clearTimeout(MPT); var n = MCHAT; if (!n) return;
+  apiCall('msgGet', [n]).then(function(r){
+    if (MCHAT !== n) return;
+    var had = MCI.filter(function(m){ return !m.tmp; }).length, items = (r && r.items) || [];
+    var pend = MCI.filter(function(m){ return m.tmp; });
+    MCI = items.concat(pend); msgDrawChat(items.length !== had);
+    if (MSG) { MSG.conv.forEach(function(c){ if (c.n === n && c.un) { MSG.un = Math.max(0, MSG.un - c.un); c.un = 0; } }); msgBadge(); }
+    MPT = setTimeout(function(){ if (MCHAT === n && el('sheet').style.display === 'block' && !document.hidden) msgPull(); }, 7000);
+  }, function(e){ if (MCHAT !== n) return; var b = el('mchat'); if (b && !MCI.length) b.innerHTML = '<div class="empty">⚠️ ' + esc(e.message) + '</div>'; MPT = setTimeout(msgPull, 15000); });
+}
+function msgDrawChat(scroll){
+  var b = el('mchat'); if (!b) return; var me = D && D.me, last = '';
+  b.innerHTML = MCI.length ? MCI.map(function(m){
+    var day = new Date(m.t).toDateString(), sep = day !== last ? '<div class="mday">' + (day === new Date().toDateString() ? 'Днес' : fmt(dayOf(m.t))) + '</div>' : ''; last = day;
+    return sep + '<div class="mbub' + (m.f === me ? ' me' : '') + (m.tmp ? ' tmp' : '') + '"><span>' + esc(m.x) + '</span><small>' + msgT(m.t).replace(/^\d\d\.\d\d /, '') + (m.f === me ? (m.tmp ? ' ⏳' : m.r ? ' ✓✓' : ' ✓') : '') + '</small></div>';
+  }).join('') : '<div class="s mhint">Още няма съобщения. Напиши първото 👇</div>';
+  if (scroll !== false) setTimeout(function(){ el('sheet').scrollTop = el('sheet').scrollHeight; }, 0);
+}
+function msgSendF(e){
+  if (e && e.preventDefault) e.preventDefault();
+  var tx = el('mtx'), t = tx ? tx.value.trim() : '', n = MCHAT; if (!t || !n) return false;
+  tx.value = ''; msgGrow(tx);
+  MCI.push({ id: 'tmp', t: Date.now(), f: D.me, x: t, r: 0, tmp: true }); msgDrawChat(true);
+  apiCall('msgSend', [n, t], { rid: newRid() }).then(function(r){
+    if (MCHAT === n) { MCI = (r && r.items) || []; msgDrawChat(true); }
+    msgLoad();
+  }, function(er){
+    toast('⚠️ Не се изпрати: ' + er.message, 5000);
+    if (MCHAT === n) { MCI = MCI.filter(function(x){ return !x.tmp; }); msgDrawChat(); var x = el('mtx'); if (x && !x.value) x.value = t; }
+  });
+  return false;
+}
+var _closeSheet3 = closeSheet;
+closeSheet = function(){ MCHAT = ''; clearTimeout(MPT); return _closeSheet3.apply(this, arguments); };
+setInterval(function(){ if (!document.hidden && TOKEN && !MCHAT) msgLoad(); }, 45000);
+document.addEventListener('visibilitychange', function(){ if (!document.hidden && TOKEN) { if (MCHAT) msgPull(); else msgLoad(); } });
 if ('serviceWorker' in navigator) {
   var swHad = !!navigator.serviceWorker.controller, swDone = false;
   navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).then(function(r){
