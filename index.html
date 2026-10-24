@@ -890,6 +890,42 @@ html.dark .mfab #msgN{border-color:#0f172a}
 .mrep button{flex:none;border:0;background:none;font-size:18px;color:#64748b;width:32px;height:32px}
 html.dark .mq{background:rgba(255,255,255,.08)}html.dark .mq span{color:#cbd5e1}html.dark .mbub a{color:#93c5fd}html.dark .mrep{background:#052e16;border-color:#14532d}
 body.cselm .mfab,body.arrm .mfab{display:none!important}
+/* 🗺️ Карта на обектите и 📋 Чеклист по етапи */
+.sbar{display:flex;gap:8px;padding:12px 16px 4px;align-items:stretch}
+.sbar .bigb{flex:1;border:0;border-radius:14px;padding:14px 10px;font-size:16px;font-weight:700;color:#fff;background:#0f766e;box-shadow:0 2px 6px rgba(0,0,0,.15)}
+body.r .sbar .bigb{background:#c2410c}
+.sbar .mvb{border:1.5px solid #cbd5e1;border-radius:14px;padding:10px 14px;font-size:14.5px;font-weight:800;background:#fff;color:#1e3a5f;display:flex;align-items:center;gap:6px;white-space:nowrap;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.sbar .mvb.on{background:#1e3a5f;color:#fff;border-color:#1e3a5f}
+body.r .sbar .mvb.on{background:#7c2d12;border-color:#7c2d12}
+.smapw{margin:8px 16px 12px;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 2px 10px rgba(15,23,42,.1);border:1px solid #cbd5e1}
+.smapv{position:relative;width:100%;height:390px;background:#dce8f2;overflow:hidden;touch-action:none;user-select:none;-webkit-user-select:none;cursor:grab}
+.smapv:active{cursor:grabbing}
+.smapv.pick{height:270px;border-radius:12px;border:2px solid #0f766e;margin:8px 0}
+.osm-t{position:absolute;width:256px;height:256px;pointer-events:none;max-width:none!important}
+.osm-p{position:absolute;transform:translate(-50%,-100%);border:0;background:none;padding:0;cursor:pointer;z-index:2;display:flex;flex-direction:column;align-items:center;font-family:inherit;-webkit-tap-highlight-color:transparent}
+.osm-p .plb{background:#1e3a5f;color:#fff;font-size:11.5px;font-weight:800;padding:3px 7px;border-radius:9px;white-space:nowrap;max-width:135px;overflow:hidden;text-overflow:ellipsis;box-shadow:0 2px 6px rgba(0,0,0,.28);border:1.5px solid #fff;line-height:1.2}
+.osm-p .pdt{width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-top:7px solid #1e3a5f;margin-top:-1px}
+.osm-p.run .plb{background:#15803d}.osm-p.run .pdt{border-top-color:#15803d}
+.osm-p.pause .plb{background:#d97706}.osm-p.pause .pdt{border-top-color:#d97706}
+.osm-p.done .plb{background:#0284c7}.osm-p.done .pdt{border-top-color:#0284c7}
+.osm-p.lead .plb{background:#6d28d9}.osm-p.lead .pdt{border-top-color:#6d28d9}
+.osm-p.city .plb{border-style:dashed}
+.osm-p.sel{z-index:4;transform:translate(-50%,-100%) scale(1.14)}
+.osm-p.sel .plb{box-shadow:0 0 0 3px rgba(250,204,21,.85),0 4px 10px rgba(0,0,0,.35)}
+.smapc{position:absolute;right:10px;top:10px;z-index:5;display:flex;flex-direction:column;gap:6px}
+.smapc button{width:38px;height:38px;border-radius:10px;border:1px solid #cbd5e1;background:rgba(255,255,255,.94);color:#0f172a;font-size:18px;font-weight:800;box-shadow:0 2px 5px rgba(0,0,0,.15);display:flex;align-items:center;justify-content:center;padding:0}
+.smapl{position:absolute;left:10px;bottom:8px;z-index:5;background:rgba(255,255,255,.88);padding:3px 8px;border-radius:8px;font-size:11px;color:#334155;pointer-events:none}
+.smapx{position:absolute;left:50%;top:50%;transform:translate(-50%,-100%);z-index:5;pointer-events:none;font-size:28px;filter:drop-shadow(0 2px 4px rgba(0,0,0,.35))}
+.smapd{padding:12px 14px;border-top:1px solid #e2e8f0;background:#f8fafc}
+.locb{display:inline-flex;align-items:center;gap:4px;font-size:11.5px;font-weight:700;padding:2px 8px;border-radius:8px;background:#e0f2fe;color:#0369a1}
+.locb.exact{background:#dcfce7;color:#15803d}
+.chkb{display:inline-flex;align-items:center;gap:5px;background:#f0fdf4!important;border-color:#86efac!important;color:#166534!important;font-weight:700!important}
+html.dark .sbar .mvb{background:#1e293b;color:#e2e8f0;border-color:#334155}
+html.dark .sbar .mvb.on{background:#0f766e;color:#fff;border-color:#0f766e}
+html.dark .smapw{background:#1e293b;border-color:#334155}
+html.dark .smapd{background:#0f172a;border-color:#334155}
+html.dark .smapc button{background:rgba(30,41,59,.92);color:#f8fafc;border-color:#475569}
+html.dark .chkb{background:#052e16!important;border-color:#166534!important;color:#86efac!important}
 </style>
 <script>try{var tm=localStorage.getItem('crm_theme')||'auto';if(tm==='dark'||(tm==='auto'&&window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.classList.add('dark')}catch(e){}</script></head><body>
 <div class="hd"><header><div><h1><img src="icon-192.png" alt=""><span id="ttl">CRM Flexi Home</span></h1><div class="d" id="dt"></div></div><div class="hr"><button class="srb" id="srB" onclick="gsOpen()" title="Търсене навсякъде" aria-label="Търсене">🔍</button><button class="bell" id="bellB" onclick="ntOpen()" title="Известия">🔔<span id="bellN"></span></button><button class="me" id="meB" onclick="meMenu()">👤</button><button onclick="load(true)" title="Обнови">⟳</button></div></header>
@@ -1829,11 +1865,11 @@ function openC(n, sec){
     }).withFailureHandler(function(e){ if (tok !== OPENSEQ) return; if (!cc) closeCard(); else if (!had) err(e); }).getClient(n, true);
 }
 var MEDIA = {}, OPENSEQ = 0;
-var PF = {};
+var PF_TS = {};
 var PFB = 0, PFP = false;
 function prefetch(force){
-  var ws = WS || '-'; if (!TOKEN || !D || (!force && Date.now() - (PF[ws] || 0) < 60000)) return;
-  if (PFB) { PFP = true; return; } PF[ws] = Date.now(); PFB = 1;
+  var ws = WS || '-'; if (!TOKEN || !D || (!force && Date.now() - (PF_TS[ws] || 0) < 60000)) return;
+  if (PFB) { PFP = true; return; } PF_TS[ws] = Date.now(); PFB = 1;
   var fin = function(){ PFB = 0; if (PFP) { PFP = false; prefetch(true); } };
   var a = cardAll(), have = {}, t0 = Date.now(); Object.keys(a).forEach(function(k){ if (a[k].h) have[k] = a[k].h; });
   apiCall('getAllCards', [have]).then(function(r){
@@ -1845,7 +1881,7 @@ function prefetch(force){
     cardSave(b);
     if (mine && el('card').style.display === 'block' && (CUR.stub || CUR.h !== mine.h)) { var st = CUR.stub; setCur(mine); drawCard(); if (st) goSec(); }
     fin();
-  }, function(){ PF[ws] = 0; fin(); });
+  }, function(){ PF_TS[ws] = 0; fin(); });
 }
 function mk(n){ return (WS || '') + '|' + n; }
 function ckey(){ return 'crm_cards' + (WS ? '_' + WS : ''); }
@@ -2972,7 +3008,7 @@ function padCopy(){
 window.addEventListener('online', function(){ if (PADDIRTY) padSave(); });
 document.addEventListener('visibilitychange', function(){ if (document.hidden && PADDIRTY) padSave(true); });
 
-var APP_VER = '4.4.0';
+var APP_VER = '4.5.0';
 // ================= v4.0 · 👥 Клиенти: ☰ Списък | ▦ Канбан · 🔎 филтри · ☑️ много наведнъж · 🗄️ архив =================
 var CV = ls('crm_cview') === 'k' ? 'k' : 'l';            // изглед: l = списък, k = канбан
 var CSEL = null;                                          // избрани клиенти { име: 1 } (отделно от SELM за разходите)
@@ -4015,10 +4051,13 @@ function kSec(client, jid){
 }
 function kForm(id, jid){
   var x = id && KD ? KD.items.filter(function(i){ return i.id === id; })[0] : null;
-  jid = x ? x.jid : jid; var d = jDeal(jid);
+  jid = x ? x.jid : jid;
+  var cName = x ? x.client : (CUR ? CUR.name : '');
+  var d = (CUR && CUR.name === cName) ? jDeal(jid) : null;
+  var jDesc = d ? d.desc : (x ? x.job : '');
   var names = ((D && D.partners) || []).map(function(p){ return p.n; });
   var h = '<form id="frm" onsubmit="return kSend(event)"><input type="hidden" name="id" value="' + esc(x ? x.id : '') + '"><input type="hidden" name="jid" value="' + esc(jid || '') + '">' +
-    '<div class="s" style="margin-bottom:6px">📝 ' + esc(CUR ? CUR.name : '') + (d ? ' – ' + esc(d.desc) : '') + '</div>';
+    '<div class="s" style="margin-bottom:6px">📝 ' + esc(cName) + (jDesc ? ' – ' + esc(jDesc) : '') + '</div>';
   h += fld('Партньор *', '<input name="partner" list="kpl" required autocomplete="off" placeholder="избери или напиши ново име" value="' + esc(x ? x.p : '') + '"><datalist id="kpl">' + names.map(function(n){ return '<option value="' + esc(n) + '">'; }).join('') + '</datalist>');
   h += half(fld('Комисиона (€) *', '<input name="amount" inputmode="decimal" required placeholder="напр. 500" value="' + (x ? x.amt : '') + '">'), fld('Дата', '<input name="date" type="date" value="' + esc(x ? x.date : D.today) + '">'));
   h += fld('Бележка', '<input name="note" autocomplete="off" placeholder="напр. плащане в края на месеца" value="' + esc(x ? x.note : '') + '">');
@@ -4028,7 +4067,12 @@ function kForm(id, jid){
 }
 function kSend(e){
   e.preventDefault();
-  var d = formData(); d.ws = kWs(); d.client = CUR.name; var j = jDeal(d.jid); d.job = j ? j.desc : '';
+  var d = formData(), x = d.id && KD ? KD.items.filter(function(i){ return i.id === d.id; })[0] : null;
+  d.ws = x ? (x.ws || kWs()) : kWs();
+  d.client = x ? x.client : (CUR ? CUR.name : '');
+  if (!d.client) { toast('⚠️ Отвори картата на клиента'); return false; }
+  var j = (CUR && CUR.name === d.client) ? jDeal(d.jid) : null;
+  d.job = j ? j.desc : (x ? (x.job || '') : '');
   d.amount = String(d.amount || '').replace(/\s/g, '').replace(',', '.');
   if (!(Number(d.amount) > 0)) { toast('⚠️ Въведи сума'); return false; }
   closeSheet(); toast('⏳ Записва се…', 1500);
@@ -5346,7 +5390,17 @@ function msgOpenFile(mid){
   else toast('⏳ Сваляне…', 2000);
   apiCall('msgFile', [mid]).then(function(r){
     if (isImg) { el('pvL').style.display = 'none'; el('pvI').src = r.data; return; }
-    var a = document.createElement('a'); a.href = r.data; a.download = r.name || m.a.name; document.body.appendChild(a); a.click(); a.remove();
+    if (!r || !r.data) { if (r && r.url) window.open(safeUrl(r.url), '_blank', 'noopener'); return; }
+    var mt = r.data.match(/^data:([^;,]*)[^,]*;base64,([\s\S]*)$/);
+    if (mt) {
+      var b = atob(mt[2]), u8 = new Uint8Array(b.length);
+      for (var k = 0; k < b.length; k++) u8[k] = b.charCodeAt(k);
+      var url = URL.createObjectURL(new Blob([u8], { type: mt[1] || m.a.mime || 'application/octet-stream' })), a = document.createElement('a');
+      a.href = url; a.download = r.name || m.a.name || 'file'; document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(function(){ URL.revokeObjectURL(url); }, 60000);
+      return;
+    }
+    var a2 = document.createElement('a'); a2.href = r.data; a2.download = r.name || m.a.name; document.body.appendChild(a2); a2.click(); a2.remove();
   }, function(e){ if (isImg) el('pvL').textContent = 'Грешка: ' + e.message; else toast('⚠️ ' + e.message, 4000); });
 }
 // 👤 карта на клиент в съобщение
@@ -5578,7 +5632,7 @@ function gsMark(s, q){
   var rx = new RegExp('(' + ws.join('|') + ')', 'gi');
   return h.split(/(&[a-z#0-9]+;)/i).map(function(p){ return /^&[a-z#0-9]+;$/i.test(p) ? p : p.replace(rx, '<mark>$1</mark>'); }).join('');
 }
-var GSI = { cn: '📝', job: '💼', cost: '💶', fn: '📸', pad: '🧠', rem: '⏰', msg: '💬' }, PADI = { note: '📝', idea: '💡', cost: '🧮', check: '☑️', link: '🔗', folder: '📁', file: '📎' };
+var GSI = { cn: '📝', job: '💼', cost: '💶', fn: '📸', pad: '🧠', rem: '⏰', msg: '💬' }, GSPADI = { note: '📝', idea: '💡', cost: '🧮', check: '☑️', link: '🔗', folder: '📁', file: '📎' };
 function gsDraw(){
   var b = el('gsr'); if (!b || !D) return;
   var q = GS.q.trim(); GSA = [];
@@ -5593,7 +5647,7 @@ function gsDraw(){
   var R = GS.r && GS.rq === q ? GS.r.items || [] : [], of = function(k){ return R.filter(function(x){ return x.k === k; }); };
   grp('💼 Работи', of('job').map(function(x){ return row('💼', x.x, x.c + (x.s ? ' · ' + x.s : ''), function(){ gsJob(x.c, x.jid); }); }));
   grp('📝 Бележки по клиента', of('cn').map(function(x){ return row('📝', x.c, x.x, function(){ openC(x.c); }); }));
-  grp('🧠 Работно място', of('pad').map(function(x){ var cn = cNameOf(x.c); return row(PADI[x.t] || '🧠', x.x || 'Бележка', cn + (x.s && x.s !== x.x ? ' · ' + x.s : ''), function(){ gsPad(cn, x.id); }); }));
+  grp('🧠 Работно място', of('pad').map(function(x){ var cn = cNameOf(x.c); return row(GSPADI[x.t] || '🧠', x.x || 'Бележка', cn + (x.s && x.s !== x.x ? ' · ' + x.s : ''), function(){ gsPad(cn, x.id); }); }));
   grp('📸 Бележки към снимки и документи', of('fn').map(function(x){ return row('📸', x.x, x.c, function(){ gsFile(x.c, x.id); }); }));
   grp('⏰ Напомняния', of('rem').map(function(x){ var cn = cNameOf(x.c); return row('⏰', x.x, cn + (x.t ? ' · ' + msgT(x.t) : ''), function(){ gsPad(cn, x.id); }); }));
   grp('💬 Съобщения', of('msg').map(function(x){ return row('💬', x.n, (x.f === D.me ? 'Ти: ' : x.f + ': ') + x.x, function(){ msgChat(x.conv, x.n); }, '<small>' + msgT(x.t) + '</small>'); }));
@@ -5876,7 +5930,7 @@ function wkFld(cur){
 }
 
 // ---------- 📸 снимки в пълно качество: качва се оригиналът (на части), за бърз преглед – копие 1600 px ----------
-function upPhotos(n, fs, jid, after){
+upPhotos = function(n, fs, jid, after){
   var queue = fs.slice(), total = fs.length, done = 0, bad = 0, fin = 0;
   if (!jid) { OPEN.photos = true; try { localStorage.setItem('crm_open', JSON.stringify(OPEN)); } catch (e) {} }
   toast('📸 Качване 0 / ' + total + '… (може да продължиш работа)', 4000); syncOn(1);
@@ -5919,7 +5973,7 @@ function upPhotos(n, fs, jid, after){
   }
   function next(){ fin++; prog(); if (fin >= total) end(); else one(); }
   one(); if (total > 1) one();
-}
+};
 // задържане върху снимка → и „оригинал в пълно качество“
 var _lpOpen5 = lpOpen;
 lpOpen = function(t){
@@ -5996,6 +6050,13 @@ function msgDelOne(id){
 }
 var _msgChat5 = msgChat;
 msgChat = function(id, title){ MREP = null; MRT = {}; _msgChat5(id, title); };
+var _closeSheet5 = closeSheet;
+closeSheet = function(){ MREP = null; return _closeSheet5.apply(this, arguments); };
+msgSendRaw = function(n, t, att){
+  var rep = MREP; MREP = null; msgRepBar();
+  var title = n.indexOf('g:') === 0 ? (MTITLE[n] || '') : '';
+  return apiCall('msgSend', [n, t, att || null, title, rep ? rep.id : ''], { rid: newRid() });
+};
 msgSendF = function(e){
   if (e && e.preventDefault) e.preventDefault();
   var tx = el('mtx'), t = tx ? tx.value.trim() : '', n = MCHAT; if (!t || !n) return false;
@@ -6012,6 +6073,576 @@ msgSendF = function(e){
 // 💬 кръглият бутон долу вдясно – само когато си влязъл
 var _render5 = render;
 render = function(d){ _render5(d); var b = el('msgB'); if (b) b.style.display = D && D.me ? 'flex' : 'none'; };
+
+// ================= v4.5.0 · 📍 GPS Пин и 🗺️ Карта на обектите · 📋 Стандартни чеклисти по етапи =================
+var SVIEW = 'l', SMAPF = 'run', SMAPSEL = '', SMAP = { lat: 42.65, lng: 25.25, z: 7 }, LPICK = { lat: 42.6977, lng: 23.3219, z: 13 };
+var BG_TR_CITIES = {
+  'софия':[42.6977,23.3219],'sofia':[42.6977,23.3219],'пловдив':[42.1354,24.7453],'plovdiv':[42.1354,24.7453],
+  'варна':[43.2141,27.9147],'varna':[43.2141,27.9147],'бургас':[42.5048,27.4626],'burgas':[42.5048,27.4626],
+  'русе':[43.8356,25.9657],'ruse':[43.8356,25.9657],'стара загора':[42.4258,25.6345],'stara zagora':[42.4258,25.6345],
+  'плевен':[43.4170,24.6067],'pleven':[43.4170,24.6067],'сливен':[42.6817,26.3229],'sliven':[42.6817,26.3229],
+  'добрич':[43.5726,27.8273],'dobrich':[43.5726,27.8273],'шумен':[43.2712,26.9361],'shumen':[43.2712,26.9361],
+  'перник':[42.6052,23.0378],'pernik':[42.6052,23.0378],'хасково':[41.9344,25.5556],'haskovo':[41.9344,25.5556],
+  'ямбол':[42.4842,26.5035],'yambol':[42.4842,26.5035],'пазарджик':[42.1928,24.3336],'pazardzhik':[42.1928,24.3336],
+  'благоевград':[42.0209,23.0943],'blagoevgrad':[42.0209,23.0943],'велико търново':[43.0757,25.6172],'veliko tarnovo':[43.0757,25.6172],
+  'враца':[43.2102,23.5529],'vratsa':[43.2102,23.5529],'габрово':[42.8742,25.3187],'gabrovo':[42.8742,25.3187],
+  'асеновград':[42.0167,24.8667],'asenovgrad':[42.0167,24.8667],'видин':[43.9962,22.8679],'vidin':[43.9962,22.8679],
+  'казанлък':[42.6194,25.3930],'kazanlak':[42.6194,25.3930],'кюстендил':[42.2869,22.6939],'kyustendil':[42.2869,22.6939],
+  'кърджали':[41.6338,25.3777],'kardzhali':[41.6338,25.3777],'kircaali':[41.6338,25.3777],
+  'монтана':[43.4085,23.2257],'montana':[43.4085,23.2257],'димитровград':[42.0500,25.6000],'dimitrovgrad':[42.0500,25.6000],
+  'търговище':[43.2512,26.5722],'targovishte':[43.2512,26.5722],'ловеч':[43.1370,24.7142],'lovech':[43.1370,24.7142],
+  'силистра':[44.1147,27.2672],'silistra':[44.1147,27.2672],'разград':[43.5333,26.5167],'razgrad':[43.5333,26.5167],
+  'смолян':[41.5774,24.7011],'smolyan':[41.5774,24.7011],'дупница':[42.2667,23.1167],'dupnitsa':[42.2667,23.1167],
+  'горна оряховица':[43.1278,25.7019],'свищов':[43.6188,25.3503],'петрич':[41.3989,23.2070],'petrich':[41.3989,23.2070],
+  'сандански':[41.5667,23.2833],'sandanski':[41.5667,23.2833],'самоков':[42.3370,23.5528],'samokov':[42.3370,23.5528],
+  'лом':[43.8211,23.2369],'карлово':[42.6439,24.8056],'велинград':[42.0275,23.9916],'velingrad':[42.0275,23.9916],
+  'нова загора':[42.4889,26.0133],'троян':[42.8942,24.7158],'айтос':[42.7000,27.2500],'ботевград':[42.9083,23.7917],
+  'гоце делчев':[41.5767,23.7294],'пещера':[42.0333,24.3000],'харманли':[41.9333,25.9000],'свиленград':[41.7667,26.2000],
+  'svilengrad':[41.7667,26.2000],'карнобат':[42.6500,26.9833],'севлиево':[43.0258,25.1039],'раковски':[42.2833,24.9667],
+  'червен бряг':[43.2667,24.1000],'панагюрище':[42.5031,24.1856],'попово':[43.3500,26.2333],'радомир':[42.5458,22.9653],
+  'първомай':[42.1000,25.2167],'поморие':[42.5586,27.6439],'несебър':[42.6592,27.7361],'слънчев бряг':[42.6952,27.7104],
+  'созопол':[42.4173,27.6962],'приморско':[42.2679,27.7561],'царево':[42.1696,27.8454],'балчик':[43.4217,28.1585],
+  'каварна':[43.4333,28.3333],'банско':[41.8404,23.4857],'разлог':[41.8863,23.4671],'ихтиман':[42.4333,23.8167],
+  'костинброд':[42.8167,23.2167],'елин пелин':[42.6689,23.6025],'сливница':[42.8517,23.0378],'своге':[42.9667,23.3500],
+  'мочилград':[41.5275,25.4069],'момчилград':[41.5275,25.4069],'крумовград':[41.4711,25.6544],'ардино':[41.5825,25.1469],
+  'джебел':[41.4958,25.3036],'кирково':[41.3258,25.3636],'черноочене':[41.7694,25.3497],'ивайловград':[41.5283,26.1250],
+  'кнежа':[43.4922,24.0806],'павликени':[43.2378,25.3075],'мездра':[43.1444,23.7139],'етрополе':[42.8333,24.0000],
+  'тетевен':[42.9167,24.2667],'луковит':[43.2000,24.1667],'козлодуй':[43.7789,23.7294],'берковица':[43.2372,23.1275],
+  'елхово':[42.1719,26.5656],'чирпан':[42.2000,25.3333],'раднево':[42.2889,25.9333],'гълъбово':[42.1333,25.8500],
+  'хисаря':[42.5028,24.7042],'сопот':[42.6539,24.7564],'калофер':[42.6108,24.9764],'стамболийски':[42.1333,24.5333],
+  'кричим':[42.0436,24.4644],'перущица':[42.0558,24.5444],'съединение':[42.2667,24.5500],'ракитово':[41.9900,24.0872],
+  'септември':[42.2122,24.1306],'стрелча':[42.5072,24.3217],'девин':[41.7433,24.4003],'златоград':[41.3794,25.0961],
+  'мадан':[41.4986,24.9397],'рудозем':[41.4875,24.8494],'чепеларе':[41.7244,24.6850],'доспат':[41.6447,24.1597],
+  'симитли':[41.8919,23.1117],'якоруда':[42.0181,23.6686],'белица':[41.9469,23.5608],'кубрат':[43.7964,26.5011],
+  'исперих':[43.7167,26.8333],'тутракан':[44.0486,26.6122],'дулово':[43.8228,27.1419],'омуртаг':[43.1069,26.4192],
+  'преслав':[43.1617,26.8128],'нови пазар':[43.3478,27.1986],'провадия':[43.1794,27.4425],'аксаково':[43.2572,27.8211],
+  'девня':[43.2222,27.5694],'бяла':[42.8744,27.8886],'обзор':[42.8197,27.8803],
+  'истанбул':[41.0082,28.9784],'istanbul':[41.0082,28.9784],'одрин':[41.6771,26.5557],'edirne':[41.6771,26.5557],
+  'чорлу':[41.1592,27.8000],'corlu':[41.1592,27.8000],'çorlu':[41.1592,27.8000],
+  'люлебургаз':[41.4056,27.3569],'luleburgaz':[41.4056,27.3569],'lüleburgaz':[41.4056,27.3569],
+  'текирдаг':[40.9781,27.5117],'tekirdag':[40.9781,27.5117],'tekirdağ':[40.9781,27.5117],
+  'къркларели':[41.7351,27.2252],'kirklareli':[41.7351,27.2252],'kırklareli':[41.7351,27.2252],
+  'бурса':[40.1885,29.0610],'bursa':[40.1885,29.0610],'анкара':[39.9334,32.8597],'ankara':[39.9334,32.8597],
+  'измир':[38.4237,27.1428],'izmir':[38.4237,27.1428],'чанаккале':[40.1553,26.4142],'canakkale':[40.1553,26.4142]
+};
+
+function locStore(){
+  if (!UI.view) UI.view = {};
+  if (!UI.view.loc) {
+    try { UI.view.loc = JSON.parse(ls('crm_loc') || '{}') || {}; } catch (e) { UI.view.loc = {}; }
+  }
+  return UI.view.loc;
+}
+function parseLatLng(str){
+  if (!str) return null;
+  var s = String(str);
+  var m = s.match(/(?:@|[?&](?:q|ll|query|center)=|place\/|dir\/)([+-]?\d{1,2}\.\d{3,})\s*,\s*([+-]?\d{1,3}\.\d{3,})/i) ||
+          s.match(/\b([34]\d\.\d{3,})\s*[,;\s]\s*([123]\d\.\d{3,})\b/);
+  if (!m) return null;
+  var la = parseFloat(m[1]), ln = parseFloat(m[2]);
+  return (la >= 34 && la <= 49 && ln >= 18 && ln <= 45) ? [la, ln] : null;
+}
+function cityLatLng(city, seed){
+  if (!city) return null;
+  var k = String(city).toLowerCase().replace(/^(гр\.|град|с\.|село|кв\.|обл\.)\s*/g, '').replace(/\s+/g, ' ').trim();
+  var base = BG_TR_CITIES[k];
+  if (!base) {
+    var ks = Object.keys(BG_TR_CITIES);
+    for (var i = 0; i < ks.length; i++) {
+      if (k.indexOf(ks[i]) > -1 || ks[i].indexOf(k) > -1) { base = BG_TR_CITIES[ks[i]]; break; }
+    }
+  }
+  if (!base) return null;
+  var h = 0, st = String(seed || '');
+  for (var j = 0; j < st.length; j++) h = (h * 33 + st.charCodeAt(j)) >>> 0;
+  var ang = (h % 360) * Math.PI / 180, rad = 0.004 + (h % 7) * 0.0018;
+  return [+(base[0] + Math.sin(ang) * rad).toFixed(6), +(base[1] + Math.cos(ang) * rad).toFixed(6)];
+}
+function siteCoords(c){
+  if (!c) return null;
+  var n = c.n || c.name || '', ck = cKey(n), L = locStore();
+  if (L[ck] && Array.isArray(L[ck]) && L[ck].length === 2) return { lat: +L[ck][0], lng: +L[ck][1], exact: true };
+  var all = cardAll(), ca = (CUR && CUR.name === n) ? CUR : (all[n.toLowerCase()] && all[n.toLowerCase()].c);
+  var p = parseLatLng(c.maps) || (ca && (parseLatLng(ca.maps) || parseLatLng(ca.notes)));
+  if (p) return { lat: p[0], lng: p[1], exact: true };
+  var city = c.c || c.city || (ca && ca.city) || '';
+  var cp = cityLatLng(city, n);
+  if (cp) return { lat: cp[0], lng: cp[1], exact: false, city: city };
+  return null;
+}
+
+// Web Mercator Slippy Map Engine (100% CSP safe, OpenStreetMap tiles)
+function osmLngX(lng, z){ return (lng + 180) / 360 * 256 * Math.pow(2, z); }
+function osmLatY(lat, z){
+  var r = Math.max(-85, Math.min(85, lat)) * Math.PI / 180;
+  return (1 - Math.log(Math.tan(r) + 1 / Math.cos(r)) / Math.PI) / 2 * 256 * Math.pow(2, z);
+}
+function osmXLng(x, z){ return x / (256 * Math.pow(2, z)) * 360 - 180; }
+function osmYLat(y, z){
+  var n = Math.PI - 2 * Math.PI * y / (256 * Math.pow(2, z));
+  return 180 / Math.PI * Math.atan(0.5 * (Math.exp(n) - Math.exp(-n)));
+}
+function osmBind(boxId, st, onMove, renderPins){
+  var box = el(boxId); if (!box) return;
+  var draw = function(){
+    var w = box.clientWidth || 340, h = box.clientHeight || 360, z = Math.max(5, Math.min(18, Math.round(st.z)));
+    st.z = z;
+    var cx = osmLngX(st.lng, z), cy = osmLatY(st.lat, z), maxT = Math.pow(2, z);
+    var x0 = Math.floor((cx - w / 2) / 256), x1 = Math.floor((cx + w / 2) / 256);
+    var y0 = Math.floor((cy - h / 2) / 256), y1 = Math.floor((cy + h / 2) / 256);
+    var th = '';
+    for (var tx = x0; tx <= x1; tx++) {
+      for (var ty = y0; ty <= y1; ty++) {
+        if (ty < 0 || ty >= maxT) continue;
+        var wx = ((tx % maxT) + maxT) % maxT;
+        var left = Math.round(tx * 256 - (cx - w / 2)), top = Math.round(ty * 256 - (cy - h / 2));
+        th += '<img class="osm-t" src="https://tile.openstreetmap.org/' + z + '/' + wx + '/' + ty + '.png" style="left:' + left + 'px;top:' + top + 'px" alt="">';
+      }
+    }
+    var tl = box.querySelector('.osm-tiles'); if (tl) tl.innerHTML = th;
+    if (renderPins) renderPins(box, w, h, cx, cy, z);
+    if (onMove) onMove(st);
+  };
+  box._draw = draw;
+  var drag = null;
+  var start = function(x, y){ drag = { x: x, y: y, cx: osmLngX(st.lng, st.z), cy: osmLatY(st.lat, st.z), moved: false }; };
+  var move = function(x, y){
+    if (!drag) return;
+    var dx = x - drag.x, dy = y - drag.y;
+    if (Math.abs(dx) > 4 || Math.abs(dy) > 4) drag.moved = true;
+    st.lng = Math.max(-179, Math.min(179, osmXLng(drag.cx - dx, st.z)));
+    st.lat = Math.max(-80, Math.min(80, osmYLat(drag.cy - dy, st.z)));
+    draw();
+  };
+  var end = function(){ drag = null; };
+  box.onmousedown = function(e){ if (e.target.closest && e.target.closest('button')) return; start(e.clientX, e.clientY); };
+  window.addEventListener('mousemove', function(e){ if (drag) move(e.clientX, e.clientY); });
+  window.addEventListener('mouseup', end);
+  box.ontouchstart = function(e){
+    if (e.target.closest && e.target.closest('button')) return;
+    if (e.touches.length === 1) start(e.touches[0].clientX, e.touches[0].clientY);
+  };
+  box.ontouchmove = function(e){
+    if (!drag || e.touches.length !== 1) return;
+    e.preventDefault(); move(e.touches[0].clientX, e.touches[0].clientY);
+  };
+  box.ontouchend = end;
+  box.onwheel = function(e){
+    e.preventDefault();
+    st.z = Math.max(5, Math.min(18, st.z + (e.deltaY < 0 ? 1 : -1)));
+    draw();
+  };
+  setTimeout(draw, 20);
+}
+function smapZoom(d){
+  SMAP.z = Math.max(5, Math.min(18, SMAP.z + d));
+  var b = el('smapBox'); if (b && b._draw) b._draw();
+}
+function smapMyLoc(){
+  if (!navigator.geolocation) { toast('Телефонът не поддържа GPS'); return; }
+  toast('📡 Търся местоположението ти…', 3000);
+  navigator.geolocation.getCurrentPosition(function(p){
+    SMAP.lat = p.coords.latitude; SMAP.lng = p.coords.longitude; SMAP.z = 13;
+    var b = el('smapBox'); if (b && b._draw) b._draw();
+  }, function(){ toast('⚠️ Разреши достъпа до местоположение в браузъра', 4000); }, { enableHighAccuracy: true, timeout: 15000 });
+}
+function smapItems(){
+  var list = (D.clients || []).filter(function(c){
+    if (!mine(c.r)) return false;
+    if (SMAPF === 'all') return true;
+    if (!c.x) return false;
+    var st = siteSt(c);
+    if (SMAPF === 'run') return st === 'run';
+    if (SMAPF === 'pause') return st === 'pause' || st === 'idle';
+    if (SMAPF === 'done') return st === 'done';
+    return true;
+  });
+  var pins = [], missing = [];
+  list.forEach(function(c){
+    var co = siteCoords(c);
+    if (co) pins.push({ c: c, co: co, st: c.x ? siteSt(c) : 'lead' });
+    else missing.push(c);
+  });
+  return { pins: pins, missing: missing };
+}
+function smapFit(){
+  var it = smapItems().pins;
+  if (!it.length) { SMAP.lat = 42.65; SMAP.lng = 25.25; SMAP.z = 7; }
+  else if (it.length === 1) { SMAP.lat = it[0].co.lat; SMAP.lng = it[0].co.lng; SMAP.z = it[0].co.exact ? 13 : 10; }
+  else {
+    var minLa = 90, maxLa = -90, minLn = 180, maxLn = -180;
+    it.forEach(function(x){
+      if (x.co.lat < minLa) minLa = x.co.lat; if (x.co.lat > maxLa) maxLa = x.co.lat;
+      if (x.co.lng < minLn) minLn = x.co.lng; if (x.co.lng > maxLn) maxLn = x.co.lng;
+    });
+    SMAP.lat = (minLa + maxLa) / 2; SMAP.lng = (minLn + maxLn) / 2;
+    var span = Math.max(maxLa - minLa, (maxLn - minLn) * 0.7);
+    SMAP.z = span > 4 ? 6 : span > 2 ? 7 : span > 1 ? 8 : span > 0.4 ? 9 : span > 0.15 ? 11 : 13;
+  }
+  var b = el('smapBox'); if (b && b._draw) b._draw();
+}
+function smapSel(n){
+  SMAPSEL = n;
+  var dc = dcOf(n), co = siteCoords(dc);
+  if (co) { SMAP.lat = co.lat; SMAP.lng = co.lng; }
+  var b = el('smapBox'); if (b && b._draw) b._draw();
+  smapDrawCard();
+}
+function smapDrawCard(){
+  var host = el('smapCard'); if (!host) return;
+  var c = SMAPSEL ? dcOf(SMAPSEL) : null;
+  if (!c) {
+    host.innerHTML = '<div class="s">👆 Докосни пин на картата, за да видиш детайли за обекта, навигация с Google Maps / Waze и чеклист.</div>';
+    return;
+  }
+  var co = siteCoords(c), x = c.x || {}, st = c.x ? siteSt(c) : 'lead', nx = x.sx || x.nx;
+  var gUrl = co ? 'https://www.google.com/maps/search/?api=1&query=' + co.lat + ',' + co.lng : '';
+  var wUrl = co ? 'https://waze.com/ul?ll=' + co.lat + ',' + co.lng + '&navigate=yes' : '';
+  var badge = co ? '<span class="locb' + (co.exact ? ' exact' : '') + '">' + (co.exact ? '📍 Точен GPS пин' : '🏙️ По град: ' + esc(co.city || c.c)) + '</span>' : '';
+  var chkPr = siteChkProg(c.n);
+  var h = '<div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap"><b>' + esc(c.n) + ' ' + pill(c.s) + '</b>' + badge + '</div>';
+  h += '<div class="s" style="margin-top:4px">' + [c.c ? '📍 ' + esc(c.c) : '', c.m ? '🏠 ' + esc(c.m) : '', c.x ? siteDay(x) : '', c.r ? '👤 ' + esc(c.r) : ''].filter(Boolean).join(' · ') + '</div>';
+  if (x.w && x.w.length) h += '<div class="s">👷 ' + esc(x.w.join(', ')) + '</div>';
+  if (nx) h += '<div class="nxt' + (nx.d < D.today ? ' late' : '') + '" style="margin-top:6px">📅 ' + fmt(nx.d) + (nx.t ? ' ' + esc(nx.t) : '') + ' – ' + esc(nx.y) + '</div>';
+  h += '<div class="acts" style="margin-top:10px">' +
+    (gUrl ? '<a class="ok" href="' + esc(gUrl) + '" target="_blank" rel="noopener">🗺️ Google Maps</a>' : '') +
+    (wUrl ? '<a href="' + esc(wUrl) + '" target="_blank" rel="noopener">🚗 Waze</a>' : '') +
+    '<button data-n="' + esc(c.n) + '" onclick="locAsk(this.dataset.n)">📌 ' + (co && co.exact ? 'Смени пин' : 'Задай точен пин') + '</button>' +
+    '<button class="chkb" data-n="' + esc(c.n) + '" onclick="siteChkOpen(this.dataset.n)">📋 Чеклист' + (chkPr ? ' (' + chkPr + ')' : '') + '</button>' +
+    '<button data-n="' + esc(c.n) + '" onclick="openC(this.dataset.n)">👤 Карта</button></div>';
+  host.innerHTML = h;
+}
+
+// 📍 Модал за задаване на точен GPS пин (от телефон, от карта с мерник или от линк Google Maps / Waze)
+function locAsk(name){
+  var n = name || (CUR && CUR.name); if (!n) return;
+  var dc = dcOf(n) || (CUR && CUR.name === n ? { n: CUR.name, c: CUR.city, maps: CUR.maps } : { n: n });
+  var co = siteCoords(dc);
+  LPICK = { lat: co ? co.lat : 42.6977, lng: co ? co.lng : 23.3219, z: co ? (co.exact ? 16 : 13) : 7 };
+  var gUrl = co ? 'https://www.google.com/maps/search/?api=1&query=' + co.lat + ',' + co.lng : '';
+  var wUrl = co ? 'https://waze.com/ul?ll=' + co.lat + ',' + co.lng + '&navigate=yes' : '';
+  var h = '<div style="padding:12px 16px 32px">' +
+    '<div class="s" style="margin-bottom:10px">' + (co ? (co.exact ? '✅ Записан точен GPS пин: <b>' + co.lat.toFixed(5) + ', ' + co.lng.toFixed(5) + '</b>' : '🏙️ В момента се показва по град: <b>' + esc(co.city || dc.c || '') + '</b>. Премести картата до точния парцел/адрес.') : '⚠️ Още няма локация за този обект.') + '</div>' +
+    (co ? '<div class="acts" style="margin-bottom:12px"><a class="ok" href="' + esc(gUrl) + '" target="_blank" rel="noopener">🗺️ Отвори в Google Maps</a><a href="' + esc(wUrl) + '" target="_blank" rel="noopener">🚗 Навигация с Waze</a></div>' : '') +
+    '<button type="button" class="wadd" data-n="' + esc(n) + '" onclick="locGpsNow(this.dataset.n)">📡 Запиши моето текущо GPS място (ако си на обекта)</button>' +
+    '<div class="s" style="margin:12px 0 4px"><b>🗺️ Или избери точната точка от картата:</b><br>Премести картата така, че червеният пин 📍 в центъра да сочи точно парцела/къщата:</div>' +
+    '<div id="lpickBox" class="smapv pick"><div class="osm-tiles"></div><div class="smapx">📍</div>' +
+    '<div class="smapc"><button type="button" onclick="LPICK.z=Math.min(18,LPICK.z+1);el(\'lpickBox\')._draw()">+</button><button type="button" onclick="LPICK.z=Math.max(5,LPICK.z-1);el(\'lpickBox\')._draw()">−</button></div>' +
+    '<div class="smapl" id="lpickLbl"></div></div>' +
+    '<button type="button" class="save" style="margin-top:6px" data-n="' + esc(n) + '" onclick="locSavePick(this.dataset.n)">📌 Запази избраната точка от картата</button>' +
+    fld('🔗 Или постави линк от Google Maps / Waze / координати', '<div class="row1"><input id="locInp" autocomplete="off" placeholder="https://maps.google.com/... или 42.6977, 23.3219"><button type="button" data-n="' + esc(n) + '" onclick="locSaveLink(this.dataset.n)">💾</button></div>') +
+    '</div>';
+  openSheet('📍 Локация – ' + n, h);
+  osmBind('lpickBox', LPICK, function(s){ var l = el('lpickLbl'); if (l) l.textContent = s.lat.toFixed(5) + ', ' + s.lng.toFixed(5); }, null);
+}
+function locSaveCoords(n, lat, lng){
+  lat = +Number(lat).toFixed(6); lng = +Number(lng).toFixed(6);
+  var L = locStore(); L[cKey(n)] = [lat, lng];
+  try { ls('crm_loc', JSON.stringify(L)); } catch (e) {}
+  uiTouch();
+  var u = 'https://www.google.com/maps?q=' + lat + ',' + lng;
+  var dc = dcOf(n); if (dc) dc.maps = u;
+  if (CUR && CUR.name === n) { CUR.maps = u; if (el('card').style.display === 'block') drawCard(); }
+  var all = cardAll(), k = String(n).toLowerCase();
+  if (all[k] && all[k].c) { all[k].c.maps = u; cardSave(all); }
+  closeSheet();
+  if (TAB === 's') drawSites();
+  toast('📍 Локацията е запазена (' + lat.toFixed(4) + ', ' + lng.toFixed(4) + ')');
+  bg('saveLocation', [n, lat, lng], function(c){ cardDone(c); load(); }, 'локация');
+}
+function locSavePick(n){ locSaveCoords(n, LPICK.lat, LPICK.lng); }
+function locSaveLink(n){
+  var v = (el('locInp') && el('locInp').value || '').trim();
+  var p = parseLatLng(v);
+  if (!p) { toast('⚠️ Постави валиден линк с координати или формат 42.6977, 23.3219', 4500); return; }
+  locSaveCoords(n, p[0], p[1]);
+}
+function locGpsNow(n){
+  if (!navigator.geolocation) { toast('Телефонът не дава местоположение'); return; }
+  toast('📡 Търся GPS местоположението…', 8000);
+  navigator.geolocation.getCurrentPosition(function(p){
+    locSaveCoords(n, p.coords.latitude, p.coords.longitude);
+  }, function(){ toast('⚠️ Няма достъп до местоположението – разреши го в браузъра', 4500); }, { enableHighAccuracy: true, timeout: 20000, maximumAge: 60000 });
+}
+locC = function(){ if (CUR) locAsk(CUR.name); };
+
+// ---------- 📋 Стандартни чеклисти по етапи за обекти ----------
+function siteChkStages(model){
+  var m = String(model || '').trim(), ml = m.toLowerCase();
+  if (WS === 'r') {
+    return [
+      { id: 'chk_st1', title: '1️⃣ Оглед, къртене и подготовка' + (m ? ' (' + m + ')' : ''), col: 'yellow', items: [
+        'Оглед на място, точни размери и уточняване на заданието с клиента',
+        'Защита на общи части, дограма и налични настилки с фолио / велпапе',
+        'Къртене, демонтаж и извозване на строителни отпадъци',
+        'Доставка и качване на материали за първи етап'
+      ]},
+      { id: 'chk_st2', title: '2️⃣ Електро, ВиК и груби работи', col: 'blue', items: [
+        'Преработка / полагане на нови ел. кабели, кутии и табло',
+        'Преработка на водопровод и канализация + проба под налягане',
+        'Подова замазка, изравняване на стени и мазилки',
+        'Хидроизолация в баня / мокри помещения и тераси'
+      ]},
+      { id: 'chk_st3', title: '3️⃣ Довършителни работи', col: 'purple', items: [
+        'Монтаж на гипсокартон, шпакловка, шлайфане и грунд',
+        'Лепене на фаянс, теракот / гранитогрес и фугиране',
+        'Боядисване на тавани и стени (2 ръце)',
+        'Монтаж на подови настилки, первази, врати, санитария и осветление'
+      ]},
+      { id: 'chk_st4', title: '4️⃣ Приемане и предаване на обекта', col: 'green', items: [
+        'Основно почистване след ремонта и извозване на остатъци',
+        'Проверка на всички контакти, осветление, кранове и сифони',
+        'Оглед заедно с клиента и снимки на завършения обект',
+        'Подписване на протокол и окончателно разплащане 🎉'
+      ]}
+    ];
+  }
+  var s1 = [
+    'Нивелация и проверка на размерите и диагоналите на фундамента по проект',
+    'Проверка на изводите за ВиК (чиста вода и канализация) на точните коти',
+    'Гофре за захранващ ел. кабел и заземителен контур',
+    'Осигурен достъп за камион / кран и място за разтоварване на площадката',
+    'Снимки на готовия фундамент преди започване на монтажа'
+  ];
+  var s2 = [
+    'Доставка и разтоварване на конструкция и панели – проверка по опис',
+    'Полагане на хидроизолационна лента и анкериране на основата към бетона',
+    'Монтаж на външни и вътрешни стени – нивелиране и укрепване',
+    'Монтаж на покривна конструкция, паро/хидро мембрана, изолация и покритие',
+    'Монтаж на улуци, водосточни тръби и покривни обшивки'
+  ];
+  if (/двуетаж|2\s*етаж/.test(ml)) s2.push('Монтаж на междуетажна конструкция, подова плоча и стълбище');
+  if (/модул|контейнер/.test(ml)) s2.push('Кранов монтаж, куплиране на модулите и уплътняване на фугите');
+  if (/веранд|навес|пергол|гараж/.test(ml)) s2.push('Монтаж на конструкция и покрив за веранда / гараж');
+  return [
+    { id: 'chk_st1', title: '1️⃣ Основа и площадка (Фундамент)' + (m ? ' · ' + m : ''), col: 'yellow', items: s1 },
+    { id: 'chk_st2', title: '2️⃣ Конструкция, панели и покрив', col: 'orange', items: s2 },
+    { id: 'chk_st3', title: '3️⃣ Дограма и външна фасада', col: 'blue', items: [
+      'Монтаж на прозорци и входна врата (нивелация, монтажна пяна и ленти)',
+      'Реглаж на крила и механизми + монтаж на подпрозоречни первази',
+      'Външна топлоизолация / фасадна система, мрежа, шпакловка и мазилка',
+      'Оформяне на цокъл, челни дъски и фасадни детайли'
+    ]},
+    { id: 'chk_st4', title: '4️⃣ Електро и ВиК инсталации', col: 'teal', items: [
+      'Изтегляне на ел. кабели в негорими гофрета и разклонителни кутии по проект',
+      'Монтаж и свързване на главно ел. табло с предпазители и дефектнотокова защита',
+      'Изграждане на вътрешен водопровод и тест под налягане за течове',
+      'Изграждане на канализация с наклон и вентилация'
+    ]},
+    { id: 'chk_st5', title: '5️⃣ Вътрешни довършителни работи', col: 'purple', items: [
+      'Вътрешна вата, гипсокартон, фугиране, шпакловка и боядисване',
+      'Хидроизолация, фаянс/теракот и оборудване на баня и санитарен възел',
+      'Полагане на ламинат / гранитогрес и первази във всички стаи',
+      'Монтаж на интериорни врати, ключове, контакти и осветителни тела'
+    ]},
+    { id: 'chk_st6', title: '6️⃣ Приемане и предаване на обекта', col: 'green', items: [
+      'Почистване на къщата и площадката от строителни материали и отпадъци',
+      'Пълна проба на ел. табло, контакти, осветление, вода и сифони',
+      'Финални снимки на обекта отвън и отвътре за досието на клиента',
+      'Подписване на Приемо-предавателен протокол и гаранционни условия',
+      'Окончателно плащане от клиента и предаване на ключовете 🎉'
+    ]}
+  ];
+}
+function siteChkProg(name){
+  try {
+    var raw = ls(padKey(name)); if (!raw) return '';
+    var d = JSON.parse(raw); if (!d || !Array.isArray(d.blocks)) return '';
+    var chks = d.blocks.filter(function(b){ return b && b.t === 'check' && (b.f === 'chk_folder' || /^chk_st/.test(b.id)); });
+    if (!chks.length) return '';
+    var tot = 0, dn = 0;
+    chks.forEach(function(b){ (b.items || []).forEach(function(it){ tot++; if (it.d) dn++; }); });
+    return tot ? dn + '/' + tot : '';
+  } catch (e) { return ''; }
+}
+function siteBuildChkBlocks(existing, model){
+  var blocks = (existing || []).slice(), hasFolder = blocks.some(function(b){ return b.id === 'chk_folder'; });
+  var now = Date.now(), added = 0;
+  if (!hasFolder) {
+    blocks.unshift({ id: 'chk_folder', t: 'folder', title: '📋 Чеклист по етапи' + (model ? ' · ' + model : ''), pin: now, col: 'green', u: now });
+    added++;
+  }
+  siteChkStages(model).forEach(function(st, idx){
+    if (blocks.some(function(b){ return b.id === st.id; })) return;
+    blocks.push({
+      id: st.id, t: 'check', f: 'chk_folder', title: st.title, col: st.col, u: now + idx + 1,
+      items: st.items.map(function(txt){ return { x: txt, d: false }; })
+    });
+    added++;
+  });
+  return { blocks: blocks, added: added };
+}
+function siteEnsureChecklist(name, model, cb){
+  if (!name || !TOKEN) return;
+  var dc = dcOf(name);
+  if (!model) model = (CUR && CUR.name === name && CUR.model) || (dc && dc.m) || '';
+  apiCall('padGet', [name]).then(function(r){
+    var srv = padClean((r && r.d) || { v: 2, u: 0, blocks: [] });
+    var res = siteBuildChkBlocks(srv.blocks, model);
+    if (!res.added) {
+      try { ls(padKey(name), JSON.stringify(srv)); } catch (e) {}
+      if (cb) cb(srv, false);
+      return;
+    }
+    var t = Date.now(), body = { v: 2, u: t, blocks: res.blocks, gone: {} };
+    try { ls(padKey(name), JSON.stringify({ v: 2, u: t, blocks: res.blocks })); } catch (e) {}
+    apiCall('padSave', [name, body]).then(function(r2){
+      var fin = (r2 && r2.d) || body;
+      try { ls(padKey(name), JSON.stringify(fin)); padSnapPut(name, padSnapOf(fin)); } catch (e) {}
+      if (PADN === name && PAD) { PAD = fin; if (el('wsp') && el('wsp').style.display === 'block') padDraw(); }
+      if (TAB === 's') drawSites();
+      toast('📋 Създаден е чеклист по етапи' + (model ? ' (' + model + ')' : ''), 3000);
+      if (cb) cb(fin, true);
+    }, function(){ if (cb) cb(body, true); });
+  }, function(){ if (cb) cb(null, false); });
+}
+function siteChkOpen(name){
+  var n = name || (CUR && CUR.name); if (!n) return;
+  var dc = dcOf(n), model = (CUR && CUR.name === n && CUR.model) || (dc && dc.m) || '';
+  var go = function(){
+    siteEnsureChecklist(n, model, function(){
+      waitFor(function(){ return PAD && PADN === n; }, function(){
+        var res = siteBuildChkBlocks(PAD.blocks || [], model);
+        if (res.added) { PAD.blocks = res.blocks; padTouch(); }
+        PADF = 'chk_folder'; PADE = ''; padDraw();
+      }, 30);
+    });
+  };
+  if (CUR && CUR.name === n && el('card').style.display === 'block') {
+    padOpen(); go();
+  } else {
+    openC(n);
+    waitFor(function(){ return CUR && CUR.name.toLowerCase() === String(n).toLowerCase(); }, function(){
+      padOpen(); go();
+    }, 35);
+  }
+}
+
+// Автоматично създаване на чеклист при прехвърляне на клиент към „Обекти“ или етап „Сключен договор“
+var _siteAct5 = siteAct;
+siteAct = function(n, st){
+  _siteAct5(n, st);
+  if (st === 'run') setTimeout(function(){ siteEnsureChecklist(n); }, 400);
+};
+var _stageC5 = stageC;
+stageC = function(s, name, x){
+  var n = name || (CUR && CUR.name);
+  _stageC5(s, name, x);
+  if (n && (s === 'Сключен договор' || (WS === 'r' && s === 'В процес'))) setTimeout(function(){ siteEnsureChecklist(n); }, 400);
+};
+var _sendCF5 = sendCF;
+sendCF = function(e){
+  var d = formData(), nm = String(d.name || '').replace(/\s+/g, ' ').trim(), mdl = d.model || '', isS = !!d.site || d.stage === 'Сключен договор';
+  var r = _sendCF5(e);
+  if (nm && isS) setTimeout(function(){ siteEnsureChecklist(nm, mdl); }, 1800);
+  return r;
+};
+
+// Бутони „📍 GPS“ и „📋 Чеклист“ в картите на обектите + превключвател „📋 Списък / 🗺️ Карта“ в „Обекти“
+var _siteRow5 = siteRow;
+siteRow = function(c){
+  var h = _siteRow5(c), co = siteCoords(c), pr = siteChkProg(c.n);
+  var locTag = co ? (co.exact ? ' <span class="locb exact">📍 GPS</span>' : '') : '';
+  if (locTag) h = h.replace('<span class="ar">›</span>', locTag + '<span class="ar">›</span>');
+  var extra = '<button class="chkb" data-n="' + esc(c.n) + '" onclick="siteChkOpen(this.dataset.n)" title="Чеклист по етапи">📋 ' + (pr || 'Чеклист') + '</button>' +
+              '<button data-n="' + esc(c.n) + '" onclick="locAsk(this.dataset.n)" title="Локация / GPS пин">📍</button>';
+  return h.replace(/(<button[^>]*onclick="siteMenu\([^"]*\)"[^>]*>⋯<\/button>)/, extra + '$1');
+};
+var _siteMenu5 = siteMenu;
+siteMenu = function(n){
+  _siteMenu5(n);
+  lpAdd('📋 Чеклист по етапи', function(){ siteChkOpen(n); });
+  lpAdd('📍 Задай GPS локация / пин', function(){ locAsk(n); });
+};
+var _drawCard5 = drawCard;
+drawCard = function(){
+  _drawCard5(); if (!CUR) return;
+  var hero = document.querySelector('#cdB .box.hero'); if (!hero) return;
+  var sdc = dcOf(CUR.name), isS = !!(sdc && sdc.x) || CUR.stage === 'Сключен договор';
+  var pr = siteChkProg(CUR.name), co = siteCoords(sdc || CUR);
+  var wUrl = co ? 'https://waze.com/ul?ll=' + co.lat + ',' + co.lng + '&navigate=yes' : '';
+  var bar = '<div class="acts" style="margin-top:6px">' +
+    '<button type="button" data-n="' + esc(CUR.name) + '" onclick="locAsk(this.dataset.n)">📍 ' + (co && co.exact ? 'GPS Пин ✓' : 'Задай GPS пин') + '</button>' +
+    (wUrl ? '<a href="' + esc(wUrl) + '" target="_blank" rel="noopener">🚗 Waze</a>' : '') +
+    (isS || pr ? '<button type="button" class="chkb" data-n="' + esc(CUR.name) + '" onclick="siteChkOpen(this.dataset.n)">📋 Чеклист по етапи' + (pr ? ' (' + pr + ')' : '') + '</button>' : '') +
+    '</div>';
+  var pb = hero.querySelector('.padb');
+  if (pb) pb.insertAdjacentHTML('beforebegin', bar); else hero.insertAdjacentHTML('beforeend', bar);
+};
+var _padDraw5 = padDraw;
+padDraw = function(){
+  _padDraw5(); if (!PAD || PADE) return;
+  var ag = el('wspB') && el('wspB').querySelector('.padag');
+  if (ag && !PADF) {
+    var hasChk = (PAD.blocks || []).some(function(b){ return b.id === 'chk_folder'; });
+    ag.insertAdjacentHTML('afterbegin', '<button onclick="siteChkOpen(PADN)"><i>🏗️</i><b>' + (hasChk ? 'Чеклист по етапи' : 'Създай чеклист по етапи') + '</b><small>Основа, конструкция, Ел/ВиК, довършителни, предаване</small></button>');
+  }
+};
+
+var _drawSites5 = drawSites;
+drawSites = function(){
+  var allS = (D.clients || []).filter(function(c){ return c.x && mine(c.r); });
+  var topBar = '<div class="sbar"><button class="bigb" onclick="siteNew()">➕ Нов обект</button>' +
+    '<button class="mvb' + (SVIEW === 'l' ? ' on' : '') + '" onclick="SVIEW=\'l\';drawSites()">📋 Списък</button>' +
+    '<button class="mvb' + (SVIEW === 'm' ? ' on' : '') + '" onclick="SVIEW=\'m\';drawSites()">🗺️ Карта (' + allS.length + ')</button></div>';
+  if (SVIEW !== 'm') {
+    _drawSites5();
+    var big = document.querySelector('#main > .big');
+    if (big) big.outerHTML = topBar;
+    else el('main').innerHTML = el('main').innerHTML.replace('<div class="big"><button onclick="siteNew()">➕ Нов обект</button></div>', topBar);
+    return;
+  }
+  var cnt = { run: 0, pause: 0, done: 0, all: (D.clients || []).filter(function(c){ return mine(c.r); }).length };
+  allS.forEach(function(c){ var s = siteSt(c); if (s === 'run') cnt.run++; else if (s === 'done') cnt.done++; else cnt.pause++; });
+  var fb = function(k, l){ return '<button class="' + (SMAPF === k ? 'on' : '') + '" onclick="SMAPF=\'' + k + '\';SMAPSEL=\'\';drawSites();smapFit()">' + l + '</button>'; };
+  var res = smapItems(), pins = res.pins, miss = res.missing;
+  if (!SMAPSEL && pins.length) SMAPSEL = pins[0].c.n;
+  var h = topBar +
+    '<div class="tfl" style="margin-top:8px">' +
+      fb('run', '🔨 Активни ' + cnt.run) +
+      fb('pause', '⏸️ Пауза ' + cnt.pause) +
+      fb('done', '✅ Завършени ' + cnt.done) +
+      fb('all', '👥 Всички ' + cnt.all) +
+    '</div>' +
+    '<div class="smapw">' +
+      '<div id="smapBox" class="smapv"><div class="osm-tiles"></div><div class="osm-pins"></div>' +
+        '<div class="smapc">' +
+          '<button type="button" onclick="smapZoom(1)" title="Приближи">+</button>' +
+          '<button type="button" onclick="smapZoom(-1)" title="Отдалечи">−</button>' +
+          '<button type="button" onclick="smapFit()" title="Покажи всички">🔲</button>' +
+          '<button type="button" onclick="smapMyLoc()" title="Моето GPS място">📡</button>' +
+        '</div>' +
+        '<div class="smapl">🟢 Активен · 🟠 Пауза · 🔵 Завършен · Пунктир = по град</div>' +
+      '</div>' +
+      '<div id="smapCard" class="smapd"></div>' +
+    '</div>';
+  if ( pins.length ) {
+    h += '<h2>📍 На картата<span>' + pins.length + '</span></h2><div class="lst">' + pins.map(function(p){
+      var c = p.c, co = p.co, on = c.n === SMAPSEL;
+      return '<div class="ti"' + (on ? ' style="background:#f0fdf4"' : '') + '><div class="tr" data-n="' + esc(c.n) + '" onclick="smapSel(this.dataset.n)">' +
+        '<span class="tx"><b>' + esc(c.n) + ' ' + (co.exact ? '<span class="locb exact">📍 GPS</span>' : '<span class="locb">🏙️ ' + esc(co.city || c.c) + '</span>') + '</b>' +
+        '<small>' + esc([c.m, c.x ? siteDay(c.x) : c.s, c.x && c.x.w && c.x.w.length ? '👷 ' + c.x.w.join(', ') : ''].filter(Boolean).join(' · ')) + '</small></span>' +
+        '<span class="ar">›</span></div></div>';
+    }).join('') + '</div>';
+  }
+  if (miss.length) {
+    h += '<h2>⚠️ Без град / GPS пин<span>' + miss.length + '</span></h2><div class="lst">' + miss.map(function(c){
+      return '<div class="ti"><div class="tr" data-n="' + esc(c.n) + '" onclick="locAsk(this.dataset.n)"><span class="tx"><b>' + esc(c.n) + '</b><small>Докосни тук, за да зададеш GPS пин или град</small></span><span class="ar">📍</span></div></div>';
+    }).join('') + '</div>';
+  }
+  el('main').innerHTML = h;
+  osmBind('smapBox', SMAP, null, function(box, w, h2, cx, cy, z){
+    var pl = box.querySelector('.osm-pins'); if (!pl) return;
+    pl.innerHTML = pins.map(function(p){
+      var px = Math.round(osmLngX(p.co.lng, z) - (cx - w / 2)), py = Math.round(osmLatY(p.co.lat, z) - (cy - h2 / 2));
+      if (px < -80 || px > w + 80 || py < -60 || py > h2 + 60) return '';
+      var cls = 'osm-p ' + p.st + (p.co.exact ? '' : ' city') + (p.c.n === SMAPSEL ? ' sel' : '');
+      return '<button type="button" class="' + cls + '" style="left:' + px + 'px;top:' + py + 'px" data-n="' + esc(p.c.n) + '" onclick="event.stopPropagation();smapSel(this.dataset.n)">' +
+        '<span class="plb">' + (p.co.exact ? '📍 ' : '🏙️ ') + esc(p.c.n) + '</span><span class="pdt"></span></button>';
+    }).join('');
+  });
+  smapDrawCard();
+};
 if ('serviceWorker' in navigator) {
   var swHad = !!navigator.serviceWorker.controller, swDone = false;
   navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).then(function(r){
