@@ -1,5 +1,5 @@
 // Flexi CRM v5.0.0 – Service Worker (Network-first for HTML, Stale-while-revalidate for assets)
-const CACHE = 'flexi-crm-v500';
+const CACHE = 'flexi-crm-v451';
 const SHELL = ['./', 'index.html', 'f.html', 'manifest.webmanifest', 'icon-180.png', 'icon-192.png', 'icon-512.png'];
 
 self.addEventListener('install', e => {
