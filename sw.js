@@ -1,5 +1,5 @@
-// Flexi CRM v6.3.8 – Service Worker (Network-first for HTML, Stale-while-revalidate for assets)
-const CACHE = 'flexi-crm-v638';
+// Flexi CRM v6.3.9 – Service Worker (Network-first for HTML, Stale-while-revalidate for assets)
+const CACHE = 'flexi-crm-v639';
 const SHELL = ['./', 'index.html', 'f.html', 'manifest.webmanifest', 'icon-180.png', 'icon-192.png', 'icon-512.png', 'flexi-home-logo.jpg'];
 
 self.addEventListener('install', e => {
@@ -98,9 +98,9 @@ self.addEventListener('push', e => {
 self.addEventListener('notificationclick', e => {
   e.notification.close();
   const d = e.notification.data || {}, sc = self.registration.scope;
-  const url = sc + (d.c || d.w ? '?' + (d.w ? 'ws=r&' : '') + (d.c ? 'c=' + encodeURIComponent(d.c) : '') : '');
+  const targetUrl = d.url ? (d.url.startsWith('http') ? d.url : sc + d.url.replace(/^\//, '')) : (sc + (d.c || d.w ? '?' + (d.w ? 'ws=r&' : '') + (d.c ? 'c=' + encodeURIComponent(d.c) : '') : ''));
   e.waitUntil(clients.matchAll({ type: 'window', includeUncontrolled: true }).then(cs => {
     for (const c of cs) { if (c.url.indexOf(sc) === 0 && 'focus' in c) { c.postMessage({ crmOpen: d }); return c.focus(); } }
-    return clients.openWindow(url);
+    return clients.openWindow(targetUrl);
   }));
 });
