@@ -1,5 +1,5 @@
-// Flexi CRM v6.3.9 – Service Worker (Network-first for HTML, Stale-while-revalidate for assets)
-const CACHE = 'flexi-crm-v639';
+// Flexi CRM v6.4.0 – Service Worker (Network-first for HTML, Stale-while-revalidate for assets)
+const CACHE = 'flexi-crm-v640';
 const SHELL = ['./', 'index.html', 'f.html', 'manifest.webmanifest', 'icon-180.png', 'icon-192.png', 'icon-512.png', 'flexi-home-logo.jpg'];
 
 self.addEventListener('install', e => {
